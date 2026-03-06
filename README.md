@@ -132,3 +132,11 @@ Small dataset for fast testing.
 ```bash
 python src/train.py configs/local_debug.yaml
 ```
+Small Training Experiment
+```bash
+python src/train.py configs/resnet50_small.yaml
+```
+Full Training
+```bash
+python src/train.py configs/resnet50.yaml
+```
