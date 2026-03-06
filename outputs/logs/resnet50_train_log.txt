@@ -1,0 +1,11 @@
+Device: mps
+Num classes: 657
+Model: resnet50
+
+Epoch [1/5] | Train Loss: 6.2651 | Train Top1: 0.0067 | Train Top5: 0.0311 | Val Loss: 5.4883 | Val Top1: 0.0411 | Val Top5: 0.1355
+Epoch [2/5] | Train Loss: 4.3453 | Train Top1: 0.1349 | Train Top5: 0.3417 | Val Loss: 4.3081 | Val Top1: 0.1476 | Val Top5: 0.3379
+Epoch [3/5] | Train Loss: 2.5236 | Train Top1: 0.4156 | Train Top5: 0.7161 | Val Loss: 4.1344 | Val Top1: 0.2055 | Val Top5: 0.4216
+Epoch [4/5] | Train Loss: 1.2943 | Train Top1: 0.6894 | Train Top5: 0.9079 | Val Loss: 4.3074 | Val Top1: 0.2116 | Val Top5: 0.4521
+Epoch [5/5] | Train Loss: 0.6326 | Train Top1: 0.8540 | Train Top5: 0.9751 | Val Loss: 4.5073 | Val Top1: 0.2161 | Val Top5: 0.4627
+
+Best Epoch: 5 | Best Val Top1: 0.2161 | Best Val Top5: 0.4627
