@@ -10,15 +10,59 @@ The dataset contains hundreds of bird classes, and the training pipeline support
 
 The goal is to build a reproducible training pipeline that can easily be used.
 
+# Project Structure
+
+```text
+ML_Model_CaliforniaBirds
+│
+├── configs
+│   ├── efficientnet_b0.yaml
+│   ├── local_debug.yaml
+│   ├── resnet50.yaml
+│   ├── resnet50_small.yaml
+│   └── vit_base.yaml
+│
+├── data
+│   ├── species_1
+│   ├── species_2
+│   └── ...
+│
+├── notebooks
+│   ├── data_check.ipynb
+│   └── colab_train_demo.ipynb
+│
+├── outputs
+│   ├── checkpoints
+│   │   ├── resnet50_best.pth
+│   │   └── resnet50_last.pth
+│   │
+│   └── logs
+│       ├── resnet50_train_log.txt
+│       └── experiment_results.csv
+│
+├── src
+│   ├── dataset.py
+│   ├── evaluate.py
+│   ├── models.py
+│   ├── train.py
+│   └── utils.py
+│
+└── README.md
+```
+
 ## 1. Environment Setup
 
 Create a Python environment and install dependencies.
 
 Install PyTorch (CPU/MPS version):
+```bash
 pip install torch torchvision
+```
 
 Install other dependencies
+```bash
 pip install pyyaml pillow matplotlib pandas
+```
 
 ## 2. Verify Installation
 
@@ -72,12 +116,12 @@ Run all cells from top to bottom.
 All experiments are controlled by YAML config files located in the configs folder.
 
 Example config:
-configs/resnet50_small.yaml
+`configs/resnet50_small.yaml`
 
 ## 6. Run Training
 
 The main training script is:
-src/train.py
+`src/train.py`
 
 Run training using a config file.
 
