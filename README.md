@@ -23,10 +23,12 @@ pip install pyyaml pillow matplotlib pandas
 2. Verify Installation
 
 Run these commands to confirm the environment works.
+```bash
 python -c "import torch; print(torch.__version__)"
 python -c "import torchvision; print(torchvision.__version__)"
 python -c "from PIL import Image; print('PIL OK')"
 python -c "import yaml; print('YAML OK')"
+```
 
 Expected output example:
 2.x.x
@@ -81,4 +83,6 @@ Run training using a config file.
 
 Quick debug run
 Small dataset for fast testing.
+```bash
 python src/train.py configs/local_debug.yaml
+```
