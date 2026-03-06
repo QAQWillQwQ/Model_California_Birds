@@ -86,6 +86,7 @@ Place the dataset into the data directory.
 Each bird species must be stored in its own folder.
 
 Example layout:
+```text
 data/
   Species_1/
     image1.jpg
@@ -93,13 +94,14 @@ data/
   Species_2/
     image1.jpg
     image2.jpg
+```
 
 Each folder name becomes the class label.
 
 ## 4. Quick Dataset Check
 
 You can visually inspect the dataset using the notebook.
-notebooks/data_check.ipynb
+`notebooks/data_check.ipynb`
 
 This notebook verifies:
 	•	dataset loading
