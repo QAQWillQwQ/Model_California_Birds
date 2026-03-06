@@ -1,4 +1,4 @@
-California Birds Image Classification
+# California Birds Image Classification
 
 This project trains deep learning models to recognize bird species from images using PyTorch.
 The dataset contains hundreds of bird classes, and the training pipeline supports:
@@ -10,7 +10,7 @@ The dataset contains hundreds of bird classes, and the training pipeline support
 
 The goal is to build a reproducible training pipeline that can easily be used.
 
-1. Environment Setup
+## 1. Environment Setup
 
 Create a Python environment and install dependencies.
 
@@ -20,7 +20,7 @@ pip install torch torchvision
 Install other dependencies
 pip install pyyaml pillow matplotlib pandas
 
-2. Verify Installation
+## 2. Verify Installation
 
 Run these commands to confirm the environment works.
 ```bash
@@ -36,7 +36,7 @@ Expected output example:
 PIL OK
 YAML OK
 
-3. Prepare Dataset
+## 3. Prepare Dataset
 
 Place the dataset into the data directory.
 Each bird species must be stored in its own folder.
@@ -52,7 +52,7 @@ data/
 
 Each folder name becomes the class label.
 
-4. Quick Dataset Check
+## 4. Quick Dataset Check
 
 You can visually inspect the dataset using the notebook.
 notebooks/data_check.ipynb
@@ -67,14 +67,14 @@ This notebook verifies:
 
 Run all cells from top to bottom.
 
-5. Configuration System
+## 5. Configuration System
 
 All experiments are controlled by YAML config files located in the configs folder.
 
 Example config:
 configs/resnet50_small.yaml
 
-6. Run Training
+## 6. Run Training
 
 The main training script is:
 src/train.py
