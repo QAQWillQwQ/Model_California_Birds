@@ -100,7 +100,7 @@ Each folder name becomes the class label.
 
 ## 4. Quick Dataset Check
 
-You can visually inspect the dataset using the notebook.
+You can visually inspect the dataset using the notebook:
 `notebooks/data_check.ipynb`
 
 This notebook verifies:
