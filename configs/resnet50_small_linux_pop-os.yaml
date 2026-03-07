@@ -1,0 +1,25 @@
+seed: 42
+
+model: resnet50
+pretrained: true
+
+data_root: /home/blue_lobster/Downloads/birds_of_california/data
+
+image_size: 224
+batch_size: 16
+
+epochs: 5
+learning_rate: 0.0003
+
+val_split: 0.1
+num_workers: 4
+use_amp: true
+prefetch_factor: 4
+compile_model: false
+cudnn_benchmark: true
+float32_matmul_precision: high
+
+max_samples: 5000
+log_interval: 20
+
+output_dir: /home/blue_lobster/PycharmProjects/Model_California_Birds/outputs
