@@ -2,22 +2,46 @@ import random
 from collections import defaultdict
 from typing import Tuple, List, Optional
 
+import torch
 from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
+from models import get_model_weights
 
-def build_transforms(image_size: int = 224) -> Tuple[transforms.Compose, transforms.Compose]:
+
+def build_transforms(
+    model_name: str,
+    pretrained: bool = True,
+    image_size: int = 224,
+) -> Tuple[transforms.Compose, transforms.Compose]:
+    weights = get_model_weights(model_name, pretrained)
+
+    if weights is None:
+        train_transform = transforms.Compose([
+            transforms.Resize((image_size, image_size)),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomRotation(10),
+            transforms.ToTensor(),
+        ])
+
+        val_transform = transforms.Compose([
+            transforms.Resize((image_size, image_size)),
+            transforms.ToTensor(),
+        ])
+        return train_transform, val_transform
+
+    eval_transform = weights.transforms()
+    normalize = transforms.Normalize(mean=eval_transform.mean, std=eval_transform.std)
+
     train_transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
         transforms.RandomHorizontalFlip(),
         transforms.RandomRotation(10),
         transforms.ToTensor(),
+        normalize,
     ])
 
-    val_transform = transforms.Compose([
-        transforms.Resize((image_size, image_size)),
-        transforms.ToTensor(),
-    ])
+    val_transform = eval_transform
 
     return train_transform, val_transform
 
@@ -107,14 +131,21 @@ def stratified_train_val_split(
 
 def build_dataloaders(
     data_root: str,
+    model_name: str,
+    pretrained: bool = True,
     batch_size: int = 32,
     image_size: int = 224,
     val_split: float = 0.1,
     num_workers: int = 4,
     max_samples: Optional[int] = None,
     seed: int = 42,
+    prefetch_factor: int = 2,
 ):
-    train_transform, val_transform = build_transforms(image_size=image_size)
+    train_transform, val_transform = build_transforms(
+        model_name=model_name,
+        pretrained=pretrained,
+        image_size=image_size,
+    )
 
     train_dataset_full = datasets.ImageFolder(root=data_root, transform=train_transform)
     val_dataset_full = datasets.ImageFolder(root=data_root, transform=val_transform)
@@ -138,20 +169,28 @@ def build_dataloaders(
     train_dataset = Subset(train_dataset_full, train_indices)
     val_dataset = Subset(val_dataset_full, val_indices)
 
+    use_pin_memory = torch.cuda.is_available()
+    persistent_workers = num_workers > 0
+    dataloader_kwargs = {
+        "num_workers": num_workers,
+        "pin_memory": use_pin_memory,
+        "persistent_workers": persistent_workers,
+    }
+    if num_workers > 0:
+        dataloader_kwargs["prefetch_factor"] = prefetch_factor
+
     train_loader = DataLoader(
         train_dataset,
         batch_size=batch_size,
         shuffle=True,
-        num_workers=num_workers,
-        pin_memory=False,
+        **dataloader_kwargs,
     )
 
     val_loader = DataLoader(
         val_dataset,
         batch_size=batch_size,
         shuffle=False,
-        num_workers=num_workers,
-        pin_memory=False,
+        **dataloader_kwargs,
     )
 
     return train_loader, val_loader, class_names

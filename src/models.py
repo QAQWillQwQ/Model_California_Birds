@@ -9,25 +9,68 @@ from torchvision.models import (
 )
 
 
-def build_model(model_name: str, num_classes: int, pretrained: bool = True):
+def get_model_weights(model_name: str, pretrained: bool = True):
+    model_name = model_name.lower()
+
+    if not pretrained:
+        return None
+
+    if model_name == "resnet50":
+        return ResNet50_Weights.DEFAULT
+
+    if model_name == "efficientnet_b0":
+        return EfficientNet_B0_Weights.DEFAULT
+
+    if model_name == "vit_base":
+        return ViT_B_16_Weights.DEFAULT
+
+    raise ValueError(f"Unsupported model: {model_name}")
+
+
+def freeze_backbone(model_name: str, model) -> None:
     model_name = model_name.lower()
 
     if model_name == "resnet50":
-        weights = ResNet50_Weights.DEFAULT if pretrained else None
+        for parameter in model.parameters():
+            parameter.requires_grad = False
+        for parameter in model.fc.parameters():
+            parameter.requires_grad = True
+        return
+
+    if model_name == "efficientnet_b0":
+        for parameter in model.parameters():
+            parameter.requires_grad = False
+        for parameter in model.classifier.parameters():
+            parameter.requires_grad = True
+        return
+
+    if model_name == "vit_base":
+        for parameter in model.parameters():
+            parameter.requires_grad = False
+        for parameter in model.heads.parameters():
+            parameter.requires_grad = True
+        return
+
+    raise ValueError(f"Unsupported model for freezing: {model_name}")
+
+
+def build_model(model_name: str, num_classes: int, pretrained: bool = True):
+    model_name = model_name.lower()
+    weights = get_model_weights(model_name, pretrained)
+
+    if model_name == "resnet50":
         model = resnet50(weights=weights)
         in_features = model.fc.in_features
         model.fc = nn.Linear(in_features, num_classes)
         return model
 
     if model_name == "efficientnet_b0":
-        weights = EfficientNet_B0_Weights.DEFAULT if pretrained else None
         model = efficientnet_b0(weights=weights)
         in_features = model.classifier[1].in_features
         model.classifier[1] = nn.Linear(in_features, num_classes)
         return model
 
     if model_name == "vit_base":
-        weights = ViT_B_16_Weights.DEFAULT if pretrained else None
         model = vit_b_16(weights=weights)
         in_features = model.heads.head.in_features
         model.heads.head = nn.Linear(in_features, num_classes)

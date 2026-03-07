@@ -1,13 +1,14 @@
 import csv
 import os
 import sys
+import time
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
 
 from dataset import build_dataloaders
-from models import build_model
+from models import build_model, freeze_backbone
 from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint
 
 
@@ -25,25 +26,45 @@ def compute_topk_correct(outputs, labels, topk=(1, 5)):
     return results
 
 
-def train_one_epoch(model, loader, criterion, optimizer, device, log_interval=20):
+def autocast_context(device, enabled):
+    if not enabled:
+        return torch.autocast(device_type=device.type, enabled=False)
+
+    if device.type == "cuda":
+        return torch.autocast(device_type="cuda", dtype=torch.float16)
+
+    if device.type == "cpu":
+        return torch.autocast(device_type="cpu", dtype=torch.bfloat16)
+
+    return torch.autocast(device_type=device.type, enabled=False)
+
+
+def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_enabled, log_interval=20):
     model.train()
 
     running_loss = 0.0
     top1_correct = 0.0
     top5_correct = 0.0
     total = 0
+    epoch_start_time = time.perf_counter()
 
     for batch_idx, (images, labels) in enumerate(loader, start=1):
-        images = images.to(device)
-        labels = labels.to(device)
+        images = images.to(device, non_blocking=device.type == "cuda")
+        labels = labels.to(device, non_blocking=device.type == "cuda")
 
-        optimizer.zero_grad()
+        optimizer.zero_grad(set_to_none=True)
 
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+        with autocast_context(device, amp_enabled):
+            outputs = model(images)
+            loss = criterion(outputs, labels)
 
-        loss.backward()
-        optimizer.step()
+        if scaler.is_enabled():
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
+        else:
+            loss.backward()
+            optimizer.step()
 
         batch_size = labels.size(0)
         running_loss += loss.item() * batch_size
@@ -65,24 +86,28 @@ def train_one_epoch(model, loader, criterion, optimizer, device, log_interval=20
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
     epoch_top5 = top5_correct / total
-    return epoch_loss, epoch_top1, epoch_top5
+    epoch_time = time.perf_counter() - epoch_start_time
+    print(f"  Train Epoch Time: {epoch_time:.3f}s")
+    return epoch_loss, epoch_top1, epoch_top5, epoch_time
 
 
 @torch.no_grad()
-def validate_one_epoch(model, loader, criterion, device, log_interval=20):
+def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20):
     model.eval()
 
     running_loss = 0.0
     top1_correct = 0.0
     top5_correct = 0.0
     total = 0
+    epoch_start_time = time.perf_counter()
 
     for batch_idx, (images, labels) in enumerate(loader, start=1):
-        images = images.to(device)
-        labels = labels.to(device)
+        images = images.to(device, non_blocking=device.type == "cuda")
+        labels = labels.to(device, non_blocking=device.type == "cuda")
 
-        outputs = model(images)
-        loss = criterion(outputs, labels)
+        with autocast_context(device, amp_enabled):
+            outputs = model(images)
+            loss = criterion(outputs, labels)
 
         batch_size = labels.size(0)
         running_loss += loss.item() * batch_size
@@ -104,7 +129,9 @@ def validate_one_epoch(model, loader, criterion, device, log_interval=20):
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
     epoch_top5 = top5_correct / total
-    return epoch_loss, epoch_top1, epoch_top5
+    epoch_time = time.perf_counter() - epoch_start_time
+    print(f"  Val Epoch Time: {epoch_time:.3f}s")
+    return epoch_loss, epoch_top1, epoch_top5, epoch_time
 
 
 def append_experiment_result(csv_path, row_dict):
@@ -117,100 +144,180 @@ def append_experiment_result(csv_path, row_dict):
         writer.writerow(row_dict)
 
 
-def main():
+def parse_args():
     if len(sys.argv) != 2:
         print("Usage: python src/train.py <config_path>")
         sys.exit(1)
 
-    config_path = sys.argv[1]
-    config = load_config(config_path)
+    return sys.argv[1]
 
-    set_seed(config["seed"])
-    device = get_device()
-    print(f"Using device: {device}")
 
-    output_dir = config["output_dir"]
+def prepare_output_dirs(output_dir):
     checkpoints_dir = os.path.join(output_dir, "checkpoints")
     logs_dir = os.path.join(output_dir, "logs")
 
     ensure_dir(output_dir)
     ensure_dir(checkpoints_dir)
     ensure_dir(logs_dir)
+    return checkpoints_dir, logs_dir
 
-    train_loader, val_loader, class_names = build_dataloaders(
-        data_root=config["data_root"],
-        batch_size=config["batch_size"],
-        image_size=config["image_size"],
-        val_split=config["val_split"],
-        num_workers=config["num_workers"],
-        max_samples=config.get("max_samples", None),
-        seed=config["seed"],
-    )
 
-    print(f"Number of classes: {len(class_names)}")
-    print(f"Train batches: {len(train_loader)}")
-    print(f"Val batches: {len(val_loader)}")
-
+def build_training_state(config, device, num_classes):
     model = build_model(
         model_name=config["model"],
-        num_classes=len(class_names),
+        num_classes=num_classes,
         pretrained=config["pretrained"],
     ).to(device)
 
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.Adam(model.parameters(), lr=config["learning_rate"])
+    freeze_backbone_enabled = config.get("freeze_backbone", False)
+    if freeze_backbone_enabled:
+        freeze_backbone(config["model"], model)
 
+    compile_enabled = bool(config.get("compile_model", False))
+    if compile_enabled and hasattr(torch, "compile"):
+        model = torch.compile(model)
+
+    criterion = nn.CrossEntropyLoss()
+    trainable_parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    optimizer = optim.Adam(trainable_parameters, lr=config["learning_rate"])
+    amp_enabled = bool(config.get("use_amp", False) and device.type == "cuda")
+    scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
+    val_interval = max(1, int(config.get("val_interval", 1)))
+    return model, criterion, optimizer, scaler, amp_enabled, val_interval
+
+
+def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
+    return {
+        "model": config["model"],
+        "pretrained": config["pretrained"],
+        "image_size": config["image_size"],
+        "batch_size": config["batch_size"],
+        "epochs": config["epochs"],
+        "learning_rate": config["learning_rate"],
+        "val_split": config["val_split"],
+        "num_workers": config["num_workers"],
+        "max_samples": config.get("max_samples", ""),
+        "best_epoch": best_epoch,
+        "best_val_top1": round(best_val_top1, 6),
+        "best_val_top5": round(best_val_top5, 6),
+        "last_train_top1": round(last_metrics["train_top1"], 6),
+        "last_train_top5": round(last_metrics["train_top5"], 6),
+        "last_val_top1": round(last_metrics["val_top1"], 6),
+        "last_val_top5": round(last_metrics["val_top5"], 6),
+        "device": str(device),
+    }
+
+
+def write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval):
+    log_file.write(f"Device: {device}\n")
+    log_file.write(f"Num classes: {num_classes}\n")
+    log_file.write(f"Model: {config['model']}\n\n")
+    log_file.write(f"AMP Enabled: {amp_enabled}\n")
+    log_file.write(f"Compile Enabled: {config.get('compile_model', False)}\n")
+    log_file.write(f"CUDNN Benchmark: {config.get('cudnn_benchmark', False)}\n")
+    log_file.write(f"Freeze Backbone: {config.get('freeze_backbone', False)}\n")
+    log_file.write(f"Validation Interval: {val_interval}\n\n")
+
+
+def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval):
+    should_validate = ((epoch + 1) % val_interval == 0) or ((epoch + 1) == total_epochs)
+
+    if should_validate:
+        val_loss, val_top1, val_top5, val_time = validate_one_epoch(
+            model=model,
+            loader=val_loader,
+            criterion=criterion,
+            device=device,
+            amp_enabled=amp_enabled,
+            log_interval=log_interval,
+        )
+    else:
+        val_loss = float("nan")
+        val_top1 = float("nan")
+        val_top5 = float("nan")
+        val_time = 0.0
+        print(f"  Skipping validation on epoch {epoch + 1}; val_interval={val_interval}")
+
+    return should_validate, val_loss, val_top1, val_top5, val_time
+
+
+def run_training_loop(
+    config,
+    model,
+    train_loader,
+    val_loader,
+    criterion,
+    optimizer,
+    device,
+    scaler,
+    amp_enabled,
+    val_interval,
+    checkpoints_dir,
+    log_path,
+    num_classes,
+):
     best_val_top1 = 0.0
     best_val_top5 = 0.0
     best_epoch = 0
-
-    last_train_top1 = 0.0
-    last_train_top5 = 0.0
-    last_val_top1 = 0.0
-    last_val_top5 = 0.0
-
-    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.txt')
+    total_training_time = 0.0
+    total_validation_time = 0.0
+    loop_start_time = time.perf_counter()
+    last_metrics = {
+        "train_top1": 0.0,
+        "train_top5": 0.0,
+        "val_top1": 0.0,
+        "val_top5": 0.0,
+    }
+    log_interval = config.get("log_interval", 20)
 
     with open(log_path, "w") as log_file:
-        log_file.write(f"Device: {device}\n")
-        log_file.write(f"Num classes: {len(class_names)}\n")
-        log_file.write(f"Model: {config['model']}\n\n")
+        write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval)
 
         for epoch in range(config["epochs"]):
             print(f"\n===== Epoch {epoch + 1}/{config['epochs']} =====")
 
-            train_loss, train_top1, train_top5 = train_one_epoch(
+            train_loss, train_top1, train_top5, train_time = train_one_epoch(
                 model=model,
                 loader=train_loader,
                 criterion=criterion,
                 optimizer=optimizer,
                 device=device,
-                log_interval=config.get("log_interval", 20),
+                scaler=scaler,
+                amp_enabled=amp_enabled,
+                log_interval=log_interval,
             )
+            total_training_time += train_time
 
-            val_loss, val_top1, val_top5 = validate_one_epoch(
+            should_validate, val_loss, val_top1, val_top5, val_time = run_validation(
+                epoch=epoch,
+                total_epochs=config["epochs"],
+                val_interval=val_interval,
                 model=model,
-                loader=val_loader,
+                val_loader=val_loader,
                 criterion=criterion,
                 device=device,
-                log_interval=config.get("log_interval", 20),
+                amp_enabled=amp_enabled,
+                log_interval=log_interval,
             )
+            total_validation_time += val_time
 
-            last_train_top1 = train_top1
-            last_train_top5 = train_top5
-            last_val_top1 = val_top1
-            last_val_top5 = val_top5
+            last_metrics["train_top1"] = train_top1
+            last_metrics["train_top5"] = train_top5
+            last_metrics["val_top1"] = val_top1
+            last_metrics["val_top5"] = val_top5
 
+            epoch_total_time = train_time + val_time
             line = (
                 f"Epoch [{epoch + 1}/{config['epochs']}] | "
                 f"Train Loss: {train_loss:.4f} | Train Top1: {train_top1:.4f} | Train Top5: {train_top5:.4f} | "
-                f"Val Loss: {val_loss:.4f} | Val Top1: {val_top1:.4f} | Val Top5: {val_top5:.4f}"
+                f"Val Loss: {val_loss:.4f} | Val Top1: {val_top1:.4f} | Val Top5: {val_top5:.4f} | "
+                f"Train Time: {train_time:.3f}s | Val Time: {val_time:.3f}s | Epoch Time: {epoch_total_time:.3f}s"
             )
 
             print(line)
             log_file.write(line + "\n")
 
-            if val_top1 > best_val_top1:
+            if should_validate and val_top1 > best_val_top1:
                 best_val_top1 = val_top1
                 best_val_top5 = val_top5
                 best_epoch = epoch + 1
@@ -221,34 +328,81 @@ def main():
         final_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
         save_checkpoint(model, final_model_path)
 
+        total_loop_time = time.perf_counter() - loop_start_time
         summary_line = (
             f"\nBest Epoch: {best_epoch} | Best Val Top1: {best_val_top1:.4f} | Best Val Top5: {best_val_top5:.4f}\n"
+            f"Total Train Time: {total_training_time:.3f}s | Total Val Time: {total_validation_time:.3f}s | "
+            f"Total Runtime: {total_loop_time:.3f}s\n"
         )
         print(summary_line)
         log_file.write(summary_line)
 
+    return best_epoch, best_val_top1, best_val_top5, last_metrics
+
+
+def main():
+
+    # basic initialize
+    config_path = parse_args()
+    config = load_config(config_path)
+
+    set_seed(config["seed"])
+    device = get_device()
+    print(f"Using device: {device}")
+
+    if device.type == "cuda":
+        torch.backends.cudnn.benchmark = bool(config.get("cudnn_benchmark", True))
+        if hasattr(torch, "set_float32_matmul_precision"):
+            torch.set_float32_matmul_precision(config.get("float32_matmul_precision", "high"))
+
+    checkpoints_dir, logs_dir = prepare_output_dirs(config["output_dir"])
+
+    # training initialize
+    train_loader, val_loader, class_names = build_dataloaders(
+        data_root=config["data_root"],
+        model_name=config["model"],
+        pretrained=config["pretrained"],
+        batch_size=config["batch_size"],
+        image_size=config["image_size"],
+        val_split=config["val_split"],
+        num_workers=config["num_workers"],
+        max_samples=config.get("max_samples", None),
+        seed=config["seed"],
+        prefetch_factor=config.get("prefetch_factor", 2),
+    )
+
+    print(f"Number of classes: {len(class_names)}")
+    print(f"Train batches: {len(train_loader)}")
+    print(f"Val batches: {len(val_loader)}")
+
+    model, criterion, optimizer, scaler, amp_enabled, val_interval = build_training_state(
+        config=config,
+        device=device,
+        num_classes=len(class_names),
+    )
+
+    # run training loops
+    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.txt')
+    best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
+        config=config,
+        model=model,
+        train_loader=train_loader,
+        val_loader=val_loader,
+        criterion=criterion,
+        optimizer=optimizer,
+        device=device,
+        scaler=scaler,
+        amp_enabled=amp_enabled,
+        val_interval=val_interval,
+        checkpoints_dir=checkpoints_dir,
+        log_path=log_path,
+        num_classes=len(class_names),
+    )
+
     csv_path = os.path.join(logs_dir, "experiment_results.csv")
     append_experiment_result(
         csv_path,
-        {
-            "model": config["model"],
-            "pretrained": config["pretrained"],
-            "image_size": config["image_size"],
-            "batch_size": config["batch_size"],
-            "epochs": config["epochs"],
-            "learning_rate": config["learning_rate"],
-            "val_split": config["val_split"],
-            "num_workers": config["num_workers"],
-            "max_samples": config.get("max_samples", ""),
-            "best_epoch": best_epoch,
-            "best_val_top1": round(best_val_top1, 6),
-            "best_val_top5": round(best_val_top5, 6),
-            "last_train_top1": round(last_train_top1, 6),
-            "last_train_top5": round(last_train_top5, 6),
-            "last_val_top1": round(last_val_top1, 6),
-            "last_val_top5": round(last_val_top5, 6),
-            "device": str(device),
-        },
+        build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics),
     )
 
     print(f"Experiment result appended to: {csv_path}")
