@@ -37,7 +37,7 @@ ML_Model_CaliforniaBirds
 │   │   └── resnet50_last.pth
 │   │
 │   └── logs
-│       ├── resnet50_train_log.txt
+│       ├── resnet50_train_log.log
 │       └── experiment_results.csv
 │
 ├── src

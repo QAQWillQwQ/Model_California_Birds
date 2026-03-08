@@ -8,6 +8,10 @@ import numpy as np
 def load_config(config_path):
     with open(config_path, "r") as f:
         config = yaml.safe_load(f)
+
+    if "learning_rate" in config:
+        config["learning_rate"] = float(config["learning_rate"])
+
     return config
 
 

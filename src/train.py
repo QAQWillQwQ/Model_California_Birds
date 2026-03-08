@@ -1,7 +1,11 @@
 import csv
 import os
+import signal
+import shutil
 import sys
 import time
+import uuid
+from datetime import datetime
 
 import torch
 import torch.nn as nn
@@ -10,6 +14,13 @@ import torch.optim as optim
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
 from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint
+
+
+RUN_CONTEXT = {
+    "config": None,
+    "archive_started": False,
+    "termination_requested": False,
+}
 
 
 def compute_topk_correct(outputs, labels, topk=(1, 5)):
@@ -162,6 +173,73 @@ def prepare_output_dirs(output_dir):
     return checkpoints_dir, logs_dir
 
 
+def clear_logs_dir(logs_dir):
+    if not os.path.isdir(logs_dir):
+        return
+
+    for entry in os.listdir(logs_dir):
+        entry_path = os.path.join(logs_dir, entry)
+        if os.path.isfile(entry_path):
+            os.remove(entry_path)
+
+
+def archive_output_dir(output_dir):
+    output_dir = os.path.abspath(output_dir)
+    parent_dir = os.path.dirname(output_dir)
+    unique_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+    archive_dir = os.path.join(parent_dir, f"output_{unique_id}")
+    shutil.copytree(output_dir, archive_dir)
+    return archive_dir
+
+
+def archive_outputs_if_enabled(config):
+    if not config or not config.get("archive_outputs", True):
+        return None
+
+    output_dir = config["output_dir"]
+    if not os.path.isdir(output_dir):
+        return None
+
+    print(f"Starting archive of outputs from: {output_dir}")
+    return archive_output_dir(output_dir)
+
+
+def handle_termination_signal(signum, _frame):
+    signal_name = signal.Signals(signum).name
+
+    if RUN_CONTEXT["termination_requested"]:
+        print(f"Termination already in progress after {signal_name}; waiting for archive to finish.")
+        return
+
+    RUN_CONTEXT["termination_requested"] = True
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+
+    print(f"\nReceived {signal_name}. Archiving outputs before shutdown...")
+
+    config = RUN_CONTEXT["config"]
+    archive_dir = None
+    if not RUN_CONTEXT["archive_started"]:
+        RUN_CONTEXT["archive_started"] = True
+        try:
+            archive_dir = archive_outputs_if_enabled(config)
+        except Exception as exc:
+            print(f"Failed to archive outputs during shutdown: {exc}")
+
+    if archive_dir:
+        print(f"Archived outputs to: {archive_dir}")
+
+    raise KeyboardInterrupt
+
+
+def register_termination_handlers(config):
+    RUN_CONTEXT["config"] = config
+    RUN_CONTEXT["archive_started"] = False
+    RUN_CONTEXT["termination_requested"] = False
+    signal.signal(signal.SIGINT, handle_termination_signal)
+    signal.signal(signal.SIGTERM, handle_termination_signal)
+
+
 def build_training_state(config, device, num_classes):
     model = build_model(
         model_name=config["model"],
@@ -217,6 +295,7 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.write(f"CUDNN Benchmark: {config.get('cudnn_benchmark', False)}\n")
     log_file.write(f"Freeze Backbone: {config.get('freeze_backbone', False)}\n")
     log_file.write(f"Validation Interval: {val_interval}\n\n")
+    log_file.flush()
 
 
 def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval):
@@ -316,6 +395,7 @@ def run_training_loop(
 
             print(line)
             log_file.write(line + "\n")
+            log_file.flush()
 
             if should_validate and val_top1 > best_val_top1:
                 best_val_top1 = val_top1
@@ -324,9 +404,11 @@ def run_training_loop(
 
                 best_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_best.pth')
                 save_checkpoint(model, best_model_path)
+                print(f"Saved best checkpoint to: {best_model_path}")
 
         final_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
         save_checkpoint(model, final_model_path)
+        print(f"Saved last checkpoint to: {final_model_path}")
 
         total_loop_time = time.perf_counter() - loop_start_time
         summary_line = (
@@ -336,6 +418,7 @@ def run_training_loop(
         )
         print(summary_line)
         log_file.write(summary_line)
+        log_file.flush()
 
     return best_epoch, best_val_top1, best_val_top5, last_metrics
 
@@ -345,6 +428,7 @@ def main():
     # basic initialize
     config_path = parse_args()
     config = load_config(config_path)
+    register_termination_handlers(config)
 
     set_seed(config["seed"])
     device = get_device()
@@ -356,6 +440,8 @@ def main():
             torch.set_float32_matmul_precision(config.get("float32_matmul_precision", "high"))
 
     checkpoints_dir, logs_dir = prepare_output_dirs(config["output_dir"])
+    if config.get("clear_logs_before_run", True):
+        clear_logs_dir(logs_dir)
 
     # training initialize
     train_loader, val_loader, class_names = build_dataloaders(
@@ -382,7 +468,7 @@ def main():
     )
 
     # run training loops
-    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.txt')
+    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.log')
     best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
         config=config,
         model=model,
@@ -407,6 +493,15 @@ def main():
 
     print(f"Experiment result appended to: {csv_path}")
 
+    if config.get("archive_outputs", True):
+        RUN_CONTEXT["archive_started"] = True
+        archive_dir = archive_output_dir(config["output_dir"])
+        print(f"Archived outputs to: {archive_dir}")
+
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Training interrupted. Shutdown completed after archive handling.")
+        sys.exit(130)

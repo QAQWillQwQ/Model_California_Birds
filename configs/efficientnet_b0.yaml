@@ -21,5 +21,7 @@ prefetch_factor: 4
 compile_model: false
 cudnn_benchmark: true
 float32_matmul_precision: high
+archive_outputs: true
+clear_logs_before_run: true
 
 output_dir: /Users/wangyiding/ML_Model_CaliforniaBirds/outputs
