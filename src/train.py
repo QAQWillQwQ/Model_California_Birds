@@ -10,11 +10,24 @@ from datetime import datetime
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, OneCycleLR, SequentialLR
+from torchvision.transforms import v2 as transforms_v2
 
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
 from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint
+
+
+class Tee:
+    def __init__(self, stream, log_file):
+        self.stream = stream
+        self.log_file = log_file
+    def write(self, data):
+        self.stream.write(data)
+        self.log_file.write(data)
+        self.log_file.flush()
+    def flush(self):
+        self.stream.flush()
 
 
 RUN_CONTEXT = {
@@ -58,7 +71,7 @@ def autocast_context(device, enabled):
     return _nullcontext()
 
 
-def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_enabled, log_interval=20):
+def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_enabled, log_interval=20, mixup_cutmix=None, scheduler=None):
     model.train()
 
     running_loss = 0.0
@@ -70,6 +83,10 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_ena
     for batch_idx, (images, labels) in enumerate(loader, start=1):
         images = images.to(device, non_blocking=device.type == "cuda")
         labels = labels.to(device, non_blocking=device.type == "cuda")
+
+        labels_for_acc = labels
+        if mixup_cutmix is not None:
+            images, labels = mixup_cutmix(images, labels)
 
         optimizer.zero_grad(set_to_none=True)
 
@@ -85,10 +102,13 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_ena
             loss.backward()
             optimizer.step()
 
-        batch_size = labels.size(0)
+        if scheduler is not None:
+            scheduler.step()
+
+        batch_size = labels_for_acc.size(0)
         running_loss += loss.item() * batch_size
 
-        topk_result = compute_topk_correct(outputs, labels, topk=(1, 5))
+        topk_result = compute_topk_correct(outputs, labels_for_acc, topk=(1, 5))
         top1_correct += topk_result[1]
         top5_correct += topk_result[5]
         total += batch_size
@@ -251,7 +271,7 @@ def register_termination_handlers(config):
     signal.signal(signal.SIGTERM, handle_termination_signal)
 
 
-def build_training_state(config, device, num_classes):
+def build_training_state(config, device, num_classes, steps_per_epoch=None):
     dropout_rate = float(config.get("dropout_rate", 0.0))
     model = build_model(
         model_name=config["model"],
@@ -275,7 +295,27 @@ def build_training_state(config, device, num_classes):
     weight_decay = float(config.get("weight_decay", 0.0))
     optimizer = optim.AdamW(trainable_parameters, lr=config["learning_rate"], weight_decay=weight_decay)
 
-    scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"], eta_min=1e-6)
+    scheduler_type = config.get("scheduler", "cosine")
+    warmup_epochs = int(config.get("warmup_epochs", 0))
+
+    if scheduler_type == "onecycle" and steps_per_epoch:
+        scheduler = OneCycleLR(
+            optimizer,
+            max_lr=config["learning_rate"],
+            epochs=config["epochs"],
+            steps_per_epoch=steps_per_epoch,
+            pct_start=0.1,
+            anneal_strategy="cos",
+        )
+        scheduler_step_per_batch = True
+    elif warmup_epochs > 0:
+        warmup_scheduler = LinearLR(optimizer, start_factor=0.01, total_iters=warmup_epochs)
+        cosine_scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"] - warmup_epochs, eta_min=1e-6)
+        scheduler = SequentialLR(optimizer, schedulers=[warmup_scheduler, cosine_scheduler], milestones=[warmup_epochs])
+        scheduler_step_per_batch = False
+    else:
+        scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"], eta_min=1e-6)
+        scheduler_step_per_batch = False
 
     amp_enabled = bool(config.get("use_amp", False) and device.type == "cuda")
     scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
@@ -283,7 +323,18 @@ def build_training_state(config, device, num_classes):
 
     early_stopping_patience = int(config.get("early_stopping_patience", 0))
 
-    return model, criterion, optimizer, scheduler, scaler, amp_enabled, val_interval, early_stopping_patience
+    mixup_alpha = float(config.get("mixup_alpha", 0.0))
+    cutmix_alpha = float(config.get("cutmix_alpha", 0.0))
+    mixup_cutmix = None
+    if mixup_alpha > 0 or cutmix_alpha > 0:
+        mix_transforms = []
+        if mixup_alpha > 0:
+            mix_transforms.append(transforms_v2.MixUp(alpha=mixup_alpha, num_classes=num_classes))
+        if cutmix_alpha > 0:
+            mix_transforms.append(transforms_v2.CutMix(alpha=cutmix_alpha, num_classes=num_classes))
+        mixup_cutmix = transforms_v2.RandomChoice(mix_transforms)
+
+    return model, criterion, optimizer, scheduler, scheduler_step_per_batch, scaler, amp_enabled, val_interval, early_stopping_patience, mixup_cutmix
 
 
 def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
@@ -321,7 +372,15 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.write(f"Label Smoothing: {config.get('label_smoothing', 0.0)}\n")
     log_file.write(f"Dropout Rate: {config.get('dropout_rate', 0.0)}\n")
     log_file.write(f"Early Stopping Patience: {config.get('early_stopping_patience', 0)}\n")
-    log_file.write(f"Scheduler: CosineAnnealingLR (T_max={config['epochs']}, eta_min=1e-6)\n\n")
+    scheduler_type = config.get("scheduler", "cosine")
+    if scheduler_type == "onecycle":
+        log_file.write(f"Scheduler: OneCycleLR (max_lr={config['learning_rate']}, pct_start=0.1)\n")
+    else:
+        log_file.write(f"Scheduler: CosineAnnealingLR (T_max={config['epochs']}, eta_min=1e-6)\n")
+    if scheduler_type != "onecycle":
+        log_file.write(f"Warmup Epochs: {config.get('warmup_epochs', 0)}\n")
+    log_file.write(f"Mixup Alpha: {config.get('mixup_alpha', 0.0)}\n")
+    log_file.write(f"CutMix Alpha: {config.get('cutmix_alpha', 0.0)}\n\n")
     log_file.flush()
 
 
@@ -355,11 +414,13 @@ def run_training_loop(
     criterion,
     optimizer,
     scheduler,
+    scheduler_step_per_batch,
     device,
     scaler,
     amp_enabled,
     val_interval,
     early_stopping_patience,
+    mixup_cutmix,
     checkpoints_dir,
     log_path,
     num_classes,
@@ -395,10 +456,13 @@ def run_training_loop(
                 scaler=scaler,
                 amp_enabled=amp_enabled,
                 log_interval=log_interval,
+                mixup_cutmix=mixup_cutmix,
+                scheduler=scheduler if scheduler_step_per_batch else None,
             )
             total_training_time += train_time
 
-            scheduler.step()
+            if not scheduler_step_per_batch:
+                scheduler.step()
 
             should_validate, val_loss, val_top1, val_top5, val_time = run_validation(
                 epoch=epoch,
@@ -487,6 +551,10 @@ def main():
     if config.get("clear_logs_before_run", True):
         clear_logs_dir(logs_dir)
 
+    debug_log_file = open(os.path.join(logs_dir, "debug.log"), "w", encoding="utf-8")
+    sys.stdout = Tee(sys.stdout, debug_log_file)
+    sys.stderr = Tee(sys.stderr, debug_log_file)
+
     # training initialize
     train_loader, val_loader, class_names = build_dataloaders(
         data_root=config["data_root"],
@@ -505,10 +573,11 @@ def main():
     print(f"Train batches: {len(train_loader)}")
     print(f"Val batches: {len(val_loader)}")
 
-    model, criterion, optimizer, scheduler, scaler, amp_enabled, val_interval, early_stopping_patience = build_training_state(
+    model, criterion, optimizer, scheduler, scheduler_step_per_batch, scaler, amp_enabled, val_interval, early_stopping_patience, mixup_cutmix = build_training_state(
         config=config,
         device=device,
         num_classes=len(class_names),
+        steps_per_epoch=len(train_loader),
     )
 
     # run training loops
@@ -521,11 +590,13 @@ def main():
         criterion=criterion,
         optimizer=optimizer,
         scheduler=scheduler,
+        scheduler_step_per_batch=scheduler_step_per_batch,
         device=device,
         scaler=scaler,
         amp_enabled=amp_enabled,
         val_interval=val_interval,
         early_stopping_patience=early_stopping_patience,
+        mixup_cutmix=mixup_cutmix,
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),

@@ -45,7 +45,11 @@ def build_transforms(
         transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
     ])
 
-    val_transform = eval_transform
+    val_transform = transforms.Compose([
+        transforms.Resize((image_size, image_size)),
+        transforms.ToTensor(),
+        normalize,
+    ])
 
     return train_transform, val_transform
 
