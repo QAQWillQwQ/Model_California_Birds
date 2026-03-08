@@ -18,10 +18,12 @@ def build_transforms(
 
     if weights is None:
         train_transform = transforms.Compose([
-            transforms.Resize((image_size, image_size)),
+            transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
             transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(10),
+            transforms.RandomRotation(15),
+            transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
             transforms.ToTensor(),
+            transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
         ])
 
         val_transform = transforms.Compose([
@@ -34,11 +36,13 @@ def build_transforms(
     normalize = transforms.Normalize(mean=eval_transform.mean, std=eval_transform.std)
 
     train_transform = transforms.Compose([
-        transforms.Resize((image_size, image_size)),
+        transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
         transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(10),
+        transforms.RandomRotation(15),
+        transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
         transforms.ToTensor(),
         normalize,
+        transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
     ])
 
     val_transform = eval_transform

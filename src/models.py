@@ -54,26 +54,44 @@ def freeze_backbone(model_name: str, model) -> None:
     raise ValueError(f"Unsupported model for freezing: {model_name}")
 
 
-def build_model(model_name: str, num_classes: int, pretrained: bool = True):
+def build_model(model_name: str, num_classes: int, pretrained: bool = True, dropout_rate: float = 0.0):
     model_name = model_name.lower()
     weights = get_model_weights(model_name, pretrained)
 
     if model_name == "resnet50":
         model = resnet50(weights=weights)
         in_features = model.fc.in_features
-        model.fc = nn.Linear(in_features, num_classes)
+        if dropout_rate > 0:
+            model.fc = nn.Sequential(
+                nn.Dropout(p=dropout_rate),
+                nn.Linear(in_features, num_classes),
+            )
+        else:
+            model.fc = nn.Linear(in_features, num_classes)
         return model
 
     if model_name == "efficientnet_b0":
         model = efficientnet_b0(weights=weights)
         in_features = model.classifier[1].in_features
-        model.classifier[1] = nn.Linear(in_features, num_classes)
+        if dropout_rate > 0:
+            model.classifier = nn.Sequential(
+                nn.Dropout(p=dropout_rate),
+                nn.Linear(in_features, num_classes),
+            )
+        else:
+            model.classifier[1] = nn.Linear(in_features, num_classes)
         return model
 
     if model_name == "vit_base":
         model = vit_b_16(weights=weights)
         in_features = model.heads.head.in_features
-        model.heads.head = nn.Linear(in_features, num_classes)
+        if dropout_rate > 0:
+            model.heads.head = nn.Sequential(
+                nn.Dropout(p=dropout_rate),
+                nn.Linear(in_features, num_classes),
+            )
+        else:
+            model.heads.head = nn.Linear(in_features, num_classes)
         return model
 
     raise ValueError(f"Unsupported model: {model_name}")

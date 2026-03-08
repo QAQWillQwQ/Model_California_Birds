@@ -10,6 +10,7 @@ from datetime import datetime
 import torch
 import torch.nn as nn
 import torch.optim as optim
+from torch.optim.lr_scheduler import CosineAnnealingLR
 
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
@@ -37,9 +38,16 @@ def compute_topk_correct(outputs, labels, topk=(1, 5)):
     return results
 
 
+class _nullcontext:
+    def __enter__(self):
+        return None
+    def __exit__(self, *args):
+        return False
+
+
 def autocast_context(device, enabled):
-    if not enabled:
-        return torch.autocast(device_type=device.type, enabled=False)
+    if not enabled or device.type not in ("cuda", "cpu"):
+        return _nullcontext()
 
     if device.type == "cuda":
         return torch.autocast(device_type="cuda", dtype=torch.float16)
@@ -47,7 +55,7 @@ def autocast_context(device, enabled):
     if device.type == "cpu":
         return torch.autocast(device_type="cpu", dtype=torch.bfloat16)
 
-    return torch.autocast(device_type=device.type, enabled=False)
+    return _nullcontext()
 
 
 def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_enabled, log_interval=20):
@@ -164,13 +172,16 @@ def parse_args():
 
 
 def prepare_output_dirs(output_dir):
-    checkpoints_dir = os.path.join(output_dir, "checkpoints")
-    logs_dir = os.path.join(output_dir, "logs")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    run_dir = os.path.join(output_dir, f"output_{timestamp}")
+    checkpoints_dir = os.path.join(run_dir, "checkpoints")
+    logs_dir = os.path.join(run_dir, "logs")
 
-    ensure_dir(output_dir)
+    ensure_dir(run_dir)
     ensure_dir(checkpoints_dir)
     ensure_dir(logs_dir)
-    return checkpoints_dir, logs_dir
+    print(f"Output directory: {run_dir}")
+    return run_dir, checkpoints_dir, logs_dir
 
 
 def clear_logs_dir(logs_dir):
@@ -241,10 +252,12 @@ def register_termination_handlers(config):
 
 
 def build_training_state(config, device, num_classes):
+    dropout_rate = float(config.get("dropout_rate", 0.0))
     model = build_model(
         model_name=config["model"],
         num_classes=num_classes,
         pretrained=config["pretrained"],
+        dropout_rate=dropout_rate,
     ).to(device)
 
     freeze_backbone_enabled = config.get("freeze_backbone", False)
@@ -255,13 +268,22 @@ def build_training_state(config, device, num_classes):
     if compile_enabled and hasattr(torch, "compile"):
         model = torch.compile(model)
 
-    criterion = nn.CrossEntropyLoss()
+    label_smoothing = float(config.get("label_smoothing", 0.0))
+    criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+
     trainable_parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
-    optimizer = optim.Adam(trainable_parameters, lr=config["learning_rate"])
+    weight_decay = float(config.get("weight_decay", 0.0))
+    optimizer = optim.AdamW(trainable_parameters, lr=config["learning_rate"], weight_decay=weight_decay)
+
+    scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"], eta_min=1e-6)
+
     amp_enabled = bool(config.get("use_amp", False) and device.type == "cuda")
     scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
     val_interval = max(1, int(config.get("val_interval", 1)))
-    return model, criterion, optimizer, scaler, amp_enabled, val_interval
+
+    early_stopping_patience = int(config.get("early_stopping_patience", 0))
+
+    return model, criterion, optimizer, scheduler, scaler, amp_enabled, val_interval, early_stopping_patience
 
 
 def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
@@ -294,7 +316,12 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.write(f"Compile Enabled: {config.get('compile_model', False)}\n")
     log_file.write(f"CUDNN Benchmark: {config.get('cudnn_benchmark', False)}\n")
     log_file.write(f"Freeze Backbone: {config.get('freeze_backbone', False)}\n")
-    log_file.write(f"Validation Interval: {val_interval}\n\n")
+    log_file.write(f"Validation Interval: {val_interval}\n")
+    log_file.write(f"Weight Decay: {config.get('weight_decay', 0.0)}\n")
+    log_file.write(f"Label Smoothing: {config.get('label_smoothing', 0.0)}\n")
+    log_file.write(f"Dropout Rate: {config.get('dropout_rate', 0.0)}\n")
+    log_file.write(f"Early Stopping Patience: {config.get('early_stopping_patience', 0)}\n")
+    log_file.write(f"Scheduler: CosineAnnealingLR (T_max={config['epochs']}, eta_min=1e-6)\n\n")
     log_file.flush()
 
 
@@ -327,10 +354,12 @@ def run_training_loop(
     val_loader,
     criterion,
     optimizer,
+    scheduler,
     device,
     scaler,
     amp_enabled,
     val_interval,
+    early_stopping_patience,
     checkpoints_dir,
     log_path,
     num_classes,
@@ -338,6 +367,7 @@ def run_training_loop(
     best_val_top1 = 0.0
     best_val_top5 = 0.0
     best_epoch = 0
+    epochs_without_improvement = 0
     total_training_time = 0.0
     total_validation_time = 0.0
     loop_start_time = time.perf_counter()
@@ -353,7 +383,8 @@ def run_training_loop(
         write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval)
 
         for epoch in range(config["epochs"]):
-            print(f"\n===== Epoch {epoch + 1}/{config['epochs']} =====")
+            current_lr = optimizer.param_groups[0]["lr"]
+            print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
 
             train_loss, train_top1, train_top5, train_time = train_one_epoch(
                 model=model,
@@ -366,6 +397,8 @@ def run_training_loop(
                 log_interval=log_interval,
             )
             total_training_time += train_time
+
+            scheduler.step()
 
             should_validate, val_loss, val_top1, val_top5, val_time = run_validation(
                 epoch=epoch,
@@ -390,6 +423,7 @@ def run_training_loop(
                 f"Epoch [{epoch + 1}/{config['epochs']}] | "
                 f"Train Loss: {train_loss:.4f} | Train Top1: {train_top1:.4f} | Train Top5: {train_top5:.4f} | "
                 f"Val Loss: {val_loss:.4f} | Val Top1: {val_top1:.4f} | Val Top5: {val_top5:.4f} | "
+                f"LR: {current_lr:.2e} | "
                 f"Train Time: {train_time:.3f}s | Val Time: {val_time:.3f}s | Epoch Time: {epoch_total_time:.3f}s"
             )
 
@@ -401,10 +435,20 @@ def run_training_loop(
                 best_val_top1 = val_top1
                 best_val_top5 = val_top5
                 best_epoch = epoch + 1
+                epochs_without_improvement = 0
 
                 best_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_best.pth')
                 save_checkpoint(model, best_model_path)
                 print(f"Saved best checkpoint to: {best_model_path}")
+            elif should_validate:
+                epochs_without_improvement += 1
+
+            if early_stopping_patience > 0 and epochs_without_improvement >= early_stopping_patience:
+                stop_msg = f"Early stopping triggered after {epochs_without_improvement} epochs without improvement."
+                print(stop_msg)
+                log_file.write(stop_msg + "\n")
+                log_file.flush()
+                break
 
         final_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
         save_checkpoint(model, final_model_path)
@@ -439,7 +483,7 @@ def main():
         if hasattr(torch, "set_float32_matmul_precision"):
             torch.set_float32_matmul_precision(config.get("float32_matmul_precision", "high"))
 
-    checkpoints_dir, logs_dir = prepare_output_dirs(config["output_dir"])
+    run_dir, checkpoints_dir, logs_dir = prepare_output_dirs(config["output_dir"])
     if config.get("clear_logs_before_run", True):
         clear_logs_dir(logs_dir)
 
@@ -461,7 +505,7 @@ def main():
     print(f"Train batches: {len(train_loader)}")
     print(f"Val batches: {len(val_loader)}")
 
-    model, criterion, optimizer, scaler, amp_enabled, val_interval = build_training_state(
+    model, criterion, optimizer, scheduler, scaler, amp_enabled, val_interval, early_stopping_patience = build_training_state(
         config=config,
         device=device,
         num_classes=len(class_names),
@@ -476,10 +520,12 @@ def main():
         val_loader=val_loader,
         criterion=criterion,
         optimizer=optimizer,
+        scheduler=scheduler,
         device=device,
         scaler=scaler,
         amp_enabled=amp_enabled,
         val_interval=val_interval,
+        early_stopping_patience=early_stopping_patience,
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),
