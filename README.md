@@ -64,6 +64,11 @@ Install other dependencies
 pip install pyyaml pillow matplotlib pandas
 ```
 
+Install TensorBoard for live monitoring
+```bash
+pip install tensorboard
+```
+
 ## 2. Verify Installation
 
 Run these commands to confirm the environment works.
@@ -139,4 +144,61 @@ python src/train.py configs/resnet50_small.yaml
 Full Training
 ```bash
 python src/train.py configs/resnet50.yaml
+```
+
+## 7. Live Monitoring
+
+Training now writes TensorBoard event files into each run directory when `tensorboard` is installed.
+
+Start training:
+```bash
+python src/train.py configs/resnet50.yaml
+```
+
+The script prints the run-specific TensorBoard directory, for example:
+```text
+outputs/output_20260308_120000/tensorboard
+```
+
+Launch TensorBoard in another terminal:
+```bash
+tensorboard --logdir outputs/output_20260308_120000/tensorboard
+```
+
+Then open the local URL TensorBoard prints in the terminal, usually:
+```text
+http://localhost:6006
+```
+
+If you want to disable TensorBoard for a run, set this in the YAML config:
+```yaml
+use_tensorboard: false
+```
+
+Or use the launcher script to start training and TensorBoard together, with an automatic local port:
+```bash
+./scripts/run_with_tensorboard.sh configs/vit_base.yaml
+```
+
+You can also launch it in interactive config-selection mode:
+```bash
+./scripts/run_with_tensorboard.sh -i
+```
+
+How the launcher works:
+- Pass a YAML path to train with that config directly.
+- Pass `-i` to print the available YAML files and choose one by number.
+- The script starts `src/train.py`, starts TensorBoard on a free local port, and prints the watch URL.
+- Terminal output follows the run's debug log, so you can watch training progress live.
+
+Examples:
+```bash
+./scripts/run_with_tensorboard.sh configs/resnet50.yaml
+./scripts/run_with_tensorboard.sh /home/blue-lobster/PycharmProjects/Model_California_Birds/configs/vit_base.yaml
+./scripts/run_with_tensorboard.sh -i
+```
+
+The script prints the exact local watch URL, for example:
+```text
+http://127.0.0.1:6006
 ```

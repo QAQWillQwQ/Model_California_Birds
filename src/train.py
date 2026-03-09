@@ -11,6 +11,10 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, OneCycleLR, SequentialLR
+try:
+    from torch.utils.tensorboard import SummaryWriter
+except ImportError:
+    SummaryWriter = None
 from torchvision.transforms import v2 as transforms_v2
 
 from dataset import build_dataloaders
@@ -71,7 +75,20 @@ def autocast_context(device, enabled):
     return _nullcontext()
 
 
-def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_enabled, log_interval=20, mixup_cutmix=None, scheduler=None):
+def train_one_epoch(
+    model,
+    loader,
+    criterion,
+    optimizer,
+    device,
+    scaler,
+    amp_enabled,
+    log_interval=20,
+    mixup_cutmix=None,
+    scheduler=None,
+    writer=None,
+    global_step_start=0,
+):
     model.train()
 
     running_loss = 0.0
@@ -117,21 +134,27 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_ena
             avg_loss = running_loss / total
             avg_top1 = top1_correct / total
             avg_top5 = top5_correct / total
+            global_step = global_step_start + batch_idx
             print(
                 f"  Train Batch [{batch_idx}/{len(loader)}] | "
                 f"Loss: {avg_loss:.4f} | Top1: {avg_top1:.4f} | Top5: {avg_top5:.4f}"
             )
+            if writer is not None:
+                writer.add_scalar("train/batch_loss", avg_loss, global_step)
+                writer.add_scalar("train/batch_top1", avg_top1, global_step)
+                writer.add_scalar("train/batch_top5", avg_top5, global_step)
+                writer.add_scalar("train/lr", optimizer.param_groups[0]["lr"], global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
     epoch_top5 = top5_correct / total
     epoch_time = time.perf_counter() - epoch_start_time
     print(f"  Train Epoch Time: {epoch_time:.3f}s")
-    return epoch_loss, epoch_top1, epoch_top5, epoch_time
+    return epoch_loss, epoch_top1, epoch_top5, epoch_time, global_step_start + len(loader)
 
 
 @torch.no_grad()
-def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20):
+def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20, writer=None, global_step=None):
     model.eval()
 
     running_loss = 0.0
@@ -164,6 +187,10 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
                 f"  Val Batch [{batch_idx}/{len(loader)}] | "
                 f"Loss: {avg_loss:.4f} | Top1: {avg_top1:.4f} | Top5: {avg_top5:.4f}"
             )
+            if writer is not None and global_step is not None:
+                writer.add_scalar("val/batch_loss", avg_loss, global_step)
+                writer.add_scalar("val/batch_top1", avg_top1, global_step)
+                writer.add_scalar("val/batch_top5", avg_top5, global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
@@ -384,7 +411,24 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.flush()
 
 
-def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval):
+def create_tensorboard_writer(config, run_dir):
+    tensorboard_enabled = bool(config.get("use_tensorboard", True))
+
+    if not tensorboard_enabled:
+        return None
+
+    if SummaryWriter is None:
+        print("TensorBoard logging requested but tensorboard is not installed. Install with: pip install tensorboard")
+        return None
+
+    tensorboard_dir = os.path.join(run_dir, "tensorboard")
+    ensure_dir(tensorboard_dir)
+    print(f"TensorBoard log directory: {tensorboard_dir}")
+    print(f"Launch with: tensorboard --logdir {tensorboard_dir}")
+    return SummaryWriter(log_dir=tensorboard_dir)
+
+
+def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval, writer=None, global_step=None):
     should_validate = ((epoch + 1) % val_interval == 0) or ((epoch + 1) == total_epochs)
 
     if should_validate:
@@ -395,6 +439,8 @@ def run_validation(epoch, total_epochs, val_interval, model, val_loader, criteri
             device=device,
             amp_enabled=amp_enabled,
             log_interval=log_interval,
+            writer=writer,
+            global_step=global_step,
         )
     else:
         val_loss = float("nan")
@@ -424,6 +470,7 @@ def run_training_loop(
     checkpoints_dir,
     log_path,
     num_classes,
+    writer=None,
 ):
     best_val_top1 = 0.0
     best_val_top5 = 0.0
@@ -439,6 +486,7 @@ def run_training_loop(
         "val_top5": 0.0,
     }
     log_interval = config.get("log_interval", 20)
+    global_step = 0
 
     with open(log_path, "w") as log_file:
         write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval)
@@ -447,7 +495,7 @@ def run_training_loop(
             current_lr = optimizer.param_groups[0]["lr"]
             print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
 
-            train_loss, train_top1, train_top5, train_time = train_one_epoch(
+            train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
                 model=model,
                 loader=train_loader,
                 criterion=criterion,
@@ -458,6 +506,8 @@ def run_training_loop(
                 log_interval=log_interval,
                 mixup_cutmix=mixup_cutmix,
                 scheduler=scheduler if scheduler_step_per_batch else None,
+                writer=writer,
+                global_step_start=global_step,
             )
             total_training_time += train_time
 
@@ -474,6 +524,8 @@ def run_training_loop(
                 device=device,
                 amp_enabled=amp_enabled,
                 log_interval=log_interval,
+                writer=writer,
+                global_step=global_step,
             )
             total_validation_time += val_time
 
@@ -494,6 +546,17 @@ def run_training_loop(
             print(line)
             log_file.write(line + "\n")
             log_file.flush()
+            if writer is not None:
+                writer.add_scalar("epoch/train_loss", train_loss, epoch + 1)
+                writer.add_scalar("epoch/train_top1", train_top1, epoch + 1)
+                writer.add_scalar("epoch/train_top5", train_top5, epoch + 1)
+                writer.add_scalar("epoch/val_loss", val_loss, epoch + 1)
+                writer.add_scalar("epoch/val_top1", val_top1, epoch + 1)
+                writer.add_scalar("epoch/val_top5", val_top5, epoch + 1)
+                writer.add_scalar("epoch/lr", optimizer.param_groups[0]["lr"], epoch + 1)
+                writer.add_scalar("epoch/train_time_sec", train_time, epoch + 1)
+                writer.add_scalar("epoch/val_time_sec", val_time, epoch + 1)
+                writer.flush()
 
             if should_validate and val_top1 > best_val_top1:
                 best_val_top1 = val_top1
@@ -554,6 +617,7 @@ def main():
     debug_log_file = open(os.path.join(logs_dir, "debug.log"), "w", encoding="utf-8")
     sys.stdout = Tee(sys.stdout, debug_log_file)
     sys.stderr = Tee(sys.stderr, debug_log_file)
+    writer = create_tensorboard_writer(config, run_dir)
 
     # training initialize
     train_loader, val_loader, class_names = build_dataloaders(
@@ -600,6 +664,7 @@ def main():
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),
+        writer=writer,
     )
 
     csv_path = os.path.join(logs_dir, "experiment_results.csv")
@@ -614,6 +679,9 @@ def main():
         RUN_CONTEXT["archive_started"] = True
         archive_dir = archive_output_dir(config["output_dir"])
         print(f"Archived outputs to: {archive_dir}")
+
+    if writer is not None:
+        writer.close()
 
 
 if __name__ == "__main__":
