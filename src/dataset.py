@@ -16,7 +16,7 @@ def build_transforms(
 ) -> Tuple[transforms.Compose, transforms.Compose]:
     weights = get_model_weights(model_name, pretrained)
 
-    if weights is None:
+    if weights is None and not pretrained:
         train_transform = transforms.Compose([
             transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
             transforms.RandomHorizontalFlip(),
@@ -32,8 +32,11 @@ def build_transforms(
         ])
         return train_transform, val_transform
 
-    eval_transform = weights.transforms()
-    normalize = transforms.Normalize(mean=eval_transform.mean, std=eval_transform.std)
+    if weights is not None:
+        eval_transform = weights.transforms()
+        normalize = transforms.Normalize(mean=eval_transform.mean, std=eval_transform.std)
+    else:
+        normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
     train_transform = transforms.Compose([
         transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),

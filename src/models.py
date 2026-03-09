@@ -8,6 +8,12 @@ from torchvision.models import (
     ViT_B_16_Weights,
 )
 
+try:
+    import timm
+    HAS_TIMM = True
+except ImportError:
+    HAS_TIMM = False
+
 
 def get_model_weights(model_name: str, pretrained: bool = True):
     model_name = model_name.lower()
@@ -24,7 +30,7 @@ def get_model_weights(model_name: str, pretrained: bool = True):
     if model_name == "vit_base":
         return ViT_B_16_Weights.DEFAULT
 
-    raise ValueError(f"Unsupported model: {model_name}")
+    return None
 
 
 def freeze_backbone(model_name: str, model) -> None:
@@ -48,6 +54,13 @@ def freeze_backbone(model_name: str, model) -> None:
         for parameter in model.parameters():
             parameter.requires_grad = False
         for parameter in model.heads.parameters():
+            parameter.requires_grad = True
+        return
+
+    if HAS_TIMM and hasattr(model, "get_classifier"):
+        for parameter in model.parameters():
+            parameter.requires_grad = False
+        for parameter in model.get_classifier().parameters():
             parameter.requires_grad = True
         return
 
@@ -94,4 +107,8 @@ def build_model(model_name: str, num_classes: int, pretrained: bool = True, drop
             model.heads.head = nn.Linear(in_features, num_classes)
         return model
 
-    raise ValueError(f"Unsupported model: {model_name}")
+    if not HAS_TIMM:
+        raise ValueError(f"Unsupported model: {model_name}. Install timm for additional models: pip install timm")
+
+    model = timm.create_model(model_name, pretrained=pretrained, num_classes=num_classes, drop_rate=dropout_rate)
+    return model
