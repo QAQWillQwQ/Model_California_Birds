@@ -1,0 +1,21 @@
+Traceback (most recent call last):
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 621, in <module>
+    main()
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 559, in main
+    train_loader, val_loader, class_names = build_dataloaders(
+                                            ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/dataset.py", line 158, in build_dataloaders
+    train_dataset_full = datasets.ImageFolder(root=data_root, transform=train_transform)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torchvision/datasets/folder.py", line 328, in __init__
+    super().__init__(
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torchvision/datasets/folder.py", line 149, in __init__
+    classes, class_to_idx = self.find_classes(self.root)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torchvision/datasets/folder.py", line 234, in find_classes
+    return find_classes(directory)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torchvision/datasets/folder.py", line 41, in find_classes
+    classes = sorted(entry.name for entry in os.scandir(directory) if entry.is_dir())
+                                             ^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/media/blue-lobster/p2/UCI/CS273p/birds_of_california/data'

@@ -78,6 +78,20 @@ timestamp_now() {
     date '+%Y-%m-%d %H:%M:%S'
 }
 
+resolve_tensorboard_host() {
+    if [[ -n "${SSH_CONNECTION:-}" ]]; then
+        # SSH_CONNECTION format: client_ip client_port server_ip server_port
+        local ssh_server_ip
+        ssh_server_ip="$(awk '{print $3}' <<<"$SSH_CONNECTION")"
+        if [[ -n "$ssh_server_ip" ]]; then
+            printf '%s\n' "$ssh_server_ip"
+            return 0
+        fi
+    fi
+
+    printf '127.0.0.1\n'
+}
+
 find_free_port() {
     "$VENV_PYTHON" - <<'PY'
 import socket
@@ -153,11 +167,12 @@ TENSORBOARD_DIR="$RUN_DIR/tensorboard"
 mkdir -p "$TENSORBOARD_DIR"
 
 PORT="$(find_free_port)"
-WATCH_URL="http://127.0.0.1:$PORT"
+TENSORBOARD_HOST="$(resolve_tensorboard_host)"
+WATCH_URL="http://$TENSORBOARD_HOST:$PORT"
 
 (
     cd "$ROOT_DIR"
-    "$VENV_TENSORBOARD" --logdir "$TENSORBOARD_DIR" --host 127.0.0.1 --port "$PORT"
+    "$VENV_TENSORBOARD" --logdir "$TENSORBOARD_DIR" --host "$TENSORBOARD_HOST" --port "$PORT"
 ) >"$RUN_DIR/logs/tensorboard.log" 2>&1 &
 TENSORBOARD_PID=$!
 
@@ -165,6 +180,9 @@ echo "Run directory: $RUN_DIR"
 echo "TensorBoard directory: $TENSORBOARD_DIR"
 echo "TensorBoard log: $RUN_DIR/logs/tensorboard.log"
 echo "Watch URL: $WATCH_URL"
+if [[ -n "${SSH_CONNECTION:-}" ]]; then
+    echo "SSH session detected; TensorBoard is bound to the server address for access from the SSH client."
+fi
 echo
 echo "Training output follows. Press Ctrl+C to stop training and TensorBoard."
 echo

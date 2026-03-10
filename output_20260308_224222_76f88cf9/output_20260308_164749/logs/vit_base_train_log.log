@@ -1,0 +1,17 @@
+Device: cuda
+Num classes: 657
+Model: vit_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.02
+Label Smoothing: 0.1
+Dropout Rate: 0.4
+Early Stopping Patience: 10
+Scheduler: OneCycleLR (max_lr=0.001, pct_start=0.1)
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+
