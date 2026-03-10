@@ -19,7 +19,7 @@ from torchvision.transforms import v2 as transforms_v2
 
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
-from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint
+from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint, save_full_checkpoint, load_full_checkpoint
 
 
 class Tee:
@@ -407,7 +407,10 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     if scheduler_type != "onecycle":
         log_file.write(f"Warmup Epochs: {config.get('warmup_epochs', 0)}\n")
     log_file.write(f"Mixup Alpha: {config.get('mixup_alpha', 0.0)}\n")
-    log_file.write(f"CutMix Alpha: {config.get('cutmix_alpha', 0.0)}\n\n")
+    log_file.write(f"CutMix Alpha: {config.get('cutmix_alpha', 0.0)}\n")
+    if config.get("resume_from"):
+        log_file.write(f"Resume From: {config['resume_from']}\n")
+    log_file.write("\n")
     log_file.flush()
 
 
@@ -471,10 +474,13 @@ def run_training_loop(
     log_path,
     num_classes,
     writer=None,
+    start_epoch=0,
+    resume_best_val_top1=0.0,
+    resume_best_val_top5=0.0,
 ):
-    best_val_top1 = 0.0
-    best_val_top5 = 0.0
-    best_epoch = 0
+    best_val_top1 = resume_best_val_top1
+    best_val_top5 = resume_best_val_top5
+    best_epoch = start_epoch if resume_best_val_top1 > 0 else 0
     epochs_without_improvement = 0
     total_training_time = 0.0
     total_validation_time = 0.0
@@ -491,7 +497,7 @@ def run_training_loop(
     with open(log_path, "w") as log_file:
         write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval)
 
-        for epoch in range(config["epochs"]):
+        for epoch in range(start_epoch, config["epochs"]):
             current_lr = optimizer.param_groups[0]["lr"]
             print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
 
@@ -566,6 +572,8 @@ def run_training_loop(
 
                 best_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_best.pth')
                 save_checkpoint(model, best_model_path)
+                best_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_best_full.pth')
+                save_full_checkpoint(model, optimizer, scheduler, epoch, best_val_top1, best_val_top5, best_full_path)
                 print(f"Saved best checkpoint to: {best_model_path}")
             elif should_validate:
                 epochs_without_improvement += 1
@@ -579,6 +587,8 @@ def run_training_loop(
 
         final_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
         save_checkpoint(model, final_model_path)
+        final_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_last_full.pth')
+        save_full_checkpoint(model, optimizer, scheduler, epoch, best_val_top1, best_val_top5, final_full_path)
         print(f"Saved last checkpoint to: {final_model_path}")
 
         total_loop_time = time.perf_counter() - loop_start_time
@@ -644,6 +654,18 @@ def main():
         steps_per_epoch=len(train_loader),
     )
 
+    # resume from checkpoint if configured
+    start_epoch = 0
+    resume_best_val_top1 = 0.0
+    resume_best_val_top5 = 0.0
+    resume_from = config.get("resume_from", None)
+    if resume_from:
+        print(f"Resuming from checkpoint: {resume_from}")
+        model, optimizer, scheduler, start_epoch, resume_best_val_top1, resume_best_val_top5 = load_full_checkpoint(
+            model, optimizer, scheduler, resume_from, device,
+        )
+        print(f"Resumed at epoch {start_epoch}, best val top1: {resume_best_val_top1:.4f}")
+
     # run training loops
     log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.log')
     best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
@@ -664,6 +686,9 @@ def main():
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),
+        start_epoch=start_epoch,
+        resume_best_val_top1=resume_best_val_top1,
+        resume_best_val_top5=resume_best_val_top5,
         writer=writer,
     )
 

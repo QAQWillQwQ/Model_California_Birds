@@ -1,15 +1,15 @@
 seed: 42
 
-model: vit_base
+model: convnext_base.fb_in22k_ft_in1k
 pretrained: true
 
 data_root: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\data
 
-image_size: 384
-batch_size: 16
+image_size: 320
+batch_size: 32
 
 epochs: 60
-learning_rate: 0.001
+learning_rate: 0.0002
 
 val_split: 0.15
 num_workers: 4
@@ -20,13 +20,13 @@ prefetch_factor: 4
 compile_model: false
 cudnn_benchmark: true
 float32_matmul_precision: high
-archive_outputs: true
+archive_outputs: false
 clear_logs_before_run: true
 
 # regularization
-weight_decay: 0.02
+weight_decay: 0.05
 label_smoothing: 0.1
-dropout_rate: 0.4
+dropout_rate: 0.3
 mixup_alpha: 0.2
 cutmix_alpha: 1.0
 

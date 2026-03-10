@@ -1,2 +1,2 @@
 model,pretrained,image_size,batch_size,epochs,learning_rate,val_split,num_workers,max_samples,best_epoch,best_val_top1,best_val_top5,last_train_top1,last_train_top5,last_val_top1,last_val_top5,device
-resnet50,True,224,32,30,0.0001,0.1,4,,12,0.684925,0.872088,0.969014,0.999709,0.682148,0.860361,cuda
+convnext_base.fb_in22k_ft_in1k,True,320,256,60,0.0002,0.15,4,,21,0.815489,0.939731,0.575929,0.775175,0.815078,0.939525,cuda
