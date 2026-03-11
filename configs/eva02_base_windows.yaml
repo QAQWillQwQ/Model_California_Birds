@@ -23,7 +23,6 @@ prefetch_factor: 4
 compile_model: false
 cudnn_benchmark: true
 float32_matmul_precision: high
-archive_outputs: false
 clear_logs_before_run: true
 
 # regularization — ViT-based models need strong regularization
