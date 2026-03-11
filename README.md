@@ -125,6 +125,19 @@ All experiments are controlled by YAML config files located in the configs folde
 Example config:
 `configs/resnet50_small.yaml`
 
+Optional layer-wise learning-rate decay can be controlled in YAML:
+
+```yaml
+learning_rate: 0.0001
+
+layerwise_lr:
+  enabled: false
+  decay: 0.75
+```
+
+When `enabled: false` or the block is omitted, training uses the existing single learning rate for all trainable parameters.
+When `enabled: true`, deeper classifier layers keep the full base LR and earlier layers are decayed by `decay` across optimizer param groups.
+
 ## 6. Run Training
 
 The main training script is:

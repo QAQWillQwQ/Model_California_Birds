@@ -1,5 +1,6 @@
 import csv
 import os
+import re
 import signal
 import sys
 import time
@@ -36,6 +37,16 @@ RUN_CONTEXT = {
     "config": None,
     "termination_requested": False,
 }
+
+
+LAYERWISE_PATTERNS = (
+    ("encoder_layer", re.compile(r"encoder\.layers\.encoder_layer_(\d+)")),
+    ("blocks", re.compile(r"blocks\.(\d+)")),
+    ("stages", re.compile(r"stages\.(\d+)")),
+    ("layers", re.compile(r"layers\.(\d+)")),
+    ("features", re.compile(r"features\.(\d+)")),
+    ("resnet_layer", re.compile(r"layer(\d+)")),
+)
 
 
 def compute_topk_correct(outputs, labels, topk=(1, 5)):
@@ -140,7 +151,7 @@ def train_one_epoch(
                 writer.add_scalar("train/batch_loss", avg_loss, global_step)
                 writer.add_scalar("train/batch_top1", avg_top1, global_step)
                 writer.add_scalar("train/batch_top5", avg_top5, global_step)
-                writer.add_scalar("train/lr", optimizer.param_groups[0]["lr"], global_step)
+                writer.add_scalar("train/lr", get_display_learning_rate(optimizer), global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
@@ -260,6 +271,95 @@ def register_termination_handlers(config):
     signal.signal(signal.SIGTERM, handle_termination_signal)
 
 
+def get_layerwise_lr_config(config):
+    layerwise_lr = config.get("layerwise_lr") or {}
+    enabled = bool(layerwise_lr.get("enabled", False))
+    decay = float(layerwise_lr.get("decay", 1.0))
+
+    if enabled and not (0.0 < decay <= 1.0):
+        raise ValueError("layerwise_lr.decay must be in the range (0, 1].")
+
+    return {
+        "enabled": enabled,
+        "decay": decay,
+    }
+
+
+def classify_layerwise_bucket(parameter_name):
+    clean_name = parameter_name.removeprefix("_orig_mod.")
+
+    if clean_name.startswith(("head", "heads", "classifier", "fc")):
+        return ("head", "head")
+
+    if clean_name.startswith(("conv_proj", "class_token", "pos_embed", "patch_embed", "stem", "bn1", "conv1")):
+        return ("stem", 0)
+
+    for prefix, pattern in LAYERWISE_PATTERNS:
+        match = pattern.search(clean_name)
+        if match:
+            return (prefix, int(match.group(1)))
+
+    return ("stem", 0)
+
+
+def build_optimizer_param_groups(model, config):
+    base_lr = float(config["learning_rate"])
+    weight_decay = float(config.get("weight_decay", 0.0))
+    layerwise_lr_config = get_layerwise_lr_config(config)
+    named_parameters = [
+        (name, parameter)
+        for name, parameter in model.named_parameters()
+        if parameter.requires_grad
+    ]
+
+    if not layerwise_lr_config["enabled"]:
+        return [parameter for _, parameter in named_parameters], None
+
+    ordered_buckets = sorted(
+        {classify_layerwise_bucket(name) for name, _ in named_parameters},
+        key=lambda bucket: (
+            1 if bucket[0] == "head" else 0,
+            bucket[1] if isinstance(bucket[1], int) else 10**6,
+            bucket[0],
+        ),
+    )
+    bucket_to_layer_id = {
+        bucket: layer_id
+        for layer_id, bucket in enumerate(ordered_buckets)
+    }
+    last_layer_id = max(bucket_to_layer_id.values(), default=0)
+
+    grouped_parameters = {}
+    for name, parameter in named_parameters:
+        bucket = classify_layerwise_bucket(name)
+        layer_id = bucket_to_layer_id[bucket]
+        lr_scale = layerwise_lr_config["decay"] ** (last_layer_id - layer_id)
+        if layer_id not in grouped_parameters:
+            grouped_parameters[layer_id] = {
+                "params": [],
+                "lr": base_lr * lr_scale,
+                "weight_decay": weight_decay,
+                "lr_scale": lr_scale,
+            }
+        grouped_parameters[layer_id]["params"].append(parameter)
+
+    param_groups = [grouped_parameters[layer_id] for layer_id in sorted(grouped_parameters)]
+    layerwise_summary = [
+        {
+            "layer_id": layer_id,
+            "lr_scale": grouped_parameters[layer_id]["lr_scale"],
+            "lr": grouped_parameters[layer_id]["lr"],
+            "num_params": sum(parameter.numel() for parameter in grouped_parameters[layer_id]["params"]),
+        }
+        for layer_id in sorted(grouped_parameters)
+    ]
+    return param_groups, layerwise_summary
+
+
+def get_display_learning_rate(optimizer):
+    return max(group["lr"] for group in optimizer.param_groups)
+
+
 def build_training_state(config, device, num_classes, steps_per_epoch=None):
     dropout_rate = float(config.get("dropout_rate", 0.0))
     model = build_model(
@@ -280,17 +380,18 @@ def build_training_state(config, device, num_classes, steps_per_epoch=None):
     label_smoothing = float(config.get("label_smoothing", 0.0))
     criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
 
-    trainable_parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
+    optimizer_params, layerwise_lr_summary = build_optimizer_param_groups(model, config)
     weight_decay = float(config.get("weight_decay", 0.0))
-    optimizer = optim.AdamW(trainable_parameters, lr=config["learning_rate"], weight_decay=weight_decay)
+    optimizer = optim.AdamW(optimizer_params, lr=config["learning_rate"], weight_decay=weight_decay)
 
     scheduler_type = config.get("scheduler", "cosine")
     warmup_epochs = int(config.get("warmup_epochs", 0))
 
     if scheduler_type == "onecycle" and steps_per_epoch:
+        max_lrs = [group["lr"] for group in optimizer.param_groups]
         scheduler = OneCycleLR(
             optimizer,
-            max_lr=config["learning_rate"],
+            max_lr=max_lrs if len(max_lrs) > 1 else max_lrs[0],
             epochs=config["epochs"],
             steps_per_epoch=steps_per_epoch,
             pct_start=0.1,
@@ -323,10 +424,23 @@ def build_training_state(config, device, num_classes, steps_per_epoch=None):
             mix_transforms.append(transforms_v2.CutMix(alpha=cutmix_alpha, num_classes=num_classes))
         mixup_cutmix = transforms_v2.RandomChoice(mix_transforms)
 
-    return model, criterion, optimizer, scheduler, scheduler_step_per_batch, scaler, amp_enabled, val_interval, early_stopping_patience, mixup_cutmix
+    return (
+        model,
+        criterion,
+        optimizer,
+        scheduler,
+        scheduler_step_per_batch,
+        scaler,
+        amp_enabled,
+        val_interval,
+        early_stopping_patience,
+        mixup_cutmix,
+        layerwise_lr_summary,
+    )
 
 
 def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
+    layerwise_lr_config = get_layerwise_lr_config(config)
     return {
         "model": config["model"],
         "pretrained": config["pretrained"],
@@ -334,6 +448,8 @@ def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top
         "batch_size": config["batch_size"],
         "epochs": config["epochs"],
         "learning_rate": config["learning_rate"],
+        "layerwise_lr_enabled": layerwise_lr_config["enabled"],
+        "layerwise_lr_decay": layerwise_lr_config["decay"] if layerwise_lr_config["enabled"] else "",
         "val_split": config["val_split"],
         "num_workers": config["num_workers"],
         "max_samples": config.get("max_samples", ""),
@@ -348,7 +464,7 @@ def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top
     }
 
 
-def write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval):
+def write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval, layerwise_lr_summary=None):
     log_file.write(f"Device: {device}\n")
     log_file.write(f"Num classes: {num_classes}\n")
     log_file.write(f"Model: {config['model']}\n\n")
@@ -358,12 +474,26 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.write(f"Freeze Backbone: {config.get('freeze_backbone', False)}\n")
     log_file.write(f"Validation Interval: {val_interval}\n")
     log_file.write(f"Weight Decay: {config.get('weight_decay', 0.0)}\n")
+    layerwise_lr_config = get_layerwise_lr_config(config)
+    log_file.write(f"Layerwise LR Enabled: {layerwise_lr_config['enabled']}\n")
+    if layerwise_lr_config["enabled"]:
+        log_file.write(f"Layerwise LR Decay: {layerwise_lr_config['decay']}\n")
+        if layerwise_lr_summary:
+            group_description = ", ".join(
+                f"group{group['layer_id']} lr={group['lr']:.2e} scale={group['lr_scale']:.4f}"
+                for group in layerwise_lr_summary
+            )
+            log_file.write(f"Layerwise LR Groups: {group_description}\n")
     log_file.write(f"Label Smoothing: {config.get('label_smoothing', 0.0)}\n")
     log_file.write(f"Dropout Rate: {config.get('dropout_rate', 0.0)}\n")
     log_file.write(f"Early Stopping Patience: {config.get('early_stopping_patience', 0)}\n")
     scheduler_type = config.get("scheduler", "cosine")
     if scheduler_type == "onecycle":
-        log_file.write(f"Scheduler: OneCycleLR (max_lr={config['learning_rate']}, pct_start=0.1)\n")
+        if layerwise_lr_summary:
+            max_lr_text = ", ".join(f"{group['lr']:.2e}" for group in layerwise_lr_summary)
+            log_file.write(f"Scheduler: OneCycleLR (max_lr=[{max_lr_text}], pct_start=0.1)\n")
+        else:
+            log_file.write(f"Scheduler: OneCycleLR (max_lr={config['learning_rate']}, pct_start=0.1)\n")
     else:
         log_file.write(f"Scheduler: CosineAnnealingLR (T_max={config['epochs']}, eta_min=1e-6)\n")
     if scheduler_type != "onecycle":
@@ -432,6 +562,7 @@ def run_training_loop(
     val_interval,
     early_stopping_patience,
     mixup_cutmix,
+    layerwise_lr_summary,
     checkpoints_dir,
     log_path,
     num_classes,
@@ -457,10 +588,10 @@ def run_training_loop(
     global_step = 0
 
     with open(log_path, "w") as log_file:
-        write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval)
+        write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval, layerwise_lr_summary)
 
         for epoch in range(start_epoch, config["epochs"]):
-            current_lr = optimizer.param_groups[0]["lr"]
+            current_lr = get_display_learning_rate(optimizer)
             print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
 
             train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
@@ -521,7 +652,7 @@ def run_training_loop(
                 writer.add_scalar("epoch/val_loss", val_loss, epoch + 1)
                 writer.add_scalar("epoch/val_top1", val_top1, epoch + 1)
                 writer.add_scalar("epoch/val_top5", val_top5, epoch + 1)
-                writer.add_scalar("epoch/lr", optimizer.param_groups[0]["lr"], epoch + 1)
+                writer.add_scalar("epoch/lr", get_display_learning_rate(optimizer), epoch + 1)
                 writer.add_scalar("epoch/train_time_sec", train_time, epoch + 1)
                 writer.add_scalar("epoch/val_time_sec", val_time, epoch + 1)
                 writer.flush()
@@ -609,7 +740,19 @@ def main():
     print(f"Train batches: {len(train_loader)}")
     print(f"Val batches: {len(val_loader)}")
 
-    model, criterion, optimizer, scheduler, scheduler_step_per_batch, scaler, amp_enabled, val_interval, early_stopping_patience, mixup_cutmix = build_training_state(
+    (
+        model,
+        criterion,
+        optimizer,
+        scheduler,
+        scheduler_step_per_batch,
+        scaler,
+        amp_enabled,
+        val_interval,
+        early_stopping_patience,
+        mixup_cutmix,
+        layerwise_lr_summary,
+    ) = build_training_state(
         config=config,
         device=device,
         num_classes=len(class_names),
@@ -645,6 +788,7 @@ def main():
         val_interval=val_interval,
         early_stopping_patience=early_stopping_patience,
         mixup_cutmix=mixup_cutmix,
+        layerwise_lr_summary=layerwise_lr_summary,
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),

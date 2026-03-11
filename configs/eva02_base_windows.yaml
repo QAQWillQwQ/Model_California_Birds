@@ -36,6 +36,11 @@ cutmix_alpha: 1.0
 scheduler: cosine
 warmup_epochs: 3
 
+# optional layer-wise lr decay for transformer fine-tuning
+layerwise_lr:
+  enabled: false
+  decay: 0.75
+
 # early stopping
 early_stopping_patience: 10
 

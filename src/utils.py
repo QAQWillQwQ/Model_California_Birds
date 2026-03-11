@@ -12,6 +12,13 @@ def load_config(config_path):
     if "learning_rate" in config:
         config["learning_rate"] = float(config["learning_rate"])
 
+    layerwise_lr = config.get("layerwise_lr")
+    if isinstance(layerwise_lr, dict):
+        layerwise_lr["enabled"] = bool(layerwise_lr.get("enabled", False))
+        if "decay" in layerwise_lr:
+            layerwise_lr["decay"] = float(layerwise_lr["decay"])
+        config["layerwise_lr"] = layerwise_lr
+
     return config
 
 
