@@ -1,10 +1,8 @@
 import csv
 import os
 import signal
-import shutil
 import sys
 import time
-import uuid
 from datetime import datetime
 
 import torch
@@ -36,7 +34,6 @@ class Tee:
 
 RUN_CONTEXT = {
     "config": None,
-    "archive_started": False,
     "termination_requested": False,
 }
 
@@ -241,58 +238,23 @@ def clear_logs_dir(logs_dir):
             os.remove(entry_path)
 
 
-def archive_output_dir(output_dir):
-    output_dir = os.path.abspath(output_dir)
-    parent_dir = os.path.dirname(output_dir)
-    unique_id = f"{datetime.now().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
-    archive_dir = os.path.join(parent_dir, f"output_{unique_id}")
-    shutil.copytree(output_dir, archive_dir)
-    return archive_dir
-
-
-def archive_outputs_if_enabled(config):
-    if not config or not config.get("archive_outputs", True):
-        return None
-
-    output_dir = config["output_dir"]
-    if not os.path.isdir(output_dir):
-        return None
-
-    print(f"Starting archive of outputs from: {output_dir}")
-    return archive_output_dir(output_dir)
-
-
 def handle_termination_signal(signum, _frame):
     signal_name = signal.Signals(signum).name
 
     if RUN_CONTEXT["termination_requested"]:
-        print(f"Termination already in progress after {signal_name}; waiting for archive to finish.")
+        print(f"Termination already in progress after {signal_name}; shutting down.")
         return
 
     RUN_CONTEXT["termination_requested"] = True
     signal.signal(signal.SIGINT, signal.SIG_IGN)
     signal.signal(signal.SIGTERM, signal.SIG_IGN)
 
-    print(f"\nReceived {signal_name}. Archiving outputs before shutdown...")
-
-    config = RUN_CONTEXT["config"]
-    archive_dir = None
-    if not RUN_CONTEXT["archive_started"]:
-        RUN_CONTEXT["archive_started"] = True
-        try:
-            archive_dir = archive_outputs_if_enabled(config)
-        except Exception as exc:
-            print(f"Failed to archive outputs during shutdown: {exc}")
-
-    if archive_dir:
-        print(f"Archived outputs to: {archive_dir}")
-
+    print(f"\nReceived {signal_name}. Stopping training without creating an archive copy.")
     raise KeyboardInterrupt
 
 
 def register_termination_handlers(config):
     RUN_CONTEXT["config"] = config
-    RUN_CONTEXT["archive_started"] = False
     RUN_CONTEXT["termination_requested"] = False
     signal.signal(signal.SIGINT, handle_termination_signal)
     signal.signal(signal.SIGTERM, handle_termination_signal)
@@ -699,11 +661,6 @@ def main():
     )
 
     print(f"Experiment result appended to: {csv_path}")
-
-    if config.get("archive_outputs", True):
-        RUN_CONTEXT["archive_started"] = True
-        archive_dir = archive_output_dir(config["output_dir"])
-        print(f"Archived outputs to: {archive_dir}")
 
     if writer is not None:
         writer.close()
