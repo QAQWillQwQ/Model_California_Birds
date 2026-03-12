@@ -8,7 +8,7 @@ image_size: 448
 batch_size: 4
 
 epochs: 60
-learning_rate: 1.5e-05
+learning_rate: 2.0e-05
 
 val_split: 0.15
 num_workers: 2
@@ -22,9 +22,9 @@ cudnn_benchmark: true
 float32_matmul_precision: high
 clear_logs_before_run: false
 
-weight_decay: 0.03
+weight_decay: 0.05
 label_smoothing: 0.1
-dropout_rate: 0.2
+dropout_rate: 0.1
 mixup_alpha: 0.1
 cutmix_alpha: 0.5
 
@@ -33,7 +33,7 @@ warmup_epochs: 2
 min_lr: 1.0e-06
 
 early_stopping_patience: 6
-log_interval: 50
+log_interval: 10
 
 output_dir: C:/Users/wangyiding/ML_Model_CaliforniaBirds/outputs
 
