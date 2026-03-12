@@ -28,17 +28,21 @@ def build_transforms(
         data_config = resolve_model_data_config(timm_model)
         del timm_model
 
+        train_data_config = dict(data_config)
+        train_data_config["input_size"] = (3, image_size, image_size)
+
+        val_data_config = dict(data_config)
+        val_data_config["input_size"] = (3, image_size, image_size)
+
         train_transform = create_transform(
-            **data_config,
-            input_size=(3, image_size, image_size),
+            **train_data_config,
             is_training=True,
             color_jitter=0.3,
             re_prob=0.15,
         )
 
         val_transform = create_transform(
-            **data_config,
-            input_size=(3, image_size, image_size),
+            **val_data_config,
             is_training=False,
         )
 
