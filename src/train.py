@@ -1,51 +1,26 @@
 import csv
 import os
-import re
-import signal
+import shutil
 import sys
-import time
-from datetime import datetime
+from typing import Optional
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, OneCycleLR, SequentialLR
-try:
-    from torch.utils.tensorboard import SummaryWriter
-except ImportError:
-    SummaryWriter = None
+from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, SequentialLR
 from torchvision.transforms import v2 as transforms_v2
 
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
-from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint, save_full_checkpoint, load_full_checkpoint
-
-
-class Tee:
-    def __init__(self, stream, log_file):
-        self.stream = stream
-        self.log_file = log_file
-    def write(self, data):
-        self.stream.write(data)
-        self.log_file.write(data)
-        self.log_file.flush()
-    def flush(self):
-        self.stream.flush()
-
-
-RUN_CONTEXT = {
-    "config": None,
-    "termination_requested": False,
-}
-
-
-LAYERWISE_PATTERNS = (
-    ("encoder_layer", re.compile(r"encoder\.layers\.encoder_layer_(\d+)")),
-    ("blocks", re.compile(r"blocks\.(\d+)")),
-    ("stages", re.compile(r"stages\.(\d+)")),
-    ("layers", re.compile(r"layers\.(\d+)")),
-    ("features", re.compile(r"features\.(\d+)")),
-    ("resnet_layer", re.compile(r"layer(\d+)")),
+from utils import (
+    load_config,
+    set_seed,
+    get_device,
+    ensure_dir,
+    save_checkpoint,
+    save_full_checkpoint,
+    load_full_checkpoint,
+    load_checkpoint,
 )
 
 
@@ -63,24 +38,72 @@ def compute_topk_correct(outputs, labels, topk=(1, 5)):
     return results
 
 
-class _nullcontext:
-    def __enter__(self):
+def build_mixup_cutmix(num_classes, config):
+    mixup_alpha = float(config.get("mixup_alpha", 0.0))
+    cutmix_alpha = float(config.get("cutmix_alpha", 0.0))
+
+    if mixup_alpha <= 0 and cutmix_alpha <= 0:
         return None
-    def __exit__(self, *args):
-        return False
+
+    transforms_list = []
+
+    if mixup_alpha > 0:
+        transforms_list.append(
+            transforms_v2.MixUp(num_classes=num_classes, alpha=mixup_alpha)
+        )
+
+    if cutmix_alpha > 0:
+        transforms_list.append(
+            transforms_v2.CutMix(num_classes=num_classes, alpha=cutmix_alpha)
+        )
+
+    if len(transforms_list) == 1:
+        return transforms_list[0]
+
+    return transforms_v2.RandomChoice(transforms_list)
 
 
-def autocast_context(device, enabled):
-    if not enabled or device.type not in ("cuda", "cpu"):
-        return _nullcontext()
+def build_scheduler(optimizer, config):
+    scheduler_name = str(config.get("scheduler", "cosine")).lower()
+    total_epochs = int(config["epochs"])
+    warmup_epochs = int(config.get("warmup_epochs", 0))
+    min_lr = float(config.get("min_lr", 1e-6))
 
-    if device.type == "cuda":
-        return torch.autocast(device_type="cuda", dtype=torch.float16)
+    if scheduler_name != "cosine":
+        return None
 
-    if device.type == "cpu":
-        return torch.autocast(device_type="cpu", dtype=torch.bfloat16)
+    if warmup_epochs > 0 and warmup_epochs < total_epochs:
+        warmup_scheduler = LinearLR(
+            optimizer,
+            start_factor=0.1,
+            total_iters=warmup_epochs,
+        )
+        cosine_scheduler = CosineAnnealingLR(
+            optimizer,
+            T_max=total_epochs - warmup_epochs,
+            eta_min=min_lr,
+        )
+        return SequentialLR(
+            optimizer,
+            schedulers=[warmup_scheduler, cosine_scheduler],
+            milestones=[warmup_epochs],
+        )
 
-    return _nullcontext()
+    return CosineAnnealingLR(
+        optimizer,
+        T_max=total_epochs,
+        eta_min=min_lr,
+    )
+
+
+def append_experiment_result(csv_path, row_dict):
+    file_exists = os.path.exists(csv_path)
+
+    with open(csv_path, "a", newline="", encoding="utf-8") as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=list(row_dict.keys()))
+        if not file_exists:
+            writer.writeheader()
+        writer.writerow(row_dict)
 
 
 def train_one_epoch(
@@ -91,11 +114,8 @@ def train_one_epoch(
     device,
     scaler,
     amp_enabled,
-    log_interval=20,
+    log_interval=50,
     mixup_cutmix=None,
-    scheduler=None,
-    writer=None,
-    global_step_start=0,
 ):
     model.train()
 
@@ -103,32 +123,29 @@ def train_one_epoch(
     top1_correct = 0.0
     top5_correct = 0.0
     total = 0
-    epoch_start_time = time.perf_counter()
 
     for batch_idx, (images, labels) in enumerate(loader, start=1):
         images = images.to(device, non_blocking=device.type == "cuda")
         labels = labels.to(device, non_blocking=device.type == "cuda")
 
         labels_for_acc = labels
+
         if mixup_cutmix is not None:
             images, labels = mixup_cutmix(images, labels)
 
         optimizer.zero_grad(set_to_none=True)
 
-        with autocast_context(device, amp_enabled):
+        with torch.autocast(device_type="cuda", dtype=torch.float16, enabled=amp_enabled):
             outputs = model(images)
             loss = criterion(outputs, labels)
 
-        if scaler.is_enabled():
+        if amp_enabled:
             scaler.scale(loss).backward()
             scaler.step(optimizer)
             scaler.update()
         else:
             loss.backward()
             optimizer.step()
-
-        if scheduler is not None:
-            scheduler.step()
 
         batch_size = labels_for_acc.size(0)
         running_loss += loss.item() * batch_size
@@ -142,42 +159,38 @@ def train_one_epoch(
             avg_loss = running_loss / total
             avg_top1 = top1_correct / total
             avg_top5 = top5_correct / total
-            global_step = global_step_start + batch_idx
             print(
                 f"  Train Batch [{batch_idx}/{len(loader)}] | "
                 f"Loss: {avg_loss:.4f} | Top1: {avg_top1:.4f} | Top5: {avg_top5:.4f}"
             )
-            if writer is not None:
-                writer.add_scalar("train/batch_loss", avg_loss, global_step)
-                writer.add_scalar("train/batch_top1", avg_top1, global_step)
-                writer.add_scalar("train/batch_top5", avg_top5, global_step)
-                writer.add_scalar("train/lr", get_display_learning_rate(optimizer), global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
     epoch_top5 = top5_correct / total
-    epoch_time = time.perf_counter() - epoch_start_time
-    print(f"  Train Epoch Time: {epoch_time:.3f}s")
-    return epoch_loss, epoch_top1, epoch_top5, epoch_time, global_step_start + len(loader)
+    return epoch_loss, epoch_top1, epoch_top5
 
 
 @torch.no_grad()
-def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20, writer=None, global_step=None):
+def validate_one_epoch(
+    model,
+    loader,
+    criterion,
+    device,
+    log_interval=50,
+):
     model.eval()
 
     running_loss = 0.0
     top1_correct = 0.0
     top5_correct = 0.0
     total = 0
-    epoch_start_time = time.perf_counter()
 
     for batch_idx, (images, labels) in enumerate(loader, start=1):
         images = images.to(device, non_blocking=device.type == "cuda")
         labels = labels.to(device, non_blocking=device.type == "cuda")
 
-        with autocast_context(device, amp_enabled):
-            outputs = model(images)
-            loss = criterion(outputs, labels)
+        outputs = model(images)
+        loss = criterion(outputs, labels)
 
         batch_size = labels.size(0)
         running_loss += loss.item() * batch_size
@@ -195,406 +208,143 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
                 f"  Val Batch [{batch_idx}/{len(loader)}] | "
                 f"Loss: {avg_loss:.4f} | Top1: {avg_top1:.4f} | Top5: {avg_top5:.4f}"
             )
-            if writer is not None and global_step is not None:
-                writer.add_scalar("val/batch_loss", avg_loss, global_step)
-                writer.add_scalar("val/batch_top1", avg_top1, global_step)
-                writer.add_scalar("val/batch_top5", avg_top5, global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
     epoch_top5 = top5_correct / total
-    epoch_time = time.perf_counter() - epoch_start_time
-    print(f"  Val Epoch Time: {epoch_time:.3f}s")
-    return epoch_loss, epoch_top1, epoch_top5, epoch_time
+    return epoch_loss, epoch_top1, epoch_top5
 
 
-def append_experiment_result(csv_path, row_dict):
-    file_exists = os.path.exists(csv_path)
-
-    with open(csv_path, "a", newline="") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=list(row_dict.keys()))
-        if not file_exists:
-            writer.writeheader()
-        writer.writerow(row_dict)
-
-
-def parse_args():
+def main():
     if len(sys.argv) != 2:
         print("Usage: python src/train.py <config_path>")
         sys.exit(1)
 
-    return sys.argv[1]
+    config_path = sys.argv[1]
+    config = load_config(config_path)
 
+    set_seed(int(config["seed"]))
+    device = get_device()
 
-def prepare_output_dirs(output_dir):
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    run_dir = os.path.join(output_dir, f"output_{timestamp}")
-    checkpoints_dir = os.path.join(run_dir, "checkpoints")
-    logs_dir = os.path.join(run_dir, "logs")
+    if device.type == "cuda" and bool(config.get("cudnn_benchmark", False)):
+        torch.backends.cudnn.benchmark = True
 
-    ensure_dir(run_dir)
+    matmul_precision = str(config.get("float32_matmul_precision", "")).lower()
+    if hasattr(torch, "set_float32_matmul_precision") and matmul_precision in {"high", "medium"}:
+        torch.set_float32_matmul_precision(matmul_precision)
+
+    output_dir = config["output_dir"]
+    checkpoints_dir = os.path.join(output_dir, "checkpoints")
+    logs_dir = os.path.join(output_dir, "logs")
+
+    ensure_dir(output_dir)
     ensure_dir(checkpoints_dir)
     ensure_dir(logs_dir)
-    print(f"Output directory: {run_dir}")
-    return run_dir, checkpoints_dir, logs_dir
 
+    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.txt')
+    csv_path = os.path.join(logs_dir, "experiment_results.csv")
 
-def clear_logs_dir(logs_dir):
-    if not os.path.isdir(logs_dir):
-        return
+    if bool(config.get("clear_logs_before_run", False)) and not config.get("resume_from"):
+        if os.path.exists(log_path):
+            os.remove(log_path)
 
-    for entry in os.listdir(logs_dir):
-        entry_path = os.path.join(logs_dir, entry)
-        if os.path.isfile(entry_path):
-            os.remove(entry_path)
-
-
-def handle_termination_signal(signum, _frame):
-    signal_name = signal.Signals(signum).name
-
-    if RUN_CONTEXT["termination_requested"]:
-        print(f"Termination already in progress after {signal_name}; shutting down.")
-        return
-
-    RUN_CONTEXT["termination_requested"] = True
-    signal.signal(signal.SIGINT, signal.SIG_IGN)
-    signal.signal(signal.SIGTERM, signal.SIG_IGN)
-
-    print(f"\nReceived {signal_name}. Stopping training without creating an archive copy.")
-    raise KeyboardInterrupt
-
-
-def register_termination_handlers(config):
-    RUN_CONTEXT["config"] = config
-    RUN_CONTEXT["termination_requested"] = False
-    signal.signal(signal.SIGINT, handle_termination_signal)
-    signal.signal(signal.SIGTERM, handle_termination_signal)
-
-
-def get_layerwise_lr_config(config):
-    layerwise_lr = config.get("layerwise_lr") or {}
-    enabled = bool(layerwise_lr.get("enabled", False))
-    decay = float(layerwise_lr.get("decay", 1.0))
-
-    if enabled and not (0.0 < decay <= 1.0):
-        raise ValueError("layerwise_lr.decay must be in the range (0, 1].")
-
-    return {
-        "enabled": enabled,
-        "decay": decay,
-    }
-
-
-def classify_layerwise_bucket(parameter_name):
-    clean_name = parameter_name.removeprefix("_orig_mod.")
-
-    if clean_name.startswith(("head", "heads", "classifier", "fc")):
-        return ("head", "head")
-
-    if clean_name.startswith(("conv_proj", "class_token", "pos_embed", "patch_embed", "stem", "bn1", "conv1")):
-        return ("stem", 0)
-
-    for prefix, pattern in LAYERWISE_PATTERNS:
-        match = pattern.search(clean_name)
-        if match:
-            return (prefix, int(match.group(1)))
-
-    return ("stem", 0)
-
-
-def build_optimizer_param_groups(model, config):
-    base_lr = float(config["learning_rate"])
-    weight_decay = float(config.get("weight_decay", 0.0))
-    layerwise_lr_config = get_layerwise_lr_config(config)
-    named_parameters = [
-        (name, parameter)
-        for name, parameter in model.named_parameters()
-        if parameter.requires_grad
-    ]
-
-    if not layerwise_lr_config["enabled"]:
-        return [parameter for _, parameter in named_parameters], None
-
-    ordered_buckets = sorted(
-        {classify_layerwise_bucket(name) for name, _ in named_parameters},
-        key=lambda bucket: (
-            1 if bucket[0] == "head" else 0,
-            bucket[1] if isinstance(bucket[1], int) else 10**6,
-            bucket[0],
-        ),
+    train_loader, val_loader, class_names = build_dataloaders(
+        data_root=config["data_root"],
+        model_name=config["model"],
+        pretrained=bool(config.get("pretrained", True)),
+        batch_size=int(config["batch_size"]),
+        image_size=int(config["image_size"]),
+        val_split=float(config["val_split"]),
+        num_workers=int(config["num_workers"]),
+        max_samples=config.get("max_samples", None),
+        seed=int(config["seed"]),
+        prefetch_factor=int(config.get("prefetch_factor", 2)),
     )
-    bucket_to_layer_id = {
-        bucket: layer_id
-        for layer_id, bucket in enumerate(ordered_buckets)
-    }
-    last_layer_id = max(bucket_to_layer_id.values(), default=0)
 
-    grouped_parameters = {}
-    for name, parameter in named_parameters:
-        bucket = classify_layerwise_bucket(name)
-        layer_id = bucket_to_layer_id[bucket]
-        lr_scale = layerwise_lr_config["decay"] ** (last_layer_id - layer_id)
-        if layer_id not in grouped_parameters:
-            grouped_parameters[layer_id] = {
-                "params": [],
-                "lr": base_lr * lr_scale,
-                "weight_decay": weight_decay,
-                "lr_scale": lr_scale,
-            }
-        grouped_parameters[layer_id]["params"].append(parameter)
-
-    param_groups = [grouped_parameters[layer_id] for layer_id in sorted(grouped_parameters)]
-    layerwise_summary = [
-        {
-            "layer_id": layer_id,
-            "lr_scale": grouped_parameters[layer_id]["lr_scale"],
-            "lr": grouped_parameters[layer_id]["lr"],
-            "num_params": sum(parameter.numel() for parameter in grouped_parameters[layer_id]["params"]),
-        }
-        for layer_id in sorted(grouped_parameters)
-    ]
-    return param_groups, layerwise_summary
-
-
-def get_display_learning_rate(optimizer):
-    return max(group["lr"] for group in optimizer.param_groups)
-
-
-def build_training_state(config, device, num_classes, steps_per_epoch=None):
-    dropout_rate = float(config.get("dropout_rate", 0.0))
     model = build_model(
         model_name=config["model"],
-        num_classes=num_classes,
-        pretrained=config["pretrained"],
-        dropout_rate=dropout_rate,
+        num_classes=len(class_names),
+        pretrained=bool(config.get("pretrained", True)),
+        dropout_rate=float(config.get("dropout_rate", 0.0)),
     ).to(device)
 
-    freeze_backbone_enabled = config.get("freeze_backbone", False)
-    if freeze_backbone_enabled:
+    if bool(config.get("freeze_backbone", False)):
         freeze_backbone(config["model"], model)
 
-    compile_enabled = bool(config.get("compile_model", False))
-    if compile_enabled and hasattr(torch, "compile"):
+    if bool(config.get("compile_model", False)) and hasattr(torch, "compile") and device.type == "cuda":
         model = torch.compile(model)
 
     label_smoothing = float(config.get("label_smoothing", 0.0))
     criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
 
-    optimizer_params, layerwise_lr_summary = build_optimizer_param_groups(model, config)
-    weight_decay = float(config.get("weight_decay", 0.0))
-    optimizer = optim.AdamW(optimizer_params, lr=config["learning_rate"], weight_decay=weight_decay)
-
-    scheduler_type = config.get("scheduler", "cosine")
-    warmup_epochs = int(config.get("warmup_epochs", 0))
-
-    if scheduler_type == "onecycle" and steps_per_epoch:
-        max_lrs = [group["lr"] for group in optimizer.param_groups]
-        scheduler = OneCycleLR(
-            optimizer,
-            max_lr=max_lrs if len(max_lrs) > 1 else max_lrs[0],
-            epochs=config["epochs"],
-            steps_per_epoch=steps_per_epoch,
-            pct_start=0.1,
-            anneal_strategy="cos",
-        )
-        scheduler_step_per_batch = True
-    elif warmup_epochs > 0:
-        warmup_scheduler = LinearLR(optimizer, start_factor=0.01, total_iters=warmup_epochs)
-        cosine_scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"] - warmup_epochs, eta_min=1e-6)
-        scheduler = SequentialLR(optimizer, schedulers=[warmup_scheduler, cosine_scheduler], milestones=[warmup_epochs])
-        scheduler_step_per_batch = False
-    else:
-        scheduler = CosineAnnealingLR(optimizer, T_max=config["epochs"], eta_min=1e-6)
-        scheduler_step_per_batch = False
-
-    amp_enabled = bool(config.get("use_amp", False) and device.type == "cuda")
-    scaler = torch.amp.GradScaler("cuda", enabled=amp_enabled)
-    val_interval = max(1, int(config.get("val_interval", 1)))
-
-    early_stopping_patience = int(config.get("early_stopping_patience", 0))
-
-    mixup_alpha = float(config.get("mixup_alpha", 0.0))
-    cutmix_alpha = float(config.get("cutmix_alpha", 0.0))
-    mixup_cutmix = None
-    if mixup_alpha > 0 or cutmix_alpha > 0:
-        mix_transforms = []
-        if mixup_alpha > 0:
-            mix_transforms.append(transforms_v2.MixUp(alpha=mixup_alpha, num_classes=num_classes))
-        if cutmix_alpha > 0:
-            mix_transforms.append(transforms_v2.CutMix(alpha=cutmix_alpha, num_classes=num_classes))
-        mixup_cutmix = transforms_v2.RandomChoice(mix_transforms)
-
-    return (
-        model,
-        criterion,
-        optimizer,
-        scheduler,
-        scheduler_step_per_batch,
-        scaler,
-        amp_enabled,
-        val_interval,
-        early_stopping_patience,
-        mixup_cutmix,
-        layerwise_lr_summary,
+    trainable_parameters = [p for p in model.parameters() if p.requires_grad]
+    optimizer = optim.AdamW(
+        trainable_parameters,
+        lr=float(config["learning_rate"]),
+        weight_decay=float(config.get("weight_decay", 0.0)),
     )
 
+    scheduler = build_scheduler(optimizer, config)
 
-def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
-    layerwise_lr_config = get_layerwise_lr_config(config)
-    return {
-        "model": config["model"],
-        "pretrained": config["pretrained"],
-        "image_size": config["image_size"],
-        "batch_size": config["batch_size"],
-        "epochs": config["epochs"],
-        "learning_rate": config["learning_rate"],
-        "layerwise_lr_enabled": layerwise_lr_config["enabled"],
-        "layerwise_lr_decay": layerwise_lr_config["decay"] if layerwise_lr_config["enabled"] else "",
-        "val_split": config["val_split"],
-        "num_workers": config["num_workers"],
-        "max_samples": config.get("max_samples", ""),
-        "best_epoch": best_epoch,
-        "best_val_top1": round(best_val_top1, 6),
-        "best_val_top5": round(best_val_top5, 6),
-        "last_train_top1": round(last_metrics["train_top1"], 6),
-        "last_train_top5": round(last_metrics["train_top5"], 6),
-        "last_val_top1": round(last_metrics["val_top1"], 6),
-        "last_val_top5": round(last_metrics["val_top5"], 6),
-        "device": str(device),
-    }
+    amp_enabled = bool(config.get("use_amp", False) and device.type == "cuda")
+    scaler = torch.cuda.amp.GradScaler(enabled=amp_enabled)
 
+    mixup_cutmix = build_mixup_cutmix(len(class_names), config)
 
-def write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval, layerwise_lr_summary=None):
-    log_file.write(f"Device: {device}\n")
-    log_file.write(f"Num classes: {num_classes}\n")
-    log_file.write(f"Model: {config['model']}\n\n")
-    log_file.write(f"AMP Enabled: {amp_enabled}\n")
-    log_file.write(f"Compile Enabled: {config.get('compile_model', False)}\n")
-    log_file.write(f"CUDNN Benchmark: {config.get('cudnn_benchmark', False)}\n")
-    log_file.write(f"Freeze Backbone: {config.get('freeze_backbone', False)}\n")
-    log_file.write(f"Validation Interval: {val_interval}\n")
-    log_file.write(f"Weight Decay: {config.get('weight_decay', 0.0)}\n")
-    layerwise_lr_config = get_layerwise_lr_config(config)
-    log_file.write(f"Layerwise LR Enabled: {layerwise_lr_config['enabled']}\n")
-    if layerwise_lr_config["enabled"]:
-        log_file.write(f"Layerwise LR Decay: {layerwise_lr_config['decay']}\n")
-        if layerwise_lr_summary:
-            group_description = ", ".join(
-                f"group{group['layer_id']} lr={group['lr']:.2e} scale={group['lr_scale']:.4f}"
-                for group in layerwise_lr_summary
+    start_epoch = 0
+    best_val_top1 = 0.0
+    best_val_top5 = 0.0
+
+    resume_from = config.get("resume_from", None)
+    if resume_from:
+        if not os.path.exists(resume_from):
+            raise FileNotFoundError(f"resume_from path not found: {resume_from}")
+
+        if resume_from.endswith("_full.pth"):
+            model, optimizer, scheduler, start_epoch, best_val_top1, best_val_top5 = load_full_checkpoint(
+                model=model,
+                optimizer=optimizer,
+                scheduler=scheduler,
+                path=resume_from,
+                device=device,
             )
-            log_file.write(f"Layerwise LR Groups: {group_description}\n")
-    log_file.write(f"Label Smoothing: {config.get('label_smoothing', 0.0)}\n")
-    log_file.write(f"Dropout Rate: {config.get('dropout_rate', 0.0)}\n")
-    log_file.write(f"Early Stopping Patience: {config.get('early_stopping_patience', 0)}\n")
-    scheduler_type = config.get("scheduler", "cosine")
-    if scheduler_type == "onecycle":
-        if layerwise_lr_summary:
-            max_lr_text = ", ".join(f"{group['lr']:.2e}" for group in layerwise_lr_summary)
-            log_file.write(f"Scheduler: OneCycleLR (max_lr=[{max_lr_text}], pct_start=0.1)\n")
+            print(f"Resumed full checkpoint from: {resume_from}")
+            print(f"Start epoch      : {start_epoch}")
+            print(f"Best Val Top1    : {best_val_top1:.4f}")
+            print(f"Best Val Top5    : {best_val_top5:.4f}")
         else:
-            log_file.write(f"Scheduler: OneCycleLR (max_lr={config['learning_rate']}, pct_start=0.1)\n")
-    else:
-        log_file.write(f"Scheduler: CosineAnnealingLR (T_max={config['epochs']}, eta_min=1e-6)\n")
-    if scheduler_type != "onecycle":
-        log_file.write(f"Warmup Epochs: {config.get('warmup_epochs', 0)}\n")
-    log_file.write(f"Mixup Alpha: {config.get('mixup_alpha', 0.0)}\n")
-    log_file.write(f"CutMix Alpha: {config.get('cutmix_alpha', 0.0)}\n")
-    if config.get("resume_from"):
-        log_file.write(f"Resume From: {config['resume_from']}\n")
-    log_file.write("\n")
-    log_file.flush()
+            model = load_checkpoint(model, resume_from, device)
+            print(f"Loaded model-only checkpoint from: {resume_from}")
 
+    print(f"Using device      : {device}")
+    print(f"Model             : {config['model']}")
+    print(f"Image size        : {config['image_size']}")
+    print(f"Batch size        : {config['batch_size']}")
+    print(f"Train batches     : {len(train_loader)}")
+    print(f"Val batches       : {len(val_loader)}")
+    print(f"Num classes       : {len(class_names)}")
+    print(f"AMP enabled       : {amp_enabled}")
+    print(f"Resume from       : {resume_from if resume_from else 'None'}")
 
-def create_tensorboard_writer(config, run_dir):
-    tensorboard_enabled = bool(config.get("use_tensorboard", True))
+    best_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_best.pth')
+    best_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_best_full.pth')
+    last_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
+    last_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_last_full.pth')
 
-    if not tensorboard_enabled:
-        return None
+    val_interval = max(1, int(config.get("val_interval", 1)))
+    patience = int(config.get("early_stopping_patience", 0))
+    no_improve_count = 0
 
-    if SummaryWriter is None:
-        print("TensorBoard logging requested but tensorboard is not installed. Install with: pip install tensorboard")
-        return None
+    with open(log_path, "a", encoding="utf-8") as log_file:
+        log_file.write(f"Device: {device}\n")
+        log_file.write(f"Num classes: {len(class_names)}\n")
+        log_file.write(f"Model: {config['model']}\n")
+        log_file.write(f"Resume from: {resume_from}\n\n")
 
-    tensorboard_dir = os.path.join(run_dir, "tensorboard")
-    ensure_dir(tensorboard_dir)
-    print(f"TensorBoard log directory: {tensorboard_dir}")
-    print(f"Launch with: tensorboard --logdir {tensorboard_dir}")
-    return SummaryWriter(log_dir=tensorboard_dir)
+        for epoch in range(start_epoch, int(config["epochs"])):
+            print(f"\n===== Epoch {epoch + 1}/{config['epochs']} =====")
 
-
-def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval, writer=None, global_step=None):
-    should_validate = ((epoch + 1) % val_interval == 0) or ((epoch + 1) == total_epochs)
-
-    if should_validate:
-        val_loss, val_top1, val_top5, val_time = validate_one_epoch(
-            model=model,
-            loader=val_loader,
-            criterion=criterion,
-            device=device,
-            amp_enabled=amp_enabled,
-            log_interval=log_interval,
-            writer=writer,
-            global_step=global_step,
-        )
-    else:
-        val_loss = float("nan")
-        val_top1 = float("nan")
-        val_top5 = float("nan")
-        val_time = 0.0
-        print(f"  Skipping validation on epoch {epoch + 1}; val_interval={val_interval}")
-
-    return should_validate, val_loss, val_top1, val_top5, val_time
-
-
-def run_training_loop(
-    config,
-    model,
-    train_loader,
-    val_loader,
-    criterion,
-    optimizer,
-    scheduler,
-    scheduler_step_per_batch,
-    device,
-    scaler,
-    amp_enabled,
-    val_interval,
-    early_stopping_patience,
-    mixup_cutmix,
-    layerwise_lr_summary,
-    checkpoints_dir,
-    log_path,
-    num_classes,
-    writer=None,
-    start_epoch=0,
-    resume_best_val_top1=0.0,
-    resume_best_val_top5=0.0,
-):
-    best_val_top1 = resume_best_val_top1
-    best_val_top5 = resume_best_val_top5
-    best_epoch = start_epoch if resume_best_val_top1 > 0 else 0
-    epochs_without_improvement = 0
-    total_training_time = 0.0
-    total_validation_time = 0.0
-    loop_start_time = time.perf_counter()
-    last_metrics = {
-        "train_top1": 0.0,
-        "train_top5": 0.0,
-        "val_top1": 0.0,
-        "val_top5": 0.0,
-    }
-    log_interval = config.get("log_interval", 20)
-    global_step = 0
-
-    with open(log_path, "w") as log_file:
-        write_log_header(log_file, device, num_classes, config, amp_enabled, val_interval, layerwise_lr_summary)
-
-        for epoch in range(start_epoch, config["epochs"]):
-            current_lr = get_display_learning_rate(optimizer)
-            print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
-
-            train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
+            train_loss, train_top1, train_top5 = train_one_epoch(
                 model=model,
                 loader=train_loader,
                 criterion=criterion,
@@ -602,217 +352,98 @@ def run_training_loop(
                 device=device,
                 scaler=scaler,
                 amp_enabled=amp_enabled,
-                log_interval=log_interval,
+                log_interval=int(config.get("log_interval", 50)),
                 mixup_cutmix=mixup_cutmix,
-                scheduler=scheduler if scheduler_step_per_batch else None,
-                writer=writer,
-                global_step_start=global_step,
             )
-            total_training_time += train_time
 
-            if not scheduler_step_per_batch:
+            if (epoch + 1) % val_interval == 0:
+                val_loss, val_top1, val_top5 = validate_one_epoch(
+                    model=model,
+                    loader=val_loader,
+                    criterion=criterion,
+                    device=device,
+                    log_interval=int(config.get("log_interval", 50)),
+                )
+            else:
+                val_loss, val_top1, val_top5 = 0.0, 0.0, 0.0
+
+            if scheduler is not None:
                 scheduler.step()
 
-            should_validate, val_loss, val_top1, val_top5, val_time = run_validation(
-                epoch=epoch,
-                total_epochs=config["epochs"],
-                val_interval=val_interval,
-                model=model,
-                val_loader=val_loader,
-                criterion=criterion,
-                device=device,
-                amp_enabled=amp_enabled,
-                log_interval=log_interval,
-                writer=writer,
-                global_step=global_step,
-            )
-            total_validation_time += val_time
-
-            last_metrics["train_top1"] = train_top1
-            last_metrics["train_top5"] = train_top5
-            last_metrics["val_top1"] = val_top1
-            last_metrics["val_top5"] = val_top5
-
-            epoch_total_time = train_time + val_time
             line = (
                 f"Epoch [{epoch + 1}/{config['epochs']}] | "
                 f"Train Loss: {train_loss:.4f} | Train Top1: {train_top1:.4f} | Train Top5: {train_top5:.4f} | "
-                f"Val Loss: {val_loss:.4f} | Val Top1: {val_top1:.4f} | Val Top5: {val_top5:.4f} | "
-                f"LR: {current_lr:.2e} | "
-                f"Train Time: {train_time:.3f}s | Val Time: {val_time:.3f}s | Epoch Time: {epoch_total_time:.3f}s"
+                f"Val Loss: {val_loss:.4f} | Val Top1: {val_top1:.4f} | Val Top5: {val_top5:.4f}"
             )
-
             print(line)
             log_file.write(line + "\n")
             log_file.flush()
-            if writer is not None:
-                writer.add_scalar("epoch/train_loss", train_loss, epoch + 1)
-                writer.add_scalar("epoch/train_top1", train_top1, epoch + 1)
-                writer.add_scalar("epoch/train_top5", train_top5, epoch + 1)
-                writer.add_scalar("epoch/val_loss", val_loss, epoch + 1)
-                writer.add_scalar("epoch/val_top1", val_top1, epoch + 1)
-                writer.add_scalar("epoch/val_top5", val_top5, epoch + 1)
-                writer.add_scalar("epoch/lr", get_display_learning_rate(optimizer), epoch + 1)
-                writer.add_scalar("epoch/train_time_sec", train_time, epoch + 1)
-                writer.add_scalar("epoch/val_time_sec", val_time, epoch + 1)
-                writer.flush()
 
-            if should_validate and val_top1 > best_val_top1:
+            improved = val_top1 > best_val_top1
+            if improved:
                 best_val_top1 = val_top1
                 best_val_top5 = val_top5
-                best_epoch = epoch + 1
-                epochs_without_improvement = 0
+                no_improve_count = 0
 
-                best_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_best.pth')
                 save_checkpoint(model, best_model_path)
-                best_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_best_full.pth')
-                save_full_checkpoint(model, optimizer, scheduler, epoch, best_val_top1, best_val_top5, best_full_path)
-                print(f"Saved best checkpoint to: {best_model_path}")
-            elif should_validate:
-                epochs_without_improvement += 1
+                save_full_checkpoint(
+                    model=model,
+                    optimizer=optimizer,
+                    scheduler=scheduler,
+                    epoch=epoch,
+                    best_val_top1=best_val_top1,
+                    best_val_top5=best_val_top5,
+                    path=best_full_path,
+                )
+            else:
+                no_improve_count += 1
 
-            if early_stopping_patience > 0 and epochs_without_improvement >= early_stopping_patience:
-                stop_msg = f"Early stopping triggered after {epochs_without_improvement} epochs without improvement."
-                print(stop_msg)
-                log_file.write(stop_msg + "\n")
-                log_file.flush()
+            save_checkpoint(model, last_model_path)
+            save_full_checkpoint(
+                model=model,
+                optimizer=optimizer,
+                scheduler=scheduler,
+                epoch=epoch,
+                best_val_top1=best_val_top1,
+                best_val_top5=best_val_top5,
+                path=last_full_path,
+            )
+
+            if patience > 0 and no_improve_count >= patience:
+                print(f"Early stopping triggered. No improvement for {patience} validation checks.")
                 break
 
-        final_model_path = os.path.join(checkpoints_dir, f'{config["model"]}_last.pth')
-        save_checkpoint(model, final_model_path)
-        final_full_path = os.path.join(checkpoints_dir, f'{config["model"]}_last_full.pth')
-        save_full_checkpoint(model, optimizer, scheduler, epoch, best_val_top1, best_val_top5, final_full_path)
-        print(f"Saved last checkpoint to: {final_model_path}")
-
-        total_loop_time = time.perf_counter() - loop_start_time
         summary_line = (
-            f"\nBest Epoch: {best_epoch} | Best Val Top1: {best_val_top1:.4f} | Best Val Top5: {best_val_top5:.4f}\n"
-            f"Total Train Time: {total_training_time:.3f}s | Total Val Time: {total_validation_time:.3f}s | "
-            f"Total Runtime: {total_loop_time:.3f}s\n"
+            f"\nBest Val Top1: {best_val_top1:.4f} | "
+            f"Best Val Top5: {best_val_top5:.4f}\n"
         )
         print(summary_line)
         log_file.write(summary_line)
-        log_file.flush()
 
-    return best_epoch, best_val_top1, best_val_top5, last_metrics
-
-
-def main():
-
-    # basic initialize
-    config_path = parse_args()
-    config = load_config(config_path)
-    register_termination_handlers(config)
-
-    set_seed(config["seed"])
-    device = get_device()
-    print(f"Using device: {device}")
-
-    if device.type == "cuda":
-        torch.backends.cudnn.benchmark = bool(config.get("cudnn_benchmark", True))
-        if hasattr(torch, "set_float32_matmul_precision"):
-            torch.set_float32_matmul_precision(config.get("float32_matmul_precision", "high"))
-
-    run_dir, checkpoints_dir, logs_dir = prepare_output_dirs(config["output_dir"])
-    if config.get("clear_logs_before_run", True):
-        clear_logs_dir(logs_dir)
-
-    debug_log_file = open(os.path.join(logs_dir, "debug.log"), "w", encoding="utf-8")
-    sys.stdout = Tee(sys.stdout, debug_log_file)
-    sys.stderr = Tee(sys.stderr, debug_log_file)
-    writer = create_tensorboard_writer(config, run_dir)
-
-    # training initialize
-    train_loader, val_loader, class_names = build_dataloaders(
-        data_root=config["data_root"],
-        model_name=config["model"],
-        pretrained=config["pretrained"],
-        batch_size=config["batch_size"],
-        image_size=config["image_size"],
-        val_split=config["val_split"],
-        num_workers=config["num_workers"],
-        max_samples=config.get("max_samples", None),
-        seed=config["seed"],
-        prefetch_factor=config.get("prefetch_factor", 2),
-    )
-
-    print(f"Number of classes: {len(class_names)}")
-    print(f"Train batches: {len(train_loader)}")
-    print(f"Val batches: {len(val_loader)}")
-
-    (
-        model,
-        criterion,
-        optimizer,
-        scheduler,
-        scheduler_step_per_batch,
-        scaler,
-        amp_enabled,
-        val_interval,
-        early_stopping_patience,
-        mixup_cutmix,
-        layerwise_lr_summary,
-    ) = build_training_state(
-        config=config,
-        device=device,
-        num_classes=len(class_names),
-        steps_per_epoch=len(train_loader),
-    )
-
-    # resume from checkpoint if configured
-    start_epoch = 0
-    resume_best_val_top1 = 0.0
-    resume_best_val_top5 = 0.0
-    resume_from = config.get("resume_from", None)
-    if resume_from:
-        print(f"Resuming from checkpoint: {resume_from}")
-        model, optimizer, scheduler, start_epoch, resume_best_val_top1, resume_best_val_top5 = load_full_checkpoint(
-            model, optimizer, scheduler, resume_from, device,
-        )
-        print(f"Resumed at epoch {start_epoch}, best val top1: {resume_best_val_top1:.4f}")
-
-    # run training loops
-    log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.log')
-    best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
-        config=config,
-        model=model,
-        train_loader=train_loader,
-        val_loader=val_loader,
-        criterion=criterion,
-        optimizer=optimizer,
-        scheduler=scheduler,
-        scheduler_step_per_batch=scheduler_step_per_batch,
-        device=device,
-        scaler=scaler,
-        amp_enabled=amp_enabled,
-        val_interval=val_interval,
-        early_stopping_patience=early_stopping_patience,
-        mixup_cutmix=mixup_cutmix,
-        layerwise_lr_summary=layerwise_lr_summary,
-        checkpoints_dir=checkpoints_dir,
-        log_path=log_path,
-        num_classes=len(class_names),
-        start_epoch=start_epoch,
-        resume_best_val_top1=resume_best_val_top1,
-        resume_best_val_top5=resume_best_val_top5,
-        writer=writer,
-    )
-
-    csv_path = os.path.join(logs_dir, "experiment_results.csv")
     append_experiment_result(
         csv_path,
-        build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics),
+        {
+            "model": config["model"],
+            "image_size": int(config["image_size"]),
+            "batch_size": int(config["batch_size"]),
+            "epochs": int(config["epochs"]),
+            "learning_rate": float(config["learning_rate"]),
+            "weight_decay": float(config.get("weight_decay", 0.0)),
+            "label_smoothing": float(config.get("label_smoothing", 0.0)),
+            "dropout_rate": float(config.get("dropout_rate", 0.0)),
+            "mixup_alpha": float(config.get("mixup_alpha", 0.0)),
+            "cutmix_alpha": float(config.get("cutmix_alpha", 0.0)),
+            "scheduler": str(config.get("scheduler", "none")),
+            "warmup_epochs": int(config.get("warmup_epochs", 0)),
+            "resume_from": resume_from if resume_from else "",
+            "best_val_top1": round(best_val_top1, 6),
+            "best_val_top5": round(best_val_top5, 6),
+            "device": str(device),
+        },
     )
 
-    print(f"Experiment result appended to: {csv_path}")
-
-    if writer is not None:
-        writer.close()
+    print(f"Experiment result saved to: {csv_path}")
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("Training interrupted. Shutdown completed after archive handling.")
-        sys.exit(130)
+    main()

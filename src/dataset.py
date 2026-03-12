@@ -8,13 +8,41 @@ from torchvision import datasets, transforms
 
 from models import get_model_weights
 
+try:
+    import timm
+    from timm.data import resolve_model_data_config, create_transform
+    HAS_TIMM_DATA = True
+except ImportError:
+    HAS_TIMM_DATA = False
 
 def build_transforms(
     model_name: str,
     pretrained: bool = True,
     image_size: int = 224,
 ) -> Tuple[transforms.Compose, transforms.Compose]:
+    model_name = model_name.lower()
     weights = get_model_weights(model_name, pretrained)
+
+    if HAS_TIMM_DATA and model_name not in {"resnet50", "efficientnet_b0", "vit_base"}:
+        timm_model = timm.create_model(model_name, pretrained=pretrained, num_classes=0)
+        data_config = resolve_model_data_config(timm_model)
+        del timm_model
+
+        train_transform = create_transform(
+            **data_config,
+            input_size=(3, image_size, image_size),
+            is_training=True,
+            color_jitter=0.3,
+            re_prob=0.15,
+        )
+
+        val_transform = create_transform(
+            **data_config,
+            input_size=(3, image_size, image_size),
+            is_training=False,
+        )
+
+        return train_transform, val_transform
 
     if weights is None and not pretrained:
         train_transform = transforms.Compose([
@@ -27,7 +55,8 @@ def build_transforms(
         ])
 
         val_transform = transforms.Compose([
-            transforms.Resize((image_size, image_size)),
+            transforms.Resize(int(image_size * 1.14)),
+            transforms.CenterCrop(image_size),
             transforms.ToTensor(),
         ])
         return train_transform, val_transform
@@ -49,7 +78,8 @@ def build_transforms(
     ])
 
     val_transform = transforms.Compose([
-        transforms.Resize((image_size, image_size)),
+        transforms.Resize(int(image_size * 1.14)),
+        transforms.CenterCrop(image_size),
         transforms.ToTensor(),
         normalize,
     ])

@@ -1,0 +1,40 @@
+seed: 42
+
+model: eva02_base_patch14_448.mim_in22k_ft_in1k
+pretrained: true
+
+data_root: C:/Users/wangyiding/ML_Model_CaliforniaBirds/data
+image_size: 448
+batch_size: 4
+
+epochs: 60
+learning_rate: 1.5e-05
+
+val_split: 0.15
+num_workers: 2
+prefetch_factor: 2
+
+use_amp: true
+freeze_backbone: false
+val_interval: 1
+compile_model: false
+cudnn_benchmark: true
+float32_matmul_precision: high
+clear_logs_before_run: false
+
+weight_decay: 0.03
+label_smoothing: 0.1
+dropout_rate: 0.2
+mixup_alpha: 0.1
+cutmix_alpha: 0.5
+
+scheduler: cosine
+warmup_epochs: 2
+min_lr: 1.0e-06
+
+early_stopping_patience: 6
+log_interval: 50
+
+output_dir: C:/Users/wangyiding/ML_Model_CaliforniaBirds/outputs
+
+resume_from: C:/Users/wangyiding/ML_Model_CaliforniaBirds/outputs/checkpoints/JiHang_EVA_CheckPoints_20260309_233227/eva02_base_patch14_448.mim_in22k_ft_in1k_best_full.pth

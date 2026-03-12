@@ -3,16 +3,16 @@ seed: 42
 model: eva02_base_patch14_448.mim_in22k_ft_in1k
 pretrained: true
 
-data_root: /kaggle/input/southern-california-birds/data
-
+data_root: /root/.cache/kagglehub/datasets/anamethatiscreative/southern-california-birds/versions/5/data
+#data_root: /kaggle/input/southern-california-birds/data
 image_size: 448
-batch_size: 96
+batch_size: 32
 
-epochs: 60
+epochs: 400
 learning_rate: 2.0e-05
 
 val_split: 0.15
-num_workers: 4
+num_workers: 8
 use_amp: true
 freeze_backbone: false
 val_interval: 1
@@ -32,13 +32,13 @@ scheduler: cosine
 warmup_epochs: 2
 
 layerwise_lr:
-  enabled: false
+  enabled: true
   decay: 0.75
 
-early_stopping_patience: 10
+early_stopping_patience: 50
 
 log_interval: 50
 
 output_dir: /content/drive/MyDrive/ML_outputs
 
-# resume_from: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_233227/checkpoints/eva02_base_patch14_448.mim_in22k_ft_in1k_best_full.pth
+# resume_from: /content/drive/MyDrive/ML_outputs/output_20260311_213152/checkpoints/eva02_base_patch14_448.mim_in22k_ft_in1k_best_full.pth
