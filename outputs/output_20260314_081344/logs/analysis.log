@@ -1,0 +1,100 @@
+=== Monitor Check: 2026-03-14 08:20:00 === (Poll 1 - First Epoch Complete)
+
+Run: Phase 3b - ConvNeXt V2 Base, 448px, Batch 8
+Resumed from: Phase 2e best (epoch 19, 91.75% val top-1)
+Config: LR 1e-5 max, cosine + 2-epoch warmup, early stopping patience 7
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 0.9580    | 57.87%      | 1.2347   | 90.75%    | 98.50%    | 1.00e-07 |
+
+LOSS ANALYSIS:
+- Only 1 epoch completed so far, trend analysis not yet possible.
+- Val loss: 1.2347 (single data point, baseline for this phase).
+- Train-val gap: train_loss (0.9580) < val_loss (1.2347). Train loss is lower, but this is misleading
+  because MixUp/CutMix creates soft targets that inflate train loss. The raw train top-1 of 57.87%
+  vs val top-1 of 90.75% shows MixUp is heavily regularizing training. No overfitting concern.
+- LR is at warmup start (1e-7), so the model is barely learning. Val accuracy dip from 91.75% to
+  90.75% is expected -- the resumed model needs to re-adapt, and LR is near zero.
+- Confusion sampler active: boosting 35 confused classes with 2x sampling.
+
+TIMING:
+- Epoch time: 275.680s (4m 35.7s)
+- Remaining epochs: 10 (epochs 21-30)
+- ETA: ~2,757s = ~46 minutes
+- Next poll: ~276s (1 epoch)
+
+STATUS:
+- Best val top-1: 90.75% at epoch 20 (but 91.75% from Phase 2e is the true baseline)
+- Trend: WARMING UP -- LR is at 1e-7, model cannot learn yet. This is expected.
+- Loss health: Cannot assess with 1 data point. Will evaluate after 3+ epochs.
+- Target: Beat 91.75% from Phase 2e
+
+=== Monitor Check: 2026-03-14 08:40:00 === (FINAL - Run CANCELLED by user)
+
+Run: Phase 3b - ConvNeXt V2 Base, 448px, Batch 8
+Status: CANCELLED (SIGINT received during epoch 24, batch 180/650)
+Completed epochs: 4 of 11 planned (epochs 20-23)
+Total wall time: ~17 minutes (08:13 to ~08:30)
+
+FULL METRICS TABLE:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 0.9580    | 57.87%      | 1.2347   | 90.75%    | 98.50%    | 1.00e-07 |
+| 21    | 0.9169    | 59.59%      | 1.2551   | 90.50%    | 98.62%    | 5.05e-06 |
+| 22    | 0.8929    | 60.01%      | 1.2634   | 90.25%    | 98.38%    | 1.00e-05 |
+| 23    | 0.8777    | 59.72%      | 1.3000   | 89.62%    | 98.50%    | 9.73e-06 |
+
+LOSS ANALYSIS:
+- Val loss trend: INCREASING across all 4 epochs (1.2347 -> 1.2551 -> 1.2634 -> 1.3000).
+  This is 4 consecutive increases, meeting the WARNING threshold for overfitting.
+  However, the LR schedule context is critical: epochs 20-21 were warmup (LR 1e-7 to 5e-6),
+  epoch 22 hit peak LR (1e-5), and epoch 23 began cosine decay (9.73e-6). Loss instability
+  around peak LR is common and not necessarily overfitting.
+- Val accuracy trend: DECLINING (90.75% -> 90.50% -> 90.25% -> 89.62%). The model has not
+  improved beyond its Phase 2e baseline of 91.75% at any point in this phase.
+- Train loss trend: DECREASING (0.9580 -> 0.8777). The model is learning on the training set.
+- Train-val loss gap: Not directly comparable due to MixUp/CutMix inflating train loss.
+  However, val loss is consistently higher than train loss and the gap is widening
+  (0.2767 at epoch 20 -> 0.4223 at epoch 23), suggesting the model is moving toward
+  the training distribution at the expense of generalization.
+- Best val loss in this phase: 1.2347 (epoch 20). Current: 1.3000 (5.3% above best).
+  Below the 10% alarm threshold but trending the wrong direction.
+- Val loss vs val accuracy: Both declining together, so calibration is maintained (no divergence).
+- Confusion sampler: 35 -> 33 -> 34 -> 34 confused classes. No meaningful improvement
+  in resolving confused class pairs over these 4 epochs.
+
+LR SCHEDULE CORRELATION:
+- Epoch 20 (LR 1e-7): Warmup start. Val acc 90.75%. Model barely updating.
+- Epoch 21 (LR 5e-6): Mid-warmup. Val acc dipped slightly to 90.50%.
+- Epoch 22 (LR 1e-5): Peak LR reached. Val acc dropped to 90.25%. Model being perturbed.
+- Epoch 23 (LR 9.7e-6): Early cosine decay. Val acc dropped further to 89.62%.
+  The cosine decay has barely started. If left to run, LR would decay to 1e-6 by epoch 30.
+  There was still time for the model to potentially recover, but the trajectory was not promising.
+
+CANCELLATION ANALYSIS:
+The run was likely cancelled because:
+1. Val accuracy was 2.13% below the Phase 2e baseline (89.62% vs 91.75%) after 4 epochs
+2. Val loss increased monotonically across all 4 completed epochs
+3. The training modifications (attribute smoothing + confusion-adaptive sampling) did not
+   produce immediate gains. These techniques may need more careful tuning.
+
+RECOMMENDATIONS FOR NEXT PHASE:
+1. Lower max LR: 1e-5 may be too aggressive for fine-tuning an already-converged model.
+   Try 5e-6 or 3e-6 max LR.
+2. Skip warmup: When resuming at epoch 19, the model is already well-trained. A 2-epoch
+   warmup at near-zero LR wastes time and the subsequent LR jump destabilizes the model.
+   Use a flat or very gentle cosine decay starting from a lower LR.
+3. Evaluate attribute smoothing independently: The custom AttributeWeightedCrossEntropy
+   loss may be hurting rather than helping. Run a comparison with standard cross-entropy.
+4. Confusion sampler tuning: 2x boost for 34-35 classes is aggressive. Try lower boost
+   (1.5x) or fewer pairs (top-10 instead of top-20).
+5. Consider whether Phase 2e's 91.75% is already near the ceiling for this model/resolution
+   combination, and whether further gains require model architecture changes rather than
+   training procedure changes.
+
+ERRORS DETECTED:
+- Multiple SIGINT signals during epoch 24 (lines 153-164 in debug.log)
+- torch.load weights_only=False deprecation warning (non-critical)
+- scheduler.step() epoch parameter deprecation warning (non-critical)
+- No CUDA OOM or other critical errors

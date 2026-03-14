@@ -16,7 +16,7 @@ SUPPORTED_IMAGE_EXTENSIONS = {
     ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp", ".tif", ".tiff"
 }
 
-DEFAULT_INPUT_DIR = "/Users/wangyiding/ML_Model_CaliforniaBirds/Test_Input_Image"
+DEFAULT_INPUT_DIR = "Test_Input_Image"
 
 
 def print_separator():
@@ -127,7 +127,7 @@ def predict_images(config_path: str, input_path: str, top_k: int = 5):
 
     config, device, class_names, model = build_inference_model(config_path)
 
-    print_section_title("California Birds Prediction")
+    print_section_title("CUB-200-2011 Bird Prediction")
     print(f"Using device      : {device}")
     print(f"Config path       : {config_path}")
     print(f"Input path        : {input_path}")

@@ -3,7 +3,7 @@ seed: 42
 model: convnext_base.fb_in22k_ft_in1k
 pretrained: true
 
-data_root: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\data
+data_root: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/data/CUB_200_2011/images
 
 # Phase 2: higher resolution fine-tuning from v5 best checkpoint
 image_size: 448
@@ -39,8 +39,8 @@ warmup_epochs: 3
 early_stopping_patience: 10
 
 # resume from v5 best full checkpoint — UPDATE THIS PATH after v5 finishes
-# resume_from: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\outputs\output_XXXXXXXX_XXXXXX\checkpoints\convnext_base.fb_in22k_ft_in1k_best.pth
+# resume_from: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_XXXXXXXX_XXXXXX/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
 
 log_interval: 50
 
-output_dir: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\outputs
+output_dir: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs

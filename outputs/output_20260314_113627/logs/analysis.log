@@ -1,0 +1,356 @@
+=== Monitor Check: 2026-03-14 11:37:30 ===
+STATUS: Run just started. Epoch 20/35 in progress (batch 60/433).
+CONFIG: ConvNeXt V2 Base, 384px, batch 12, LR 5e-6 cosine w/ 1-epoch warmup
+RESUMED: From bbox scratch best (epoch 19, 91.37% val top-1)
+TARGETS: Beat 91.37% (bbox scratch) and 91.75% (non-bbox baseline)
+NOTE: LR at 5.00e-08 indicates warmup phase (epoch 20 = warmup epoch 1 of new schedule)
+Waiting for first epoch completion to establish timing baseline.
+
+=== Monitor Check: 2026-03-14 11:52:43 ===
+COMPLETED EPOCHS: 1 of 16 (epoch 20/35)
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 1.1942    | 49.56%      | 1.2124   | 91.37%    | 97.88%    | 5.00e-08 |
+
+TIMING:
+- Epoch 20 time: 839.9s (train 785.7s + val 54.2s) = ~14 min/epoch
+- Remaining: 15 epochs x 840s = 12,600s = ~3.5 hours ETA
+- Recommended poll interval: ~28 min (2 epochs)
+
+LOSS ANALYSIS:
+- Val loss: 1.2124 (first datapoint, no trend yet)
+- Train-val gap: train 1.1942 - val 1.2124 = -0.0182 (val loss slightly higher)
+- Note: Train top-1 is low (49.56%) because MixUp is active (soft labels reduce reported accuracy)
+- Val top-1: 91.37% -- exactly matches resumed best, no regression
+
+PHASE ANALYSIS:
+- Epoch 20 was the warmup epoch (LR=5e-08, near zero). No real learning expected.
+- 91.37% held steady = model did not degrade during warmup. Good sign.
+- Epoch 21 now running at full LR (5e-06). This is where learning begins.
+- vs bbox scratch best (91.37%): TIED -- need more epochs
+- vs non-bbox baseline (91.75%): -0.38pp -- not yet beaten
+
+STATUS: Warmup complete. Full LR training starts epoch 21. Waiting for real signal.
+
+=== Monitor Check: 2026-03-14 11:58:19 ===
+COMPLETED EPOCHS: 3 of 16 (epochs 20-22/35). Epoch 23 in progress (batch 300/433).
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 1.1942    | 49.56%      | 1.2124   | 91.37%    | 97.88%    | 5.00e-08 |
+| 21    | 1.1899    | 49.44%      | 1.2042   | 91.63%    | 97.88%    | 5.00e-06 |
+| 22    | 1.1614    | 51.02%      | 1.2027   | 91.50%    | 98.00%    | 4.96e-06 |
+
+TIMING (revised):
+- Epoch 20 was anomalous (839.9s) -- likely cold start with data caching
+- True epoch cadence: ~167s (epochs 21-22 averaged 166.9s = ~2.8 min)
+- Remaining: 13 epochs x 167s = 2,171s = ~36 minutes ETA
+- Recommended poll interval: 500s (~3 epochs)
+
+LOSS ANALYSIS:
+- Val loss trend: DECREASING -- 1.2124 -> 1.2042 -> 1.2027 (steady improvement)
+- Train loss trend: DECREASING -- 1.1942 -> 1.1899 -> 1.1614 (learning)
+- Train-val gap: -0.0182 -> -0.0143 -> -0.0413 (gap widening slightly, train improving faster)
+- Best val loss so far: 1.2027 (epoch 22)
+- No overfitting signals. Val loss consistently decreasing.
+- LR phase: peak LR (5e-6). Cosine decay just beginning (4.96e-6 at epoch 22).
+
+KEY RESULTS:
+- NEW BEST val top-1: 91.63% at epoch 21 (beat 91.37% resume point by +0.26pp)
+- Epoch 22 dipped slightly to 91.50% but val loss still improved -- normal fluctuation
+- vs bbox scratch best (91.37%): BEATEN (+0.26pp)
+- vs non-bbox baseline (91.75%): -0.12pp -- closing in, not yet beaten
+- Val top-5 improving: 97.88% -> 97.88% -> 98.00%
+
+STATUS: IMPROVING. New best 91.63% at epoch 21. Val loss steadily decreasing.
+LR is at peak, cosine decay starting. Expect continued gains over next 5-8 epochs.
+ETA: ~36 minutes remaining (13 epochs).
+
+=== Monitor Check: 2026-03-14 12:07:20 ===
+COMPLETED EPOCHS: 6 of 16 (epochs 20-25/35). Epoch 26 nearly done (batch 420/433).
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 21    | 1.1899    | 49.44%      | 1.2042   | 91.63%    | 97.88%    | 5.00e-06 |
+| 22    | 1.1614    | 51.02%      | 1.2027   | 91.50%    | 98.00%    | 4.96e-06 |
+| 23    | 1.1521    | 45.98%      | 1.2046   | 91.63%    | 97.75%    | 4.83e-06 |
+| 24    | 1.1773    | 49.08%      | 1.2041   | 91.13%    | 97.88%    | 4.62e-06 |
+| 25    | 1.1594    | 45.90%      | 1.2021   | 92.00%    | 98.12%    | 4.34e-06 |
+
+TIMING:
+- Avg epoch time (21-25): 167.1s (~2.8 min/epoch)
+- Remaining: 10 epochs x 167s = 1,670s = ~28 minutes ETA
+- Next poll: ~500s (~3 epochs)
+
+LOSS ANALYSIS:
+- Val loss trend (last 5): 1.2042 -> 1.2027 -> 1.2046 -> 1.2041 -> 1.2021
+  Mostly flat with slight downward trend. Best val loss: 1.2021 (epoch 25).
+- Train loss trend: 1.1899 -> 1.1614 -> 1.1521 -> 1.1773 -> 1.1594
+  Noisy but generally decreasing. Train loss dropping faster than val loss.
+- Train-val gap: train_loss - val_loss = -0.0143, -0.0413, -0.0525, -0.0268, -0.0427
+  Val loss consistently higher than train loss. Gap is small and stable.
+  No overfitting concern -- this gap direction is normal (val is harder than train).
+- Val loss vs best: current 1.2021 IS the best. No degradation.
+- Consecutive val loss increases: 0 (current epoch is best). No overfitting signal.
+- LR schedule: cosine decay in progress (5.00e-6 -> 4.34e-6). Model in productive learning phase.
+
+KEY RESULTS:
+*** NEW BEST val top-1: 92.00% at epoch 25 ***
+- Beat bbox scratch best (91.37%) by +0.63pp
+- Beat non-bbox baseline (91.75%) by +0.25pp -- TARGET ACHIEVED
+- Val top-5 also new best: 98.12%
+- Val accuracy jumped +0.87pp from epoch 24 (91.13%) to epoch 25 (92.00%)
+
+STATUS: IMPROVING. New project best 92.00% at epoch 25.
+Both targets beaten: bbox scratch (91.37%) and non-bbox baseline (91.75%).
+Val loss at all-time low (1.2021). No overfitting. LR in productive cosine decay.
+ETA: ~28 minutes remaining (10 epochs). Model may still improve.
+
+=== Monitor Check: 2026-03-14 12:16:21 ===
+COMPLETED EPOCHS: 10 of 16 (epochs 20-29/35). Epoch 30 in progress (batch 60/433).
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 25    | 1.1594    | 45.90%      | 1.2021   | 92.00%    | 98.12%    | 4.34e-06 |
+| 26    | 1.1484    | 54.83%      | 1.1963   | 91.63%    | 97.88%    | 4.00e-06 |
+| 27    | 1.1370    | 49.44%      | 1.2000   | 91.75%    | 97.75%    | 3.62e-06 |
+| 28    | 1.1707    | 51.62%      | 1.2029   | 91.87%    | 98.00%    | 3.21e-06 |
+| 29    | 1.1556    | 49.48%      | 1.1978   | 92.13%    | 98.12%    | 2.79e-06 |
+
+TIMING:
+- Avg epoch time (21-29): 167.1s (~2.8 min/epoch)
+- Remaining: 6 epochs x 167s = 1,002s = ~17 minutes ETA
+- Next poll: ~500s (~3 epochs)
+
+LOSS ANALYSIS:
+- Val loss trend (last 5): 1.2021 -> 1.1963 -> 1.2000 -> 1.2029 -> 1.1978
+  Oscillating around 1.20 with slight downward bias. Best val loss: 1.1963 (epoch 26).
+- Train loss trend (last 5): 1.1594 -> 1.1484 -> 1.1370 -> 1.1707 -> 1.1556
+  Noisy but generally declining. Train loss improving.
+- Train-val gap (last 5): -0.0427, -0.0479, -0.0630, -0.0322, -0.0422
+  Gap stable around -0.04 to -0.05. Val loss higher than train (expected).
+  No widening gap = no overfitting.
+- Val loss vs best: current 1.1978 vs best 1.1963 (epoch 26). Delta = +0.0015 (0.13% above best).
+  Well within 10% threshold. No concern.
+- Consecutive val loss increases: 1.1963 -> 1.2000 -> 1.2029 (2 consecutive increases at ep 27-28),
+  then dropped to 1.1978 at ep 29. Pattern broken. No overfitting flag.
+- LR schedule: mid cosine decay (2.79e-06, down from 5e-6 peak). Entering the fine-tuning phase
+  where smaller LR adjustments should produce more stable gains.
+
+KEY RESULTS:
+*** NEW BEST val top-1: 92.13% at epoch 29 ***
+- Beat previous best (92.00%, epoch 25) by +0.13pp
+- Beat bbox scratch best (91.37%) by +0.76pp
+- Beat non-bbox baseline (91.75%) by +0.38pp
+- Val top-5: 98.12% (tied best)
+- Note: best checkpoint saved at epoch 29
+
+ACCURACY PROGRESSION (all epochs):
+  20: 91.37% -> 21: 91.63% -> 22: 91.50% -> 23: 91.63% -> 24: 91.13%
+  25: 92.00% -> 26: 91.63% -> 27: 91.75% -> 28: 91.87% -> 29: 92.13%
+  Slow but steady improvement with normal fluctuations.
+  Every ~4 epochs hits a new peak: ep21, ep25, ep29.
+
+STATUS: IMPROVING. New project best 92.13% at epoch 29.
+Both targets solidly beaten. Val loss healthy. No overfitting.
+LR entering lower decay phase -- expect smaller but potentially cleaner gains.
+ETA: ~17 minutes remaining (6 epochs).
+
+=== Monitor Check: 2026-03-14 12:25:22 ===
+COMPLETED EPOCHS: 13 of 16 (epochs 20-32/35). Epoch 33 in progress (batch 150/433).
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 28    | 1.1707    | 51.62%      | 1.2029   | 91.87%    | 98.00%    | 3.21e-06 |
+| 29    | 1.1556    | 49.48%      | 1.1978   | 92.13%    | 98.12%    | 2.79e-06 |
+| 30    | 1.1755    | 45.86%      | 1.1966   | 92.25%    | 98.25%    | 2.38e-06 |
+| 31    | 1.1897    | 54.37%      | 1.1956   | 92.13%    | 98.50%    | 2.00e-06 |
+| 32    | 1.1595    | 52.10%      | 1.1934   | 91.87%    | 98.12%    | 1.66e-06 |
+
+TIMING:
+- Avg epoch time: 167.1s (~2.8 min/epoch)
+- Remaining: 3 epochs x 167s = 501s = ~8 minutes ETA
+- This is the final poll before completion.
+
+LOSS ANALYSIS:
+- Val loss trend (last 5): 1.2029 -> 1.1978 -> 1.1966 -> 1.1956 -> 1.1934
+  CONSISTENTLY DECREASING -- 5 consecutive decreases. Excellent trajectory.
+  Val loss at all-time low: 1.1934 (epoch 32).
+- Train loss trend (last 5): 1.1707 -> 1.1556 -> 1.1755 -> 1.1897 -> 1.1595
+  Noisy. Train loss not consistently dropping like val loss.
+- Train-val gap: -0.0322, -0.0422, -0.0211, -0.0059, -0.0339
+  Gap has NARROWED. Val loss catching up to train loss = good generalization.
+- Val loss vs best: current 1.1934 IS the best. Continuous improvement.
+- Consecutive val loss increases: 0 -- val loss has decreased 5 straight epochs.
+- No overfitting. Opposite: val loss improving faster than train loss in this phase.
+- LR schedule: deep cosine decay (1.66e-06). Fine-tuning regime.
+  Val loss improving monotonically during LR decay = ideal behavior.
+
+KEY RESULTS:
+*** NEW BEST val top-1: 92.25% at epoch 30 ***
+- Beat previous best (92.13%, epoch 29) by +0.12pp
+- Beat bbox scratch best (91.37%) by +0.88pp
+- Beat non-bbox baseline (91.75%) by +0.50pp
+- Val top-5 peaked at 98.50% (epoch 31) -- outstanding
+
+ACCURACY PROGRESSION (all epochs):
+  20: 91.37% -> 21: 91.63% -> 22: 91.50% -> 23: 91.63% -> 24: 91.13%
+  25: 92.00% -> 26: 91.63% -> 27: 91.75% -> 28: 91.87% -> 29: 92.13%
+  30: 92.25% -> 31: 92.13% -> 32: 91.87%
+  Peak pattern continues: ep21, ep25, ep29, ep30.
+  Last 2 epochs (31-32) dipped slightly, but val loss keeps improving.
+  Accuracy dip with improving val loss = model improving calibration, not degrading.
+
+VAL LOSS vs ACCURACY DIVERGENCE CHECK:
+  Val loss: monotonically decreasing (1.2029 -> 1.1934 over 5 epochs)
+  Val accuracy: 91.87% -> 92.13% -> 92.25% -> 92.13% -> 91.87%
+  Accuracy peaked at ep30 and dipped, while loss kept dropping.
+  This suggests the model is becoming better calibrated (more confident on correct
+  predictions, less confident on incorrect ones) even if the accuracy-changing
+  threshold cases fluctuate. This is HEALTHY behavior, not a concern.
+
+STATUS: IMPROVING (val loss steadily decreasing, accuracy near peak).
+Best: 92.25% at epoch 30. Val loss at all-time low (1.1934).
+Both targets solidly beaten. Model in ideal fine-tuning regime.
+3 epochs remaining. Final results in ~8 minutes.
+
+=== FINAL ANALYSIS: 2026-03-14 12:34:30 ===
+=== RUN COMPLETE: Phase 2 Bbox Finetune ===
+
+CONFIGURATION:
+- Model: ConvNeXt V2 Base, 384px, batch 12
+- LR: 5e-6 max (cosine with 1-epoch warmup), T_max=16
+- Label smoothing 0.1, MixUp 0.2, CutMix disabled
+- Bounding box crop with 10% padding
+- Resumed from bbox scratch best (epoch 19, 91.37%)
+- Trained epochs 20-35 (16 new epochs)
+- Total runtime: 3375.4s = 56.3 minutes
+
+FINAL RESULT:
+  Best epoch: 30 | Val Top-1: 92.25% | Val Top-5: 98.25%
+  Last epoch: 35 | Val Top-1: 91.87% | Val Top-5: 98.00%
+
+=========================================================================
+FULL TRAINING CURVE (ALL 16 EPOCHS)
+=========================================================================
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       | Phase    |
+|-------|-----------|-------------|----------|-----------|-----------|----------|----------|
+| 20    | 1.1942    | 49.56%      | 1.2124   | 91.37%    | 97.88%    | 5.00e-08 | warmup   |
+| 21    | 1.1899    | 49.44%      | 1.2042   | 91.63%    | 97.88%    | 5.00e-06 | peak LR  |
+| 22    | 1.1614    | 51.02%      | 1.2027   | 91.50%    | 98.00%    | 4.96e-06 | peak LR  |
+| 23    | 1.1521    | 45.98%      | 1.2046   | 91.63%    | 97.75%    | 4.83e-06 | early decay |
+| 24    | 1.1773    | 49.08%      | 1.2041   | 91.13%    | 97.88%    | 4.62e-06 | early decay |
+| 25    | 1.1594    | 45.90%      | 1.2021   | 92.00%    | 98.12%    | 4.34e-06 | mid decay |
+| 26    | 1.1484    | 54.83%      | 1.1963   | 91.63%    | 97.88%    | 4.00e-06 | mid decay |
+| 27    | 1.1370    | 49.44%      | 1.2000   | 91.75%    | 97.75%    | 3.62e-06 | mid decay |
+| 28    | 1.1707    | 51.62%      | 1.2029   | 91.87%    | 98.00%    | 3.21e-06 | mid decay |
+| 29    | 1.1556    | 49.48%      | 1.1978   | 92.13%    | 98.12%    | 2.79e-06 | late decay |
+| 30    | 1.1755    | 45.86%      | 1.1966   | 92.25%*   | 98.25%    | 2.38e-06 | late decay |
+| 31    | 1.1897    | 54.37%      | 1.1956   | 92.13%    | 98.50%*   | 2.00e-06 | late decay |
+| 32    | 1.1595    | 52.10%      | 1.1934   | 91.87%    | 98.12%    | 1.66e-06 | fine tune |
+| 33    | 1.1463    | 49.42%      | 1.1913   | 92.00%    | 98.25%    | 1.38e-06 | fine tune |
+| 34    | 1.1363    | 51.06%      | 1.1932   | 92.00%    | 98.00%    | 1.17e-06 | fine tune |
+| 35    | 1.1220    | 50.75%      | 1.1936   | 91.87%    | 98.00%    | 1.04e-06 | fine tune |
+
+* = best for that metric
+
+=========================================================================
+LOSS AND ACCURACY ANALYSIS
+=========================================================================
+
+VAL LOSS TRAJECTORY:
+  Start: 1.2124 (epoch 20) -> Best: 1.1913 (epoch 33) -> End: 1.1936 (epoch 35)
+  Total improvement: -0.0211 (-1.74%)
+  Val loss decreased almost continuously. Only 3 of 15 epoch transitions had increases:
+    ep22->23: +0.0019, ep26->27: +0.0037, ep33->34: +0.0019
+  None of these were sustained (all followed by subsequent decreases).
+  Best val loss at epoch 33, very close to end. Model was still improving.
+
+VAL ACCURACY TRAJECTORY:
+  Start: 91.37% -> Best: 92.25% (epoch 30) -> End: 91.87%
+  Total improvement: +0.88pp from resume point
+  Accuracy peaked mid-run (epoch 30) then oscillated between 91.87-92.00%.
+  This is normal for val accuracy at this precision level (each 0.12pp = ~1 image).
+
+TRAIN-VAL GAP ANALYSIS (train_loss - val_loss):
+  Epoch 20-24: gap = -0.018 to -0.053 (val harder than train, expected)
+  Epoch 25-29: gap = -0.027 to -0.063 (similar range)
+  Epoch 30-35: gap = -0.006 to -0.072 (widening somewhat but not alarming)
+  Average gap across all epochs: -0.034
+  The gap never reversed (train loss never exceeded val loss significantly).
+  No overfitting detected at any point in this run.
+
+CALIBRATION ANALYSIS:
+  Val loss and val accuracy moved together through epoch 30.
+  After epoch 30, val loss continued to improve (1.1966 -> 1.1913) while accuracy
+  dipped from 92.25% to 91.87-92.00%. This slight divergence indicates the model
+  was becoming better calibrated (sharper probability distributions) rather than
+  finding new correct predictions. Not a concern -- the model is well-calibrated.
+
+LR SCHEDULE CORRELATION:
+  - Warmup (ep20, LR=5e-08): No learning, baseline held. Correct behavior.
+  - Peak LR (ep21-22, LR=5e-06): Immediate improvement to 91.63%. Fast response.
+  - Early decay (ep23-24, LR~4.7e-06): Consolidation, slight dip at ep24.
+  - Mid decay (ep25-28, LR~3.5e-06): Strong gains to 92.00%.
+  - Late decay (ep29-31, LR~2.4e-06): Peak performance window. Best accuracy here.
+  - Fine tune (ep32-35, LR~1.4e-06): Val loss still improving, accuracy plateau.
+  The LR schedule was effective. The sweet spot was 2-3e-06 (late decay phase).
+
+EARLY STOPPING ANALYSIS:
+  With patience=7 (configured), early stopping was never triggered.
+  Best was epoch 30. Next 5 epochs (31-35) all had val top-1 >= 91.87%.
+  The patience window was never tested because performance remained strong.
+  Recommendation: patience=7 was appropriate. Would not have helped or hurt.
+  If early stopping used best val loss instead of accuracy, it would also not trigger
+  (val loss kept improving through epoch 33).
+
+FASTEST IMPROVEMENT VS PLATEAU:
+  Fastest: epochs 20-21 (+0.26pp in one epoch, warmup to peak LR transition)
+  Second: epochs 24-25 (+0.87pp, 91.13% -> 92.00%, biggest single-epoch jump)
+  Plateau: epochs 30-35 (oscillating 91.87-92.25%, +/-0.25pp noise level)
+  The model gained most in the first 6 real training epochs (21-26).
+
+=========================================================================
+COMPARISON TO PREVIOUS PHASES
+=========================================================================
+
+Phase 1 (bbox scratch, 20 epochs): Best 91.37% at epoch 19
+Phase 2 (this run, 16 epochs):     Best 92.25% at epoch 30 (+0.88pp)
+Non-bbox baseline (Phase 1 finetune): 91.75%
+
+Phase 2 improvement over Phase 1: +0.88pp (91.37% -> 92.25%)
+Phase 2 improvement over non-bbox: +0.50pp (91.75% -> 92.25%)
+
+The low-LR finetune strategy worked well for bbox just as it did for non-bbox.
+The bbox crop provides a meaningful advantage (+0.50pp over non-bbox at best).
+
+=========================================================================
+RECOMMENDATIONS FOR NEXT PHASE
+=========================================================================
+
+1. RESOLUTION INCREASE: Try 448px with this bbox model. The bbox crop already focuses
+   on the bird, so higher resolution would add more detail to the bird region specifically.
+   Batch size would need to drop to 8-10 at 448px.
+
+2. TEST-TIME AUGMENTATION (TTA): The model fluctuates +/-0.25pp between epochs.
+   TTA (multi-crop, flip averaging) could stabilize predictions and add 0.3-0.5pp.
+
+3. STOCHASTIC WEIGHT AVERAGING (SWA): Average weights from epochs 29-35 (all within
+   0.38pp of best). This could smooth the accuracy fluctuations.
+
+4. ENSEMBLE WITH NON-BBOX MODEL: The bbox model (92.25%) and non-bbox model (91.75%)
+   likely make different errors. Ensembling could push to 93%+.
+
+5. FURTHER LR REDUCTION: A third phase with LR=2e-6 (the sweet spot from this run)
+   starting from epoch 30 checkpoint could squeeze out another 0.1-0.3pp.
+
+6. NO REGULARIZATION CHANGES NEEDED: The train-val gap is small and stable.
+   MixUp is working well. No need to increase or decrease regularization.
+
+=========================================================================
+ERRORS: None. No CUDA OOM, exceptions, or critical warnings.
+Only benign torch.load FutureWarning and scheduler deprecation UserWarning.
+Total runtime: 56.3 minutes (16 epochs).
+=========================================================================

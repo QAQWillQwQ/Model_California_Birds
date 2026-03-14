@@ -1,0 +1,392 @@
+TensorBoard logging to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/logs/tensorboard
+Bbox crop enabled: 11788 images with bounding boxes, pad_fraction=0.1
+Official split: 5994 train images (out of 11796 total)
+Number of classes: 200
+Train batches: 433
+Val batches: 67
+Resuming from checkpoint: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_103651/checkpoints/convnextv2_base_best_full.pth
+/mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/src/utils.py:67: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state = torch.load(path, map_location=device)
+Resumed at epoch 19, best val top1: 0.9137
+Reset optimizer LR to config value: 5e-06
+Rebuilt scheduler: cosine, T_max=16, warmup=1
+
+===== Epoch 20/35 (LR: 5.00e-08) =====
+  Train Batch [30/433] | Loss: 1.2062 | Top1: 0.4389 | Top5: 0.6583
+  Train Batch [60/433] | Loss: 1.2837 | Top1: 0.4708 | Top5: 0.7306
+  Train Batch [90/433] | Loss: 1.2486 | Top1: 0.5241 | Top5: 0.7361
+  Train Batch [120/433] | Loss: 1.2425 | Top1: 0.5090 | Top5: 0.7271
+  Train Batch [150/433] | Loss: 1.2516 | Top1: 0.4950 | Top5: 0.7311
+  Train Batch [180/433] | Loss: 1.2496 | Top1: 0.5074 | Top5: 0.7394
+  Train Batch [210/433] | Loss: 1.2336 | Top1: 0.4893 | Top5: 0.7246
+  Train Batch [240/433] | Loss: 1.2122 | Top1: 0.4861 | Top5: 0.7153
+  Train Batch [270/433] | Loss: 1.2249 | Top1: 0.4824 | Top5: 0.7216
+  Train Batch [300/433] | Loss: 1.2174 | Top1: 0.4989 | Top5: 0.7283
+  Train Batch [330/433] | Loss: 1.2117 | Top1: 0.4955 | Top5: 0.7215
+  Train Batch [360/433] | Loss: 1.2042 | Top1: 0.4977 | Top5: 0.7183
+  Train Batch [390/433] | Loss: 1.1988 | Top1: 0.5062 | Top5: 0.7194
+  Train Batch [420/433] | Loss: 1.1938 | Top1: 0.4972 | Top5: 0.7052
+  Train Batch [433/433] | Loss: 1.1942 | Top1: 0.4956 | Top5: 0.7074
+  Train Epoch Time: 785.730s
+/home/jihangli/miniconda3/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+  Val Batch [30/67] | Loss: 1.1940 | Top1: 0.9111 | Top5: 0.9861
+  Val Batch [60/67] | Loss: 1.1858 | Top1: 0.9194 | Top5: 0.9806
+  Val Batch [67/67] | Loss: 1.2124 | Top1: 0.9137 | Top5: 0.9788
+  Val Epoch Time: 54.219s
+Epoch [20/35] | Train Loss: 1.1942 | Train Top1: 0.4956 | Train Top5: 0.7074 | Val Loss: 1.2124 | Val Top1: 0.9137 | Val Top5: 0.9788 | LR: 5.00e-08 | Train Time: 785.730s | Val Time: 54.219s | Epoch Time: 839.949s
+
+===== Epoch 21/35 (LR: 5.00e-06) =====
+  Train Batch [30/433] | Loss: 1.2182 | Top1: 0.4917 | Top5: 0.7278
+  Train Batch [60/433] | Loss: 1.2103 | Top1: 0.5222 | Top5: 0.7292
+  Train Batch [90/433] | Loss: 1.1777 | Top1: 0.5333 | Top5: 0.7065
+  Train Batch [120/433] | Loss: 1.1596 | Top1: 0.5035 | Top5: 0.6854
+  Train Batch [150/433] | Loss: 1.1603 | Top1: 0.5178 | Top5: 0.6817
+  Train Batch [180/433] | Loss: 1.1681 | Top1: 0.5250 | Top5: 0.7000
+  Train Batch [210/433] | Loss: 1.1735 | Top1: 0.5226 | Top5: 0.6948
+  Train Batch [240/433] | Loss: 1.1860 | Top1: 0.5222 | Top5: 0.7052
+  Train Batch [270/433] | Loss: 1.1790 | Top1: 0.5046 | Top5: 0.6923
+  Train Batch [300/433] | Loss: 1.1768 | Top1: 0.4906 | Top5: 0.6806
+  Train Batch [330/433] | Loss: 1.1864 | Top1: 0.4851 | Top5: 0.6864
+  Train Batch [360/433] | Loss: 1.1873 | Top1: 0.4801 | Top5: 0.6822
+  Train Batch [390/433] | Loss: 1.1860 | Top1: 0.4949 | Top5: 0.6936
+  Train Batch [420/433] | Loss: 1.1902 | Top1: 0.4982 | Top5: 0.6946
+  Train Batch [433/433] | Loss: 1.1899 | Top1: 0.4944 | Top5: 0.6910
+  Train Epoch Time: 161.670s
+  Val Batch [30/67] | Loss: 1.1893 | Top1: 0.9111 | Top5: 0.9889
+  Val Batch [60/67] | Loss: 1.1759 | Top1: 0.9222 | Top5: 0.9819
+  Val Batch [67/67] | Loss: 1.2042 | Top1: 0.9163 | Top5: 0.9788
+  Val Epoch Time: 5.583s
+Epoch [21/35] | Train Loss: 1.1899 | Train Top1: 0.4944 | Train Top5: 0.6910 | Val Loss: 1.2042 | Val Top1: 0.9163 | Val Top5: 0.9788 | LR: 5.00e-06 | Train Time: 161.670s | Val Time: 5.583s | Epoch Time: 167.253s
+Saved best checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/checkpoints/convnextv2_base_best.pth
+
+===== Epoch 22/35 (LR: 4.96e-06) =====
+  Train Batch [30/433] | Loss: 1.1914 | Top1: 0.5611 | Top5: 0.7056
+  Train Batch [60/433] | Loss: 1.1431 | Top1: 0.4778 | Top5: 0.6375
+  Train Batch [90/433] | Loss: 1.1871 | Top1: 0.4704 | Top5: 0.6806
+  Train Batch [120/433] | Loss: 1.1672 | Top1: 0.4778 | Top5: 0.6625
+  Train Batch [150/433] | Loss: 1.1639 | Top1: 0.4828 | Top5: 0.6733
+  Train Batch [180/433] | Loss: 1.1815 | Top1: 0.4824 | Top5: 0.6949
+  Train Batch [210/433] | Loss: 1.1714 | Top1: 0.4742 | Top5: 0.6861
+  Train Batch [240/433] | Loss: 1.1767 | Top1: 0.4813 | Top5: 0.6920
+  Train Batch [270/433] | Loss: 1.1710 | Top1: 0.4855 | Top5: 0.6932
+  Train Batch [300/433] | Loss: 1.1701 | Top1: 0.5011 | Top5: 0.6994
+  Train Batch [330/433] | Loss: 1.1663 | Top1: 0.5008 | Top5: 0.6970
+  Train Batch [360/433] | Loss: 1.1612 | Top1: 0.5100 | Top5: 0.7023
+  Train Batch [390/433] | Loss: 1.1615 | Top1: 0.5043 | Top5: 0.6953
+  Train Batch [420/433] | Loss: 1.1613 | Top1: 0.5089 | Top5: 0.7012
+  Train Batch [433/433] | Loss: 1.1614 | Top1: 0.5102 | Top5: 0.7000
+  Train Epoch Time: 160.996s
+  Val Batch [30/67] | Loss: 1.1869 | Top1: 0.9083 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1740 | Top1: 0.9222 | Top5: 0.9833
+  Val Batch [67/67] | Loss: 1.2027 | Top1: 0.9150 | Top5: 0.9800
+  Val Epoch Time: 5.560s
+Epoch [22/35] | Train Loss: 1.1614 | Train Top1: 0.5102 | Train Top5: 0.7000 | Val Loss: 1.2027 | Val Top1: 0.9150 | Val Top5: 0.9800 | LR: 4.96e-06 | Train Time: 160.996s | Val Time: 5.560s | Epoch Time: 166.557s
+
+===== Epoch 23/35 (LR: 4.83e-06) =====
+  Train Batch [30/433] | Loss: 1.2334 | Top1: 0.5111 | Top5: 0.8306
+  Train Batch [60/433] | Loss: 1.1942 | Top1: 0.4889 | Top5: 0.7708
+  Train Batch [90/433] | Loss: 1.1723 | Top1: 0.5065 | Top5: 0.7528
+  Train Batch [120/433] | Loss: 1.1425 | Top1: 0.4868 | Top5: 0.7063
+  Train Batch [150/433] | Loss: 1.1396 | Top1: 0.4756 | Top5: 0.6922
+  Train Batch [180/433] | Loss: 1.1554 | Top1: 0.4986 | Top5: 0.7218
+  Train Batch [210/433] | Loss: 1.1531 | Top1: 0.5000 | Top5: 0.7127
+  Train Batch [240/433] | Loss: 1.1454 | Top1: 0.5056 | Top5: 0.7111
+  Train Batch [270/433] | Loss: 1.1535 | Top1: 0.4926 | Top5: 0.7059
+  Train Batch [300/433] | Loss: 1.1584 | Top1: 0.4850 | Top5: 0.6994
+  Train Batch [330/433] | Loss: 1.1568 | Top1: 0.4760 | Top5: 0.6874
+  Train Batch [360/433] | Loss: 1.1579 | Top1: 0.4655 | Top5: 0.6796
+  Train Batch [390/433] | Loss: 1.1563 | Top1: 0.4553 | Top5: 0.6647
+  Train Batch [420/433] | Loss: 1.1547 | Top1: 0.4575 | Top5: 0.6645
+  Train Batch [433/433] | Loss: 1.1521 | Top1: 0.4598 | Top5: 0.6635
+  Train Epoch Time: 161.091s
+  Val Batch [30/67] | Loss: 1.1873 | Top1: 0.9111 | Top5: 0.9889
+  Val Batch [60/67] | Loss: 1.1759 | Top1: 0.9222 | Top5: 0.9819
+  Val Batch [67/67] | Loss: 1.2046 | Top1: 0.9163 | Top5: 0.9775
+  Val Epoch Time: 5.588s
+Epoch [23/35] | Train Loss: 1.1521 | Train Top1: 0.4598 | Train Top5: 0.6635 | Val Loss: 1.2046 | Val Top1: 0.9163 | Val Top5: 0.9775 | LR: 4.83e-06 | Train Time: 161.091s | Val Time: 5.588s | Epoch Time: 166.679s
+
+===== Epoch 24/35 (LR: 4.62e-06) =====
+  Train Batch [30/433] | Loss: 1.2260 | Top1: 0.4917 | Top5: 0.7056
+  Train Batch [60/433] | Loss: 1.2076 | Top1: 0.4819 | Top5: 0.6986
+  Train Batch [90/433] | Loss: 1.1586 | Top1: 0.4796 | Top5: 0.6722
+  Train Batch [120/433] | Loss: 1.1840 | Top1: 0.4917 | Top5: 0.7167
+  Train Batch [150/433] | Loss: 1.1722 | Top1: 0.4889 | Top5: 0.6950
+  Train Batch [180/433] | Loss: 1.1717 | Top1: 0.4940 | Top5: 0.6926
+  Train Batch [210/433] | Loss: 1.1778 | Top1: 0.5004 | Top5: 0.7115
+  Train Batch [240/433] | Loss: 1.1788 | Top1: 0.5108 | Top5: 0.7205
+  Train Batch [270/433] | Loss: 1.1773 | Top1: 0.4997 | Top5: 0.7139
+  Train Batch [300/433] | Loss: 1.1805 | Top1: 0.4936 | Top5: 0.7136
+  Train Batch [330/433] | Loss: 1.1719 | Top1: 0.4843 | Top5: 0.6987
+  Train Batch [360/433] | Loss: 1.1790 | Top1: 0.5012 | Top5: 0.7171
+  Train Batch [390/433] | Loss: 1.1752 | Top1: 0.4994 | Top5: 0.7130
+  Train Batch [420/433] | Loss: 1.1772 | Top1: 0.4968 | Top5: 0.7111
+  Train Batch [433/433] | Loss: 1.1773 | Top1: 0.4908 | Top5: 0.7097
+  Train Epoch Time: 161.881s
+  Val Batch [30/67] | Loss: 1.1891 | Top1: 0.9083 | Top5: 0.9889
+  Val Batch [60/67] | Loss: 1.1757 | Top1: 0.9181 | Top5: 0.9819
+  Val Batch [67/67] | Loss: 1.2041 | Top1: 0.9113 | Top5: 0.9788
+  Val Epoch Time: 5.648s
+Epoch [24/35] | Train Loss: 1.1773 | Train Top1: 0.4908 | Train Top5: 0.7097 | Val Loss: 1.2041 | Val Top1: 0.9113 | Val Top5: 0.9788 | LR: 4.62e-06 | Train Time: 161.881s | Val Time: 5.648s | Epoch Time: 167.529s
+
+===== Epoch 25/35 (LR: 4.34e-06) =====
+  Train Batch [30/433] | Loss: 1.1834 | Top1: 0.5778 | Top5: 0.8000
+  Train Batch [60/433] | Loss: 1.1372 | Top1: 0.4958 | Top5: 0.6972
+  Train Batch [90/433] | Loss: 1.1473 | Top1: 0.5167 | Top5: 0.7065
+  Train Batch [120/433] | Loss: 1.1703 | Top1: 0.4979 | Top5: 0.7042
+  Train Batch [150/433] | Loss: 1.1779 | Top1: 0.4989 | Top5: 0.7083
+  Train Batch [180/433] | Loss: 1.1837 | Top1: 0.4986 | Top5: 0.7190
+  Train Batch [210/433] | Loss: 1.1835 | Top1: 0.4940 | Top5: 0.7210
+  Train Batch [240/433] | Loss: 1.1834 | Top1: 0.4910 | Top5: 0.7094
+  Train Batch [270/433] | Loss: 1.1808 | Top1: 0.4861 | Top5: 0.7025
+  Train Batch [300/433] | Loss: 1.1722 | Top1: 0.4775 | Top5: 0.6933
+  Train Batch [330/433] | Loss: 1.1742 | Top1: 0.4823 | Top5: 0.7013
+  Train Batch [360/433] | Loss: 1.1698 | Top1: 0.4743 | Top5: 0.6924
+  Train Batch [390/433] | Loss: 1.1616 | Top1: 0.4769 | Top5: 0.6891
+  Train Batch [420/433] | Loss: 1.1591 | Top1: 0.4637 | Top5: 0.6768
+  Train Batch [433/433] | Loss: 1.1594 | Top1: 0.4590 | Top5: 0.6737
+  Train Epoch Time: 161.821s
+  Val Batch [30/67] | Loss: 1.1944 | Top1: 0.9139 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1753 | Top1: 0.9264 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.2021 | Top1: 0.9200 | Top5: 0.9812
+  Val Epoch Time: 5.662s
+Epoch [25/35] | Train Loss: 1.1594 | Train Top1: 0.4590 | Train Top5: 0.6737 | Val Loss: 1.2021 | Val Top1: 0.9200 | Val Top5: 0.9812 | LR: 4.34e-06 | Train Time: 161.821s | Val Time: 5.662s | Epoch Time: 167.483s
+Saved best checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/checkpoints/convnextv2_base_best.pth
+
+===== Epoch 26/35 (LR: 4.00e-06) =====
+  Train Batch [30/433] | Loss: 1.2191 | Top1: 0.4889 | Top5: 0.7444
+  Train Batch [60/433] | Loss: 1.1775 | Top1: 0.4583 | Top5: 0.6806
+  Train Batch [90/433] | Loss: 1.1508 | Top1: 0.5056 | Top5: 0.7093
+  Train Batch [120/433] | Loss: 1.1511 | Top1: 0.5076 | Top5: 0.6937
+  Train Batch [150/433] | Loss: 1.1338 | Top1: 0.5217 | Top5: 0.6939
+  Train Batch [180/433] | Loss: 1.1351 | Top1: 0.5356 | Top5: 0.7009
+  Train Batch [210/433] | Loss: 1.1397 | Top1: 0.5246 | Top5: 0.6940
+  Train Batch [240/433] | Loss: 1.1417 | Top1: 0.5288 | Top5: 0.7063
+  Train Batch [270/433] | Loss: 1.1496 | Top1: 0.5420 | Top5: 0.7194
+  Train Batch [300/433] | Loss: 1.1568 | Top1: 0.5425 | Top5: 0.7214
+  Train Batch [330/433] | Loss: 1.1515 | Top1: 0.5424 | Top5: 0.7172
+  Train Batch [360/433] | Loss: 1.1483 | Top1: 0.5287 | Top5: 0.7014
+  Train Batch [390/433] | Loss: 1.1497 | Top1: 0.5329 | Top5: 0.7034
+  Train Batch [420/433] | Loss: 1.1433 | Top1: 0.5460 | Top5: 0.7097
+  Train Batch [433/433] | Loss: 1.1484 | Top1: 0.5483 | Top5: 0.7126
+  Train Epoch Time: 161.392s
+  Val Batch [30/67] | Loss: 1.1835 | Top1: 0.9139 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1682 | Top1: 0.9222 | Top5: 0.9833
+  Val Batch [67/67] | Loss: 1.1963 | Top1: 0.9163 | Top5: 0.9788
+  Val Epoch Time: 5.587s
+Epoch [26/35] | Train Loss: 1.1484 | Train Top1: 0.5483 | Train Top5: 0.7126 | Val Loss: 1.1963 | Val Top1: 0.9163 | Val Top5: 0.9788 | LR: 4.00e-06 | Train Time: 161.392s | Val Time: 5.587s | Epoch Time: 166.979s
+
+===== Epoch 27/35 (LR: 3.62e-06) =====
+  Train Batch [30/433] | Loss: 1.1876 | Top1: 0.6083 | Top5: 0.8500
+  Train Batch [60/433] | Loss: 1.1626 | Top1: 0.5667 | Top5: 0.8125
+  Train Batch [90/433] | Loss: 1.1581 | Top1: 0.5157 | Top5: 0.7528
+  Train Batch [120/433] | Loss: 1.1636 | Top1: 0.5035 | Top5: 0.7431
+  Train Batch [150/433] | Loss: 1.1542 | Top1: 0.5267 | Top5: 0.7467
+  Train Batch [180/433] | Loss: 1.1519 | Top1: 0.5190 | Top5: 0.7296
+  Train Batch [210/433] | Loss: 1.1492 | Top1: 0.5056 | Top5: 0.7151
+  Train Batch [240/433] | Loss: 1.1455 | Top1: 0.4927 | Top5: 0.7035
+  Train Batch [270/433] | Loss: 1.1410 | Top1: 0.5009 | Top5: 0.7056
+  Train Batch [300/433] | Loss: 1.1346 | Top1: 0.5003 | Top5: 0.6981
+  Train Batch [330/433] | Loss: 1.1312 | Top1: 0.5010 | Top5: 0.6912
+  Train Batch [360/433] | Loss: 1.1332 | Top1: 0.5007 | Top5: 0.6956
+  Train Batch [390/433] | Loss: 1.1318 | Top1: 0.4955 | Top5: 0.6893
+  Train Batch [420/433] | Loss: 1.1358 | Top1: 0.4925 | Top5: 0.6913
+  Train Batch [433/433] | Loss: 1.1370 | Top1: 0.4944 | Top5: 0.6912
+  Train Epoch Time: 162.255s
+  Val Batch [30/67] | Loss: 1.1870 | Top1: 0.9167 | Top5: 0.9889
+  Val Batch [60/67] | Loss: 1.1712 | Top1: 0.9236 | Top5: 0.9819
+  Val Batch [67/67] | Loss: 1.2000 | Top1: 0.9175 | Top5: 0.9775
+  Val Epoch Time: 5.583s
+Epoch [27/35] | Train Loss: 1.1370 | Train Top1: 0.4944 | Train Top5: 0.6912 | Val Loss: 1.2000 | Val Top1: 0.9175 | Val Top5: 0.9775 | LR: 3.62e-06 | Train Time: 162.255s | Val Time: 5.583s | Epoch Time: 167.838s
+
+===== Epoch 28/35 (LR: 3.21e-06) =====
+  Train Batch [30/433] | Loss: 1.1744 | Top1: 0.5667 | Top5: 0.7194
+  Train Batch [60/433] | Loss: 1.1353 | Top1: 0.6389 | Top5: 0.7528
+  Train Batch [90/433] | Loss: 1.1509 | Top1: 0.6130 | Top5: 0.7620
+  Train Batch [120/433] | Loss: 1.1531 | Top1: 0.5681 | Top5: 0.7278
+  Train Batch [150/433] | Loss: 1.1484 | Top1: 0.5733 | Top5: 0.7339
+  Train Batch [180/433] | Loss: 1.1524 | Top1: 0.5593 | Top5: 0.7269
+  Train Batch [210/433] | Loss: 1.1578 | Top1: 0.5524 | Top5: 0.7250
+  Train Batch [240/433] | Loss: 1.1564 | Top1: 0.5333 | Top5: 0.7097
+  Train Batch [270/433] | Loss: 1.1574 | Top1: 0.5262 | Top5: 0.7148
+  Train Batch [300/433] | Loss: 1.1635 | Top1: 0.5075 | Top5: 0.7014
+  Train Batch [330/433] | Loss: 1.1659 | Top1: 0.5028 | Top5: 0.7005
+  Train Batch [360/433] | Loss: 1.1638 | Top1: 0.5076 | Top5: 0.7025
+  Train Batch [390/433] | Loss: 1.1708 | Top1: 0.5049 | Top5: 0.7024
+  Train Batch [420/433] | Loss: 1.1717 | Top1: 0.5115 | Top5: 0.7067
+  Train Batch [433/433] | Loss: 1.1707 | Top1: 0.5162 | Top5: 0.7074
+  Train Epoch Time: 160.898s
+  Val Batch [30/67] | Loss: 1.1823 | Top1: 0.9194 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1732 | Top1: 0.9250 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.2029 | Top1: 0.9187 | Top5: 0.9800
+  Val Epoch Time: 5.573s
+Epoch [28/35] | Train Loss: 1.1707 | Train Top1: 0.5162 | Train Top5: 0.7074 | Val Loss: 1.2029 | Val Top1: 0.9187 | Val Top5: 0.9800 | LR: 3.21e-06 | Train Time: 160.898s | Val Time: 5.573s | Epoch Time: 166.471s
+
+===== Epoch 29/35 (LR: 2.79e-06) =====
+  Train Batch [30/433] | Loss: 1.1028 | Top1: 0.5194 | Top5: 0.6722
+  Train Batch [60/433] | Loss: 1.1209 | Top1: 0.5153 | Top5: 0.6931
+  Train Batch [90/433] | Loss: 1.1275 | Top1: 0.4880 | Top5: 0.6630
+  Train Batch [120/433] | Loss: 1.1452 | Top1: 0.5146 | Top5: 0.6924
+  Train Batch [150/433] | Loss: 1.1567 | Top1: 0.5072 | Top5: 0.7000
+  Train Batch [180/433] | Loss: 1.1599 | Top1: 0.4875 | Top5: 0.6773
+  Train Batch [210/433] | Loss: 1.1611 | Top1: 0.4766 | Top5: 0.6690
+  Train Batch [240/433] | Loss: 1.1735 | Top1: 0.4639 | Top5: 0.6847
+  Train Batch [270/433] | Loss: 1.1716 | Top1: 0.4701 | Top5: 0.6812
+  Train Batch [300/433] | Loss: 1.1707 | Top1: 0.4842 | Top5: 0.6894
+  Train Batch [330/433] | Loss: 1.1651 | Top1: 0.4886 | Top5: 0.6917
+  Train Batch [360/433] | Loss: 1.1623 | Top1: 0.4963 | Top5: 0.6965
+  Train Batch [390/433] | Loss: 1.1569 | Top1: 0.5030 | Top5: 0.6998
+  Train Batch [420/433] | Loss: 1.1499 | Top1: 0.4980 | Top5: 0.6919
+  Train Batch [433/433] | Loss: 1.1556 | Top1: 0.4948 | Top5: 0.6948
+  Train Epoch Time: 161.555s
+  Val Batch [30/67] | Loss: 1.1784 | Top1: 0.9222 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1679 | Top1: 0.9292 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.1978 | Top1: 0.9213 | Top5: 0.9812
+  Val Epoch Time: 5.655s
+Epoch [29/35] | Train Loss: 1.1556 | Train Top1: 0.4948 | Train Top5: 0.6948 | Val Loss: 1.1978 | Val Top1: 0.9213 | Val Top5: 0.9812 | LR: 2.79e-06 | Train Time: 161.555s | Val Time: 5.655s | Epoch Time: 167.210s
+Saved best checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/checkpoints/convnextv2_base_best.pth
+
+===== Epoch 30/35 (LR: 2.38e-06) =====
+  Train Batch [30/433] | Loss: 1.2045 | Top1: 0.3972 | Top5: 0.6833
+  Train Batch [60/433] | Loss: 1.2128 | Top1: 0.3653 | Top5: 0.6389
+  Train Batch [90/433] | Loss: 1.1977 | Top1: 0.3907 | Top5: 0.6426
+  Train Batch [120/433] | Loss: 1.1938 | Top1: 0.4104 | Top5: 0.6653
+  Train Batch [150/433] | Loss: 1.1805 | Top1: 0.4111 | Top5: 0.6561
+  Train Batch [180/433] | Loss: 1.1785 | Top1: 0.4449 | Top5: 0.6815
+  Train Batch [210/433] | Loss: 1.1858 | Top1: 0.4464 | Top5: 0.6933
+  Train Batch [240/433] | Loss: 1.1855 | Top1: 0.4576 | Top5: 0.7063
+  Train Batch [270/433] | Loss: 1.1785 | Top1: 0.4552 | Top5: 0.7022
+  Train Batch [300/433] | Loss: 1.1798 | Top1: 0.4672 | Top5: 0.7125
+  Train Batch [330/433] | Loss: 1.1782 | Top1: 0.4588 | Top5: 0.6980
+  Train Batch [360/433] | Loss: 1.1823 | Top1: 0.4521 | Top5: 0.6944
+  Train Batch [390/433] | Loss: 1.1762 | Top1: 0.4577 | Top5: 0.6940
+  Train Batch [420/433] | Loss: 1.1766 | Top1: 0.4540 | Top5: 0.6952
+  Train Batch [433/433] | Loss: 1.1755 | Top1: 0.4586 | Top5: 0.6972
+  Train Epoch Time: 161.190s
+  Val Batch [30/67] | Loss: 1.1783 | Top1: 0.9222 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1667 | Top1: 0.9292 | Top5: 0.9861
+  Val Batch [67/67] | Loss: 1.1966 | Top1: 0.9225 | Top5: 0.9825
+  Val Epoch Time: 5.599s
+Epoch [30/35] | Train Loss: 1.1755 | Train Top1: 0.4586 | Train Top5: 0.6972 | Val Loss: 1.1966 | Val Top1: 0.9225 | Val Top5: 0.9825 | LR: 2.38e-06 | Train Time: 161.190s | Val Time: 5.599s | Epoch Time: 166.789s
+Saved best checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/checkpoints/convnextv2_base_best.pth
+
+===== Epoch 31/35 (LR: 2.00e-06) =====
+  Train Batch [30/433] | Loss: 1.2445 | Top1: 0.7056 | Top5: 0.8750
+  Train Batch [60/433] | Loss: 1.2691 | Top1: 0.6083 | Top5: 0.8500
+  Train Batch [90/433] | Loss: 1.2312 | Top1: 0.5981 | Top5: 0.8241
+  Train Batch [120/433] | Loss: 1.2116 | Top1: 0.5708 | Top5: 0.7826
+  Train Batch [150/433] | Loss: 1.2279 | Top1: 0.5706 | Top5: 0.7800
+  Train Batch [180/433] | Loss: 1.2191 | Top1: 0.5611 | Top5: 0.7727
+  Train Batch [210/433] | Loss: 1.2355 | Top1: 0.5730 | Top5: 0.7901
+  Train Batch [240/433] | Loss: 1.2165 | Top1: 0.5590 | Top5: 0.7684
+  Train Batch [270/433] | Loss: 1.2180 | Top1: 0.5438 | Top5: 0.7568
+  Train Batch [300/433] | Loss: 1.2107 | Top1: 0.5461 | Top5: 0.7608
+  Train Batch [330/433] | Loss: 1.2084 | Top1: 0.5485 | Top5: 0.7646
+  Train Batch [360/433] | Loss: 1.1993 | Top1: 0.5493 | Top5: 0.7590
+  Train Batch [390/433] | Loss: 1.1919 | Top1: 0.5487 | Top5: 0.7553
+  Train Batch [420/433] | Loss: 1.1900 | Top1: 0.5478 | Top5: 0.7575
+  Train Batch [433/433] | Loss: 1.1897 | Top1: 0.5437 | Top5: 0.7570
+  Train Epoch Time: 162.160s
+  Val Batch [30/67] | Loss: 1.1780 | Top1: 0.9222 | Top5: 0.9944
+  Val Batch [60/67] | Loss: 1.1661 | Top1: 0.9278 | Top5: 0.9875
+  Val Batch [67/67] | Loss: 1.1956 | Top1: 0.9213 | Top5: 0.9850
+  Val Epoch Time: 5.569s
+Epoch [31/35] | Train Loss: 1.1897 | Train Top1: 0.5437 | Train Top5: 0.7570 | Val Loss: 1.1956 | Val Top1: 0.9213 | Val Top5: 0.9850 | LR: 2.00e-06 | Train Time: 162.160s | Val Time: 5.569s | Epoch Time: 167.729s
+
+===== Epoch 32/35 (LR: 1.66e-06) =====
+  Train Batch [30/433] | Loss: 1.1606 | Top1: 0.4361 | Top5: 0.6667
+  Train Batch [60/433] | Loss: 1.1864 | Top1: 0.4958 | Top5: 0.7056
+  Train Batch [90/433] | Loss: 1.1710 | Top1: 0.4917 | Top5: 0.6991
+  Train Batch [120/433] | Loss: 1.1707 | Top1: 0.4757 | Top5: 0.6854
+  Train Batch [150/433] | Loss: 1.1766 | Top1: 0.4789 | Top5: 0.7050
+  Train Batch [180/433] | Loss: 1.1653 | Top1: 0.4898 | Top5: 0.7032
+  Train Batch [210/433] | Loss: 1.1724 | Top1: 0.5004 | Top5: 0.7131
+  Train Batch [240/433] | Loss: 1.1766 | Top1: 0.5059 | Top5: 0.7323
+  Train Batch [270/433] | Loss: 1.1688 | Top1: 0.5000 | Top5: 0.7216
+  Train Batch [300/433] | Loss: 1.1604 | Top1: 0.5006 | Top5: 0.7217
+  Train Batch [330/433] | Loss: 1.1666 | Top1: 0.5139 | Top5: 0.7306
+  Train Batch [360/433] | Loss: 1.1615 | Top1: 0.5192 | Top5: 0.7329
+  Train Batch [390/433] | Loss: 1.1592 | Top1: 0.5212 | Top5: 0.7269
+  Train Batch [420/433] | Loss: 1.1624 | Top1: 0.5200 | Top5: 0.7319
+  Train Batch [433/433] | Loss: 1.1595 | Top1: 0.5210 | Top5: 0.7291
+  Train Epoch Time: 161.637s
+  Val Batch [30/67] | Loss: 1.1748 | Top1: 0.9194 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1641 | Top1: 0.9264 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.1934 | Top1: 0.9187 | Top5: 0.9812
+  Val Epoch Time: 5.569s
+Epoch [32/35] | Train Loss: 1.1595 | Train Top1: 0.5210 | Train Top5: 0.7291 | Val Loss: 1.1934 | Val Top1: 0.9187 | Val Top5: 0.9812 | LR: 1.66e-06 | Train Time: 161.637s | Val Time: 5.569s | Epoch Time: 167.206s
+
+===== Epoch 33/35 (LR: 1.38e-06) =====
+  Train Batch [30/433] | Loss: 1.2072 | Top1: 0.5056 | Top5: 0.7472
+  Train Batch [60/433] | Loss: 1.1830 | Top1: 0.5194 | Top5: 0.7444
+  Train Batch [90/433] | Loss: 1.1472 | Top1: 0.4722 | Top5: 0.7074
+  Train Batch [120/433] | Loss: 1.1347 | Top1: 0.4924 | Top5: 0.7125
+  Train Batch [150/433] | Loss: 1.1295 | Top1: 0.4772 | Top5: 0.6950
+  Train Batch [180/433] | Loss: 1.1430 | Top1: 0.5005 | Top5: 0.7241
+  Train Batch [210/433] | Loss: 1.1409 | Top1: 0.5004 | Top5: 0.7175
+  Train Batch [240/433] | Loss: 1.1440 | Top1: 0.4889 | Top5: 0.7031
+  Train Batch [270/433] | Loss: 1.1530 | Top1: 0.4917 | Top5: 0.7148
+  Train Batch [300/433] | Loss: 1.1531 | Top1: 0.5000 | Top5: 0.7217
+  Train Batch [330/433] | Loss: 1.1512 | Top1: 0.4894 | Top5: 0.7139
+  Train Batch [360/433] | Loss: 1.1408 | Top1: 0.5005 | Top5: 0.7155
+  Train Batch [390/433] | Loss: 1.1395 | Top1: 0.5011 | Top5: 0.7156
+  Train Batch [420/433] | Loss: 1.1445 | Top1: 0.4919 | Top5: 0.7115
+  Train Batch [433/433] | Loss: 1.1463 | Top1: 0.4942 | Top5: 0.7133
+  Train Epoch Time: 161.212s
+  Val Batch [30/67] | Loss: 1.1703 | Top1: 0.9222 | Top5: 0.9944
+  Val Batch [60/67] | Loss: 1.1611 | Top1: 0.9278 | Top5: 0.9861
+  Val Batch [67/67] | Loss: 1.1913 | Top1: 0.9200 | Top5: 0.9825
+  Val Epoch Time: 5.656s
+Epoch [33/35] | Train Loss: 1.1463 | Train Top1: 0.4942 | Train Top5: 0.7133 | Val Loss: 1.1913 | Val Top1: 0.9200 | Val Top5: 0.9825 | LR: 1.38e-06 | Train Time: 161.212s | Val Time: 5.656s | Epoch Time: 166.869s
+
+===== Epoch 34/35 (LR: 1.17e-06) =====
+  Train Batch [30/433] | Loss: 1.1373 | Top1: 0.6444 | Top5: 0.8417
+  Train Batch [60/433] | Loss: 1.1317 | Top1: 0.6292 | Top5: 0.8153
+  Train Batch [90/433] | Loss: 1.1332 | Top1: 0.6278 | Top5: 0.8019
+  Train Batch [120/433] | Loss: 1.1349 | Top1: 0.5875 | Top5: 0.7681
+  Train Batch [150/433] | Loss: 1.1441 | Top1: 0.5606 | Top5: 0.7583
+  Train Batch [180/433] | Loss: 1.1393 | Top1: 0.5532 | Top5: 0.7532
+  Train Batch [210/433] | Loss: 1.1453 | Top1: 0.5437 | Top5: 0.7476
+  Train Batch [240/433] | Loss: 1.1343 | Top1: 0.5229 | Top5: 0.7323
+  Train Batch [270/433] | Loss: 1.1278 | Top1: 0.5148 | Top5: 0.7157
+  Train Batch [300/433] | Loss: 1.1296 | Top1: 0.5103 | Top5: 0.7175
+  Train Batch [330/433] | Loss: 1.1307 | Top1: 0.5149 | Top5: 0.7174
+  Train Batch [360/433] | Loss: 1.1304 | Top1: 0.5007 | Top5: 0.7012
+  Train Batch [390/433] | Loss: 1.1350 | Top1: 0.5045 | Top5: 0.7090
+  Train Batch [420/433] | Loss: 1.1374 | Top1: 0.5093 | Top5: 0.7188
+  Train Batch [433/433] | Loss: 1.1363 | Top1: 0.5106 | Top5: 0.7220
+  Train Epoch Time: 161.947s
+  Val Batch [30/67] | Loss: 1.1726 | Top1: 0.9222 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1629 | Top1: 0.9278 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.1932 | Top1: 0.9200 | Top5: 0.9800
+  Val Epoch Time: 5.604s
+Epoch [34/35] | Train Loss: 1.1363 | Train Top1: 0.5106 | Train Top5: 0.7220 | Val Loss: 1.1932 | Val Top1: 0.9200 | Val Top5: 0.9800 | LR: 1.17e-06 | Train Time: 161.947s | Val Time: 5.604s | Epoch Time: 167.551s
+
+===== Epoch 35/35 (LR: 1.04e-06) =====
+  Train Batch [30/433] | Loss: 1.0427 | Top1: 0.4833 | Top5: 0.6167
+  Train Batch [60/433] | Loss: 1.0465 | Top1: 0.4764 | Top5: 0.6292
+  Train Batch [90/433] | Loss: 1.0484 | Top1: 0.4870 | Top5: 0.6250
+  Train Batch [120/433] | Loss: 1.0664 | Top1: 0.4764 | Top5: 0.6340
+  Train Batch [150/433] | Loss: 1.0805 | Top1: 0.4878 | Top5: 0.6511
+  Train Batch [180/433] | Loss: 1.0898 | Top1: 0.4856 | Top5: 0.6486
+  Train Batch [210/433] | Loss: 1.0981 | Top1: 0.5060 | Top5: 0.6710
+  Train Batch [240/433] | Loss: 1.0942 | Top1: 0.5191 | Top5: 0.6792
+  Train Batch [270/433] | Loss: 1.0994 | Top1: 0.4895 | Top5: 0.6627
+  Train Batch [300/433] | Loss: 1.1106 | Top1: 0.4969 | Top5: 0.6778
+  Train Batch [330/433] | Loss: 1.1106 | Top1: 0.4985 | Top5: 0.6760
+  Train Batch [360/433] | Loss: 1.1187 | Top1: 0.5109 | Top5: 0.6917
+  Train Batch [390/433] | Loss: 1.1204 | Top1: 0.5053 | Top5: 0.6882
+  Train Batch [420/433] | Loss: 1.1215 | Top1: 0.5048 | Top5: 0.6937
+  Train Batch [433/433] | Loss: 1.1220 | Top1: 0.5075 | Top5: 0.6964
+  Train Epoch Time: 163.662s
+  Val Batch [30/67] | Loss: 1.1729 | Top1: 0.9194 | Top5: 0.9917
+  Val Batch [60/67] | Loss: 1.1638 | Top1: 0.9264 | Top5: 0.9847
+  Val Batch [67/67] | Loss: 1.1936 | Top1: 0.9187 | Top5: 0.9800
+  Val Epoch Time: 6.147s
+Epoch [35/35] | Train Loss: 1.1220 | Train Top1: 0.5075 | Train Top5: 0.6964 | Val Loss: 1.1936 | Val Top1: 0.9187 | Val Top5: 0.9800 | LR: 1.04e-06 | Train Time: 163.662s | Val Time: 6.147s | Epoch Time: 169.809s
+Saved last checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/checkpoints/convnextv2_base_last.pth
+
+Best Epoch: 30 | Best Val Top1: 0.9225 | Best Val Top5: 0.9825
+Total Train Time: 3211.097s | Total Val Time: 138.803s | Total Runtime: 3375.356s
+
+Experiment result appended to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_113627/logs/experiment_results.csv

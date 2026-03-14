@@ -3,7 +3,7 @@ seed: 42
 model: resnet50
 pretrained: true
 
-data_root: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\data
+data_root: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/data/CUB_200_2011/images
 
 image_size: 320
 batch_size: 64
@@ -38,4 +38,4 @@ early_stopping_patience: 10
 
 log_interval: 50
 
-output_dir: C:\Users\ljh20\MCS\CS273P\Model_California_Birds\outputs
+output_dir: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs

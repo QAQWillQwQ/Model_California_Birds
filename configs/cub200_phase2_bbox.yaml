@@ -1,0 +1,58 @@
+seed: 42
+
+# ConvNeXt V2 Base -- Phase 2 bbox: train from pretrained scratch with bbox crops
+# Cannot resume from full-image checkpoint — distribution mismatch (same issue as 448px)
+model: convnextv2_base
+pretrained: true
+
+data_root: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/data/CUB_200_2011/images
+
+image_size: 384
+batch_size: 12
+
+epochs: 20
+learning_rate: 0.0001
+
+val_split: 0.15
+num_workers: 4
+use_amp: true
+freeze_backbone: false
+val_interval: 1
+prefetch_factor: 4
+cudnn_benchmark: true
+float32_matmul_precision: high
+archive_outputs: false
+clear_logs_before_run: true
+
+# Use CUB-200-2011 official train/test split
+use_official_split: true
+
+# Regularization -- same as best baseline
+weight_decay: 0.05
+label_smoothing: 0.1
+dropout_rate: 0.15
+mixup_alpha: 0.2
+cutmix_alpha: 0.0
+
+# Cosine schedule with warmup (training from scratch needs longer warmup)
+scheduler: cosine
+warmup_epochs: 2
+
+# Early stopping
+early_stopping_patience: 10
+
+# No novel training components
+use_attribute_smoothing: false
+use_part_masking: false
+use_confusion_sampling: false
+
+# Bounding box crop -- crop to bird region with 10% padding
+use_bbox_crop: true
+bbox_pad_fraction: 0.1
+
+# No resume — training from pretrained scratch (bbox crops = different input distribution)
+# resume_from:
+
+log_interval: 30
+
+output_dir: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs

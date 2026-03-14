@@ -1,0 +1,168 @@
+Part masking enabled: 11788 images with part annotations, prob=0.3, radius=0.08
+Official split: 5994 train images (out of 11796 total)
+Number of classes: 200
+Train batches: 325
+Val batches: 50
+AttributeWeightedCrossEntropy: loaded 200 classes x 312 attributes
+Confusion-adaptive sampling enabled (top-20 pairs)
+Resuming from checkpoint: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_031959/checkpoints/convnextv2_base_best_full.pth
+/mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/src/utils.py:67: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state = torch.load(path, map_location=device)
+Resumed at epoch 15, best val top1: 0.9087
+
+===== Epoch 16/60 (LR: 1.00e-06) =====
+  Train Batch [30/325] | Loss: 1.3611 | Top1: 0.4625 | Top5: 0.7063
+  Train Batch [60/325] | Loss: 1.3286 | Top1: 0.4490 | Top5: 0.7167
+  Train Batch [90/325] | Loss: 1.3119 | Top1: 0.4965 | Top5: 0.7417
+  Train Batch [120/325] | Loss: 1.3056 | Top1: 0.4943 | Top5: 0.7380
+  Train Batch [150/325] | Loss: 1.2565 | Top1: 0.5058 | Top5: 0.7404
+  Train Batch [180/325] | Loss: 1.2524 | Top1: 0.5135 | Top5: 0.7406
+  Train Batch [210/325] | Loss: 1.2149 | Top1: 0.5057 | Top5: 0.7286
+  Train Batch [240/325] | Loss: 1.1818 | Top1: 0.5253 | Top5: 0.7406
+  Train Batch [270/325] | Loss: 1.1866 | Top1: 0.5414 | Top5: 0.7558
+  Train Batch [300/325] | Loss: 1.1772 | Top1: 0.5575 | Top5: 0.7650
+  Train Batch [325/325] | Loss: 1.1781 | Top1: 0.5599 | Top5: 0.7676
+  Train Epoch Time: 428.325s
+  Val Batch [30/50] | Loss: 1.1772 | Top1: 0.9104 | Top5: 0.9917
+  Val Batch [50/50] | Loss: 1.1918 | Top1: 0.9050 | Top5: 0.9888
+  Val Epoch Time: 5.991s
+  ConfusionAdaptiveSampler: boosting 33 confused classes (top-20 pairs, boost=2.0x)
+Epoch [16/60] | Train Loss: 1.1781 | Train Top1: 0.5599 | Train Top5: 0.7676 | Val Loss: 1.1918 | Val Top1: 0.9050 | Val Top5: 0.9888 | LR: 1.00e-06 | Train Time: 428.325s | Val Time: 5.991s | Epoch Time: 434.316s
+
+===== Epoch 17/60 (LR: 2.44e-06) =====
+  Train Batch [30/325] | Loss: 0.9348 | Top1: 0.5458 | Top5: 0.7208
+  Train Batch [60/325] | Loss: 1.0717 | Top1: 0.5510 | Top5: 0.7594
+  Train Batch [90/325] | Loss: 1.0172 | Top1: 0.5521 | Top5: 0.7562
+  Train Batch [120/325] | Loss: 0.9827 | Top1: 0.5818 | Top5: 0.7797
+  Train Batch [150/325] | Loss: 1.0026 | Top1: 0.6054 | Top5: 0.7925
+  Train Batch [180/325] | Loss: 1.0270 | Top1: 0.5958 | Top5: 0.7910
+  Train Batch [210/325] | Loss: 1.0191 | Top1: 0.5777 | Top5: 0.7789
+  Train Batch [240/325] | Loss: 1.0092 | Top1: 0.5979 | Top5: 0.7872
+  Train Batch [270/325] | Loss: 1.0160 | Top1: 0.6062 | Top5: 0.7986
+  Train Batch [300/325] | Loss: 1.0299 | Top1: 0.6092 | Top5: 0.8044
+  Train Batch [325/325] | Loss: 1.0179 | Top1: 0.6080 | Top5: 0.7990
+  Train Epoch Time: 364.644s
+  Val Batch [30/50] | Loss: 1.1799 | Top1: 0.9146 | Top5: 0.9917
+  Val Batch [50/50] | Loss: 1.1932 | Top1: 0.9075 | Top5: 0.9912
+  Val Epoch Time: 39.412s
+  ConfusionAdaptiveSampler: boosting 34 confused classes (top-20 pairs, boost=2.0x)
+Epoch [17/60] | Train Loss: 1.0179 | Train Top1: 0.6080 | Train Top5: 0.7990 | Val Loss: 1.1932 | Val Top1: 0.9075 | Val Top5: 0.9912 | LR: 2.44e-06 | Train Time: 364.644s | Val Time: 39.412s | Epoch Time: 404.056s
+
+===== Epoch 18/60 (LR: 6.67e-06) =====
+  Train Batch [30/325] | Loss: 1.0391 | Top1: 0.5625 | Top5: 0.7521
+  Train Batch [60/325] | Loss: 0.9930 | Top1: 0.5365 | Top5: 0.7292
+  Train Batch [90/325] | Loss: 0.9956 | Top1: 0.5826 | Top5: 0.7715
+  Train Batch [120/325] | Loss: 1.0005 | Top1: 0.5932 | Top5: 0.7750
+  Train Batch [150/325] | Loss: 0.9706 | Top1: 0.6279 | Top5: 0.7971
+  Train Batch [180/325] | Loss: 0.9538 | Top1: 0.6049 | Top5: 0.7816
+  Train Batch [210/325] | Loss: 0.9560 | Top1: 0.5860 | Top5: 0.7673
+  Train Batch [240/325] | Loss: 0.9426 | Top1: 0.5872 | Top5: 0.7669
+  Train Batch [270/325] | Loss: 0.9442 | Top1: 0.5995 | Top5: 0.7771
+  Train Batch [300/325] | Loss: 0.9476 | Top1: 0.6033 | Top5: 0.7802
+  Train Batch [325/325] | Loss: 0.9404 | Top1: 0.6038 | Top5: 0.7803
+  Train Epoch Time: 370.051s
+  Val Batch [30/50] | Loss: 1.2008 | Top1: 0.9187 | Top5: 0.9896
+  Val Batch [50/50] | Loss: 1.2156 | Top1: 0.9150 | Top5: 0.9900
+  Val Epoch Time: 42.558s
+  ConfusionAdaptiveSampler: boosting 34 confused classes (top-20 pairs, boost=2.0x)
+Epoch [18/60] | Train Loss: 0.9404 | Train Top1: 0.6038 | Train Top5: 0.7803 | Val Loss: 1.2156 | Val Top1: 0.9150 | Val Top5: 0.9900 | LR: 6.67e-06 | Train Time: 370.051s | Val Time: 42.558s | Epoch Time: 412.609s
+Saved best checkpoint to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_040645/checkpoints/convnextv2_base_best.pth
+
+===== Epoch 19/60 (LR: 1.34e-05) =====
+  Train Batch [30/325] | Loss: 1.1425 | Top1: 0.6062 | Top5: 0.8792
+  Train Batch [60/325] | Loss: 1.0253 | Top1: 0.6354 | Top5: 0.8615
+  Train Batch [90/325] | Loss: 1.0520 | Top1: 0.6625 | Top5: 0.8674
+  Train Batch [120/325] | Loss: 1.0079 | Top1: 0.6589 | Top5: 0.8505
+  Train Batch [150/325] | Loss: 0.9891 | Top1: 0.6471 | Top5: 0.8450
+  Train Batch [180/325] | Loss: 0.9777 | Top1: 0.6340 | Top5: 0.8340
+  Train Batch [210/325] | Loss: 0.9979 | Top1: 0.6307 | Top5: 0.8378
+  Train Batch [240/325] | Loss: 0.9728 | Top1: 0.6370 | Top5: 0.8430
+  Train Batch [270/325] | Loss: 0.9665 | Top1: 0.6322 | Top5: 0.8336
+  Train Batch [300/325] | Loss: 0.9439 | Top1: 0.6258 | Top5: 0.8254
+  Train Batch [325/325] | Loss: 0.9458 | Top1: 0.6190 | Top5: 0.8175
+  Train Epoch Time: 459.654s
+  Val Batch [30/50] | Loss: 1.2251 | Top1: 0.9104 | Top5: 0.9875
+  Val Batch [50/50] | Loss: 1.2395 | Top1: 0.9050 | Top5: 0.9875
+  Val Epoch Time: 36.465s
+  ConfusionAdaptiveSampler: boosting 33 confused classes (top-20 pairs, boost=2.0x)
+Epoch [19/60] | Train Loss: 0.9458 | Train Top1: 0.6190 | Train Top5: 0.8175 | Val Loss: 1.2395 | Val Top1: 0.9050 | Val Top5: 0.9875 | LR: 1.34e-05 | Train Time: 459.654s | Val Time: 36.465s | Epoch Time: 496.120s
+
+===== Epoch 20/60 (LR: 2.24e-05) =====
+  Train Batch [30/325] | Loss: 1.0291 | Top1: 0.7063 | Top5: 0.8979
+  Train Batch [60/325] | Loss: 0.9823 | Top1: 0.5969 | Top5: 0.7917
+  Train Batch [90/325] | Loss: 0.9479 | Top1: 0.5882 | Top5: 0.7868
+  Train Batch [120/325] | Loss: 0.9564 | Top1: 0.5938 | Top5: 0.7917
+  Train Batch [150/325] | Loss: 0.9395 | Top1: 0.5975 | Top5: 0.7829
+  Train Batch [180/325] | Loss: 0.9371 | Top1: 0.6076 | Top5: 0.7865
+  Train Batch [210/325] | Loss: 0.9376 | Top1: 0.5961 | Top5: 0.7798
+  Train Batch [240/325] | Loss: 0.9202 | Top1: 0.5990 | Top5: 0.7773
+  Train Batch [270/325] | Loss: 0.9001 | Top1: 0.5868 | Top5: 0.7688
+  Train Batch [300/325] | Loss: 0.9053 | Top1: 0.5850 | Top5: 0.7685
+  Train Batch [325/325] | Loss: 0.9208 | Top1: 0.5836 | Top5: 0.7776
+  Train Epoch Time: 380.435s
+  Val Batch [30/50] | Loss: 1.2841 | Top1: 0.8958 | Top5: 0.9917
+  Val Batch [50/50] | Loss: 1.2768 | Top1: 0.9000 | Top5: 0.9888
+  Val Epoch Time: 46.210s
+  ConfusionAdaptiveSampler: boosting 34 confused classes (top-20 pairs, boost=2.0x)
+Epoch [20/60] | Train Loss: 0.9208 | Train Top1: 0.5836 | Train Top5: 0.7776 | Val Loss: 1.2768 | Val Top1: 0.9000 | Val Top5: 0.9888 | LR: 2.24e-05 | Train Time: 380.435s | Val Time: 46.210s | Epoch Time: 426.646s
+
+===== Epoch 21/60 (LR: 3.29e-05) =====
+  Train Batch [30/325] | Loss: 1.0122 | Top1: 0.5062 | Top5: 0.7479
+  Train Batch [60/325] | Loss: 1.0514 | Top1: 0.5771 | Top5: 0.8042
+  Train Batch [90/325] | Loss: 0.9494 | Top1: 0.5375 | Top5: 0.7583
+  Train Batch [120/325] | Loss: 0.9312 | Top1: 0.5635 | Top5: 0.7682
+  Train Batch [150/325] | Loss: 0.9512 | Top1: 0.5658 | Top5: 0.7762
+  Train Batch [180/325] | Loss: 0.9855 | Top1: 0.5781 | Top5: 0.7882
+  Train Batch [210/325] | Loss: 0.9943 | Top1: 0.5893 | Top5: 0.8024
+  Train Batch [240/325] | Loss: 0.9799 | Top1: 0.5953 | Top5: 0.7992
+  Train Batch [270/325] | Loss: 0.9763 | Top1: 0.5891 | Top5: 0.7949
+  Train Batch [300/325] | Loss: 0.9701 | Top1: 0.5917 | Top5: 0.7935
+  Train Batch [325/325] | Loss: 0.9623 | Top1: 0.5826 | Top5: 0.7849
+  Train Epoch Time: 361.828s
+  Val Batch [30/50] | Loss: 1.2868 | Top1: 0.8979 | Top5: 0.9896
+  Val Batch [50/50] | Loss: 1.3055 | Top1: 0.8975 | Top5: 0.9862
+  Val Epoch Time: 44.189s
+  ConfusionAdaptiveSampler: boosting 35 confused classes (top-20 pairs, boost=2.0x)
+Epoch [21/60] | Train Loss: 0.9623 | Train Top1: 0.5826 | Train Top5: 0.7849 | Val Loss: 1.3055 | Val Top1: 0.8975 | Val Top5: 0.9862 | LR: 3.29e-05 | Train Time: 361.828s | Val Time: 44.189s | Epoch Time: 406.017s
+
+===== Epoch 22/60 (LR: 4.45e-05) =====
+  Train Batch [30/325] | Loss: 0.8691 | Top1: 0.6167 | Top5: 0.7937
+  Train Batch [60/325] | Loss: 0.8510 | Top1: 0.5750 | Top5: 0.7448
+  Train Batch [90/325] | Loss: 0.8496 | Top1: 0.5708 | Top5: 0.7521
+  Train Batch [120/325] | Loss: 0.8806 | Top1: 0.5547 | Top5: 0.7354
+  Train Batch [150/325] | Loss: 0.9022 | Top1: 0.5550 | Top5: 0.7400
+  Train Batch [180/325] | Loss: 0.9328 | Top1: 0.5729 | Top5: 0.7691
+  Train Batch [210/325] | Loss: 0.9206 | Top1: 0.5744 | Top5: 0.7753
+  Train Batch [240/325] | Loss: 0.9296 | Top1: 0.5872 | Top5: 0.7888
+  Train Batch [270/325] | Loss: 0.9355 | Top1: 0.5769 | Top5: 0.7838
+  Train Batch [300/325] | Loss: 0.9532 | Top1: 0.5740 | Top5: 0.7890
+  Train Batch [325/325] | Loss: 0.9540 | Top1: 0.5739 | Top5: 0.7917
+  Train Epoch Time: 368.871s
+  Val Batch [30/50] | Loss: 1.3231 | Top1: 0.8938 | Top5: 0.9896
+  Val Batch [50/50] | Loss: 1.3407 | Top1: 0.8962 | Top5: 0.9875
+  Val Epoch Time: 38.231s
+  ConfusionAdaptiveSampler: boosting 33 confused classes (top-20 pairs, boost=2.0x)
+Epoch [22/60] | Train Loss: 0.9540 | Train Top1: 0.5739 | Train Top5: 0.7917 | Val Loss: 1.3407 | Val Top1: 0.8962 | Val Top5: 0.9875 | LR: 4.45e-05 | Train Time: 368.871s | Val Time: 38.231s | Epoch Time: 407.102s
+
+===== Epoch 23/60 (LR: 5.65e-05) =====
+  Train Batch [30/325] | Loss: 1.1073 | Top1: 0.5354 | Top5: 0.7604
+  Train Batch [60/325] | Loss: 0.9719 | Top1: 0.6115 | Top5: 0.7969
+  Train Batch [90/325] | Loss: 0.9727 | Top1: 0.6118 | Top5: 0.7958
+  Train Batch [120/325] | Loss: 0.9704 | Top1: 0.5682 | Top5: 0.7568
+  Train Batch [150/325] | Loss: 0.9758 | Top1: 0.5783 | Top5: 0.7621
+  Train Batch [180/325] | Loss: 1.0029 | Top1: 0.5694 | Top5: 0.7681
+  Train Batch [210/325] | Loss: 1.0007 | Top1: 0.5595 | Top5: 0.7631
+  Train Batch [240/325] | Loss: 1.0118 | Top1: 0.5664 | Top5: 0.7706
+  Train Batch [270/325] | Loss: 1.0211 | Top1: 0.5618 | Top5: 0.7713
+  Train Batch [300/325] | Loss: 1.0121 | Top1: 0.5794 | Top5: 0.7850
+  Train Batch [325/325] | Loss: 1.0003 | Top1: 0.5787 | Top5: 0.7851
+  Train Epoch Time: 366.295s
+  Val Batch [30/50] | Loss: 1.3754 | Top1: 0.8896 | Top5: 0.9833
+  Val Batch [50/50] | Loss: 1.3773 | Top1: 0.8912 | Top5: 0.9825
+  Val Epoch Time: 38.942s
+  ConfusionAdaptiveSampler: boosting 28 confused classes (top-20 pairs, boost=2.0x)
+Epoch [23/60] | Train Loss: 1.0003 | Train Top1: 0.5787 | Train Top5: 0.7851 | Val Loss: 1.3773 | Val Top1: 0.8912 | Val Top5: 0.9825 | LR: 5.65e-05 | Train Time: 366.295s | Val Time: 38.942s | Epoch Time: 405.236s
+
+===== Epoch 24/60 (LR: 6.81e-05) =====
+  Train Batch [30/325] | Loss: 1.0301 | Top1: 0.4500 | Top5: 0.6875
+  Train Batch [60/325] | Loss: 0.9108 | Top1: 0.5073 | Top5: 0.7208

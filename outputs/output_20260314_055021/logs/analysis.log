@@ -1,0 +1,29 @@
+
+========================================
+Analysis Timestamp: 2026-03-14 06:01:26 PDT
+========================================
+Run: output_20260314_055021 | Model: convnextv2_base | Epochs: 18/30 completed | Epoch 19 in progress
+Resumed from: output_20260314_031959 at epoch 15 (best val top-1: 90.87%)
+Scheduler: CosineAnnealingLR (T_max=30, eta_min=1e-6) | AMP: on | Warmup: 1 epoch
+Regularization: MixUp=0.2, CutMix=1.0, LabelSmooth=0.1, Dropout=0.15
+
+Last 5 Completed Epochs:
+  Epoch 14: TrLoss=1.6502 TrTop1=60.11% VLoss=1.1914 VTop1=90.62% VTop5=98.50% LR=6.67e-06
+  Epoch 15: TrLoss=1.6362 TrTop1=59.11% VLoss=1.1901 VTop1=90.87% VTop5=98.38% LR=2.44e-06
+  Epoch 16: TrLoss=1.0619 TrTop1=61.96% VLoss=1.1909 VTop1=91.00% VTop5=98.88% LR=1.00e-06
+  Epoch 17: TrLoss=0.9859 TrTop1=57.59% VLoss=1.1928 VTop1=91.25% VTop5=98.88% LR=2.44e-06
+  Epoch 18: TrLoss=0.9701 TrTop1=56.76% VLoss=1.2243 VTop1=91.00% VTop5=98.62% LR=6.67e-06
+
+Best: 91.25% @ epoch 17. Trend: IMPROVING (best in last 3 completed epochs).
+ETA: ~35m remaining (12 epochs x ~175s avg).
+
+Loss Analysis:
+- Train-val accuracy gap is inverted (train 57% << val 91%) due to heavy MixUp/CutMix/label smoothing.
+  This is expected -- train accuracy is artificially depressed by augmentation. NOT overfitting.
+- Val loss trending up: 1.1901 -> 1.1909 -> 1.1928 -> 1.2243.
+  Epoch 18 jump (+0.0315) coincides with LR warmup of resumed cosine schedule (1e-6 -> 6.67e-6).
+  Mild val loss increase expected during warmup phase.
+- Calibration: Val loss >1.0 with 91% accuracy suggests some miscalibration.
+- Risk: Watch epochs 20-21 when LR peaks. If val loss continues rising + val top-1 stops improving,
+  the cosine schedule may be overshooting.
+- Errors: None. No CUDA OOM or exceptions. Benign torch.load FutureWarning only.

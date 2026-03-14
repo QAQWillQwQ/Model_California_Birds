@@ -1,0 +1,61 @@
+seed: 42
+
+# ConvNeXt V2 Base -- Phase 3: high-res polish at 448px with confusion sampling
+model: convnextv2_base
+pretrained: true
+
+data_root: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/data/CUB_200_2011/images
+
+# Phase 3c: 448px high-res -- standard CE, no novel components
+image_size: 448
+batch_size: 8
+
+epochs: 30
+learning_rate: 0.000005
+
+val_split: 0.15
+num_workers: 4
+use_amp: true
+freeze_backbone: false
+val_interval: 1
+prefetch_factor: 4
+cudnn_benchmark: true
+float32_matmul_precision: high
+archive_outputs: false
+clear_logs_before_run: true
+
+# Use CUB-200-2011 official train/test split
+use_official_split: true
+
+# Regularization -- higher dropout per Phase 2e analysis
+weight_decay: 0.05
+label_smoothing: 0.1
+dropout_rate: 0.20
+mixup_alpha: 0.2
+cutmix_alpha: 1.0
+
+# Cosine schedule with warmup (ease into new resolution)
+scheduler: cosine
+warmup_epochs: 1
+
+# Early stopping -- tighter patience, Phase 2e showed only 3 productive epochs
+early_stopping_patience: 7
+
+# Novel component 1: attribute-weighted label smoothing (disabled -- no benefit at 448px)
+use_attribute_smoothing: false
+
+# Novel component 2: part-aware stochastic masking (disabled)
+use_part_masking: false
+part_mask_prob: 0.3
+part_mask_radius: 0.08
+
+# Novel component 3: confusion-adaptive batch mining (disabled -- no benefit at 448px)
+use_confusion_sampling: false
+confusion_topk: 20
+
+# Resume from Phase 2e best checkpoint
+resume_from: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_063401/checkpoints/convnextv2_base_best_full.pth
+
+log_interval: 30
+
+output_dir: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs

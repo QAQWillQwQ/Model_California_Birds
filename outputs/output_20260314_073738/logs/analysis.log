@@ -1,0 +1,304 @@
+=== Monitor Check: 2026-03-14 07:48:00 (Poll 1) ===
+
+Run: Phase 3 - ConvNeXt V2 Base, 448px, Batch 8
+Resumed from: Phase 2e best (epoch 19, 91.75% val top-1)
+Config: LR 3e-6 cosine decay (T_max=11), no warmup, patience 7
+Features: Attribute smoothing + Confusion-adaptive sampling (top-20 pairs)
+
+COMPLETED EPOCHS:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 0.9397    | 57.24%      | 1.2375   | 90.87%    | 98.50%    | 3.00e-06 |
+
+TIMING:
+- Epoch 20 total time: 485.2s (train: 356.1s, val: 129.2s)
+- Epochs remaining: 10 (21-30)
+- ETA: ~80.9 min (10 * 485.2s)
+- Next poll in ~485s (1 epoch)
+
+LOSS ANALYSIS:
+- Only 1 epoch completed so far, cannot assess trends yet.
+- Val Top-1 90.87% is 0.88 ppts below Phase 2e best of 91.75%.
+- This is expected for the first epoch of a new phase with reset optimizer.
+- Val loss: 1.2375 (baseline for Phase 3 tracking).
+- Train loss: 0.9397 -- train-val gap = -0.2978 (val loss higher, typical with regularization).
+- ConfusionAdaptiveSampler: boosting 34 confused classes (2.0x) -- active and working.
+
+STATUS:
+- Best val top-1: 91.75% (Phase 2e, epoch 19) -- not yet matched in Phase 3
+- Trend: Too early to assess (1 epoch)
+- Loss health: Baseline established, monitoring begins next poll
+- Errors: None detected (FutureWarning on torch.load is non-critical)
+
+=== Monitor Check: 2026-03-14 07:56:00 (Poll 2) ===
+
+COMPLETED EPOCHS (last 3):
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 0.9397    | 57.24%      | 1.2375   | 90.87%    | 98.50%    | 3.00e-06 |
+| 21    | 0.9008    | 58.82%      | 1.2484   | 91.50%    | 98.62%    | 2.96e-06 |
+| 22    | 0.8728    | 60.61%      | 1.2517   | 91.37%    | 98.75%    | 2.84e-06 |
+
+TIMING:
+- Avg epoch time (steady state, ep 21-22): ~231s
+- Epochs remaining: 8 (23-30)
+- ETA: ~30.8 min (8 * 231s)
+- Next poll in ~232s (1 epoch)
+
+LOSS ANALYSIS:
+- Val loss trend (3 epochs): 1.2375 -> 1.2484 -> 1.2517 (slightly increasing, +1.1%)
+- Train loss trend: 0.9397 -> 0.9008 -> 0.8728 (decreasing, training is learning)
+- Train-val gap: -0.2978 -> -0.3476 -> -0.3789 (widening -- early overfitting signal)
+- Val Top-1 improved from 90.87% to 91.50% (epoch 21) then dipped to 91.37% (epoch 22)
+- Best Phase 3 val top-1: 91.50% at epoch 21 (still below 91.75% target)
+- Val loss increased 2 consecutive epochs -- not yet at 3-epoch warning threshold
+- LR phase: Early cosine decay (3.00e-06 -> 2.84e-06), model in peak LR region
+- Calibration: Val loss rising while val accuracy roughly flat -- mild calibration divergence
+
+CONFUSION SAMPLER:
+- Epoch 20: 34 confused classes boosted
+- Epoch 21: 32 confused classes boosted (slight improvement)
+- Epoch 22: 33 confused classes boosted
+
+STATUS:
+- Best val top-1 this phase: 91.50% (epoch 21) -- 0.25 ppts below 91.75% target
+- Trend: Mild concern -- val loss rising while train loss drops, gap widening
+- Loss health: Val loss drifting up (+1.1% over 3 epochs), monitoring closely
+- ETA: ~31 min remaining
+- Errors: None
+
+=== Monitor Check: 2026-03-14 08:10:00 (Poll 3) ===
+
+COMPLETED EPOCHS (last 5):
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 20    | 0.9397    | 57.24%      | 1.2375   | 90.87%    | 98.50%    | 3.00e-06 |
+| 21    | 0.9008    | 58.82%      | 1.2484   | 91.50%    | 98.62%    | 2.96e-06 |
+| 22    | 0.8728    | 60.61%      | 1.2517   | 91.37%    | 98.75%    | 2.84e-06 |
+| 23    | 0.8714    | 59.55%      | 1.2592   | 91.37%    | 98.62%    | 2.65e-06 |
+| 24    | 0.8546    | 57.99%      | 1.2577   | 91.13%    | 98.62%    | 2.42e-06 |
+
+TIMING:
+- Avg epoch time (steady state, ep 21-24): ~230s
+- Epochs remaining: 6 (25-30)
+- ETA: ~23.0 min (6 * 230s)
+- Next poll in ~230s (1 epoch)
+
+LOSS ANALYSIS:
+- WARNING: OVERFITTING DETECTED
+- Val loss trend (5 epochs): 1.2375 -> 1.2484 -> 1.2517 -> 1.2592 -> 1.2577
+- Val loss increased for 3 consecutive epochs (20->21->22->23), then a tiny dip at 24.
+- Best val loss: 1.2375 (epoch 20). Current: 1.2577. Gap: +1.6% above best.
+- Train loss trend: 0.9397 -> 0.9008 -> 0.8728 -> 0.8714 -> 0.8546 (steadily decreasing)
+- Train-val gap: -0.298 -> -0.348 -> -0.379 -> -0.388 -> -0.403 (steadily widening)
+- Val Top-1 peaked at 91.50% (epoch 21), now declining to 91.13% (epoch 24)
+- Val accuracy declining while val loss is flat/rising = model losing confidence on correct predictions
+- LR phase: Cosine decay from 3.00e-06 to 2.42e-06 -- mid-decay, loss should be stabilizing
+- Calibration: Val loss and val accuracy both moving unfavorably -- genuine overfitting, not just calibration drift
+
+CONFUSION SAMPLER:
+- Epoch 24: Not captured (missed in tail output)
+- Confused class count stable at 32-34 per epoch -- not improving
+
+STATUS:
+- Best val top-1 this phase: 91.50% (epoch 21) -- 3 epochs ago, declining since
+- Trend: OVERFITTING -- val loss rising, val accuracy declining, train-val gap widening
+- Loss health: Val loss 1.6% above best, train-val gap at -0.403 and growing
+- Phase 2e target of 91.75% NOT reached; best Phase 3 result is 91.50%
+- Early stopping patience=7: will trigger at epoch 28 if no improvement (best was epoch 21)
+- ETA: ~23 min remaining
+- Errors: None
+
+=== Monitor Check: 2026-03-14 08:16:00 (Poll 4 - FINAL / Run Stalled) ===
+
+RUN STATUS: STALLED / LIKELY CANCELLED
+- All log files stopped updating at ~08:05-08:06
+- Debug log frozen mid-epoch-26 at batch 210/650 since 08:06:32
+- No checkpoints saved (empty checkpoints/ directory)
+- No experiment_results.csv (run did not complete normally)
+- 3 consecutive polls with no new data -- triggering stop condition
+
+ALL COMPLETED EPOCHS:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       | Epoch Time |
+|-------|-----------|-------------|----------|-----------|-----------|----------|------------|
+| 20    | 0.9397    | 57.24%      | 1.2375   | 90.87%    | 98.50%    | 3.00e-06 | 485.2s     |
+| 21    | 0.9008    | 58.82%      | 1.2484   | 91.50%    | 98.62%    | 2.96e-06 | 229.2s     |
+| 22    | 0.8728    | 60.61%      | 1.2517   | 91.37%    | 98.75%    | 2.84e-06 | 232.5s     |
+| 23    | 0.8714    | 59.55%      | 1.2592   | 91.37%    | 98.62%    | 2.65e-06 | 230.6s     |
+| 24    | 0.8546    | 57.99%      | 1.2577   | 91.13%    | 98.62%    | 2.42e-06 | 228.3s     |
+| 25    | 0.8200    | 57.28%      | 1.2702   | 90.87%    | 98.50%    | 2.14e-06 | 229.1s     |
+
+COMPREHENSIVE LOSS ANALYSIS:
+- CRITICAL: SUSTAINED OVERFITTING -- val loss increased for 5 out of 6 epochs
+  Epoch 20: 1.2375 (best)
+  Epoch 21: 1.2484 (+0.88%)
+  Epoch 22: 1.2517 (+1.15%)
+  Epoch 23: 1.2592 (+1.75%)
+  Epoch 24: 1.2577 (+1.63%) -- brief tiny dip
+  Epoch 25: 1.2702 (+2.64%) -- new worst
+- Val loss is now 2.64% above the best (epoch 20). Below the 10% flag threshold, but trend is clearly unfavorable.
+- Train loss decreased monotonically: 0.9397 -> 0.8200 (12.7% reduction)
+- Train-val gap widened from -0.298 to -0.450 over 6 epochs -- clear overfitting signature
+- Val Top-1 peaked at 91.50% (epoch 21), then declined: 91.37, 91.37, 91.13, 90.87
+- Val Top-5 peaked at 98.75% (epoch 22), stable around 98.50-98.62
+- LR schedule: Cosine decay from 3.00e-06 to 2.14e-06 -- despite decaying LR, overfitting worsened
+- Calibration: Val loss rising while val accuracy falling -- model is both less accurate AND less calibrated
+- Early stopping would have triggered at epoch 28 (patience=7 from best epoch 21)
+
+CONFUSION SAMPLER ANALYSIS:
+- Confused class count: 34 -> 32 -> 33 -> 33 (stable, not improving)
+- The confusion-adaptive sampling did not significantly reduce inter-class confusion
+- The boost factor (2.0x) may be too aggressive, contributing to overfitting on confused pairs
+
+PHASE 3 VERDICT:
+- Phase 3 FAILED to beat Phase 2e best of 91.75%
+- Best Phase 3 result: 91.50% val top-1 at epoch 21 (-0.25 ppts vs target)
+- The attribute-weighted loss + confusion sampling at LR 3e-6 did not help
+- The model was already near convergence after Phase 2e; additional fine-tuning at this LR is overfitting
+
+RECOMMENDATIONS FOR NEXT ATTEMPT:
+1. Lower learning rate further: try 1e-6 or 5e-7 max LR
+2. Increase weight decay from 0.05 to 0.08-0.10 to combat overfitting
+3. Consider using the Phase 2e best checkpoint directly (epoch 19, 91.75%) without further training
+4. Try SWA (Stochastic Weight Averaging) over the last few Phase 2e epochs instead of more SGD
+5. Try Test-Time Augmentation (TTA) on the Phase 2e best model -- may push past 92% without training
+6. If re-training, use shorter schedule (5 epochs max) with aggressive early stopping (patience=3)
+7. The confusion-adaptive sampler was not effective -- consider removing it or reducing boost to 1.5x
+8. Dropout 0.2 may be too low given the overfitting -- try 0.3-0.4
+
+MONITOR STOPPED: No new epochs for 3 consecutive polls. Run likely cancelled or process killed.
+Cancel this monitor with CronDelete.
+
+=== FINAL ANALYSIS: 2026-03-14 Phase 3 (CANCELLED) ===
+
+RUN CONFIGURATION:
+- Model: ConvNeXt V2 Base (convnextv2_base)
+- Resolution: 448px, Batch size: 8
+- Optimizer: AdamW, LR 3e-6, weight decay 0.05
+- Scheduler: CosineAnnealingLR (T_max=11, eta_min=1e-6), no warmup
+- Regularization: label smoothing 0.1, dropout 0.2, mixup 0.2, cutmix 1.0
+- Special: AttributeWeightedCrossEntropy (312 attributes), confusion-adaptive sampling (top-20 pairs, 2.0x boost)
+- Resumed from: Phase 2e best (epoch 19, val top-1 91.75%)
+- Early stopping patience: 7
+- Epochs planned: 20-30 (11 new epochs)
+- Epochs completed: 20-25 (6 epochs), cancelled mid-epoch 26
+- No checkpoints saved, no experiment_results.csv
+
+ALL COMPLETED EPOCH METRICS:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       | Epoch Time |
+|-------|-----------|-------------|----------|-----------|-----------|----------|------------|
+| 20    | 0.9397    | 57.24%      | 1.2375   | 90.87%    | 98.50%    | 3.00e-06 | 485.2s     |
+| 21    | 0.9008    | 58.82%      | 1.2484   | 91.50%    | 98.62%    | 2.96e-06 | 229.2s     |
+| 22    | 0.8728    | 60.61%      | 1.2517   | 91.37%    | 98.75%    | 2.84e-06 | 232.5s     |
+| 23    | 0.8714    | 59.55%      | 1.2592   | 91.37%    | 98.62%    | 2.65e-06 | 230.6s     |
+| 24    | 0.8546    | 57.99%      | 1.2577   | 91.13%    | 98.62%    | 2.42e-06 | 228.3s     |
+| 25    | 0.8200    | 57.28%      | 1.2702   | 90.87%    | 98.50%    | 2.14e-06 | 229.1s     |
+
+FULL TRAINING CURVE ANALYSIS:
+
+1. Loss Trajectory:
+   - Train loss decreased monotonically: 0.9397 -> 0.8200 (-12.7% over 6 epochs)
+   - Val loss increased monotonically (with one tiny dip): 1.2375 -> 1.2702 (+2.64%)
+   - Train-val gap widened continuously: -0.298 -> -0.450 (+51% widening)
+   - This is a textbook overfitting signature: the model memorizes training data
+     while generalization degrades.
+
+2. Accuracy Trajectory:
+   - Val Top-1 peaked at 91.50% (epoch 21), then declined to 90.87% (epoch 25)
+   - Val Top-5 peaked at 98.75% (epoch 22), then fell to 98.50% (epoch 25)
+   - Train Top-1 fluctuated between 57-61% -- this is artificially low due to
+     MixUp/CutMix applied during training (soft labels reduce apparent accuracy)
+   - The val top-1 decline of 0.63 ppts over 4 epochs matches the val loss rise
+
+3. Best Epoch and Metrics:
+   - Best val top-1: 91.50% at epoch 21 (LR 2.96e-06)
+   - Best val loss: 1.2375 at epoch 20 (LR 3.00e-06)
+   - Best val top-5: 98.75% at epoch 22 (LR 2.84e-06)
+   - Phase 2e best: 91.75% at epoch 19 -- Phase 3 never matched it
+
+4. Improvement Dynamics:
+   - Epoch 20 (first epoch): slight accuracy drop from 91.75% to 90.87%, expected
+     with optimizer reset and new loss function (attribute-weighted CE)
+   - Epoch 21: recovery to 91.50% -- the only epoch that showed real improvement
+   - Epochs 22-25: steady decline -- the model gained nothing after epoch 21
+   - The model's fastest learning happened in a single epoch (20->21)
+
+5. LR Schedule Correlation:
+   - Cosine decay from 3.00e-06 to 2.14e-06 over 6 completed epochs
+   - The entire LR range was extremely conservative (3e-6 is very small)
+   - Even at peak LR (3e-6), the model barely moved -- it needed more gradient signal
+   - The cosine decay compounded the problem: as LR decreased, the model had even
+     less ability to escape the local minimum from Phase 2e
+   - The LR was too low to adapt to the new 448px resolution effectively
+
+6. Train-Val Gap Analysis:
+   | Epoch | Train Loss | Val Loss | Gap    | Gap Change |
+   |-------|-----------|----------|--------|------------|
+   | 20    | 0.9397    | 1.2375   | -0.298 | baseline   |
+   | 21    | 0.9008    | 1.2484   | -0.348 | -0.050     |
+   | 22    | 0.8728    | 1.2517   | -0.379 | -0.031     |
+   | 23    | 0.8714    | 1.2592   | -0.388 | -0.009     |
+   | 24    | 0.8546    | 1.2577   | -0.403 | -0.015     |
+   | 25    | 0.8200    | 1.2702   | -0.450 | -0.047     |
+   Gap widened every single epoch. The rate of widening slowed in epochs 22-24
+   but accelerated again at epoch 25, suggesting the model was continuing to overfit
+   rather than stabilizing.
+
+7. Calibration Analysis:
+   - Val loss and val accuracy moved in opposite directions for 5 of 6 epochs
+   - Val loss went up while accuracy went down -- the model is BOTH less accurate
+     and less calibrated over time
+   - This is worse than simple calibration drift (where loss rises but accuracy holds)
+   - The attribute-weighted CE loss may be contributing: it changes the loss landscape
+     in ways that make the model less certain about correct predictions
+
+8. Confusion-Adaptive Sampler Analysis:
+   - Confused class count: 34 -> 32 -> 33 -> 33 -> 34 -> 33 (stable, no improvement)
+   - The sampler oversampled ~33 confused classes at 2.0x rate every epoch
+   - This did NOT reduce inter-class confusion -- the number of confused pairs stayed flat
+   - Possible reasons: (a) LR too low to meaningfully change decision boundaries,
+     (b) 2.0x boost is not enough, or (c) the confusion is inherent to the dataset
+     (similar-looking species that require part-level attention, not just more samples)
+
+9. Early Stopping Analysis:
+   - Best val top-1 at epoch 21; patience = 7
+   - Early stopping would have triggered at epoch 28 (21 + 7)
+   - Cancellation at epoch 25 saved ~3 more wasted epochs
+   - With patience = 3, early stopping would have triggered at epoch 24
+   - RECOMMENDATION: For fine-tuning runs with very low LR, patience = 3-4 is sufficient
+
+10. Comparison to Phase 2e:
+    - Phase 2e: 91.75% val top-1 at epoch 19 (320px, LR 5e-5 range)
+    - Phase 3: 91.50% val top-1 at epoch 21 (448px, LR 3e-6)
+    - Phase 3 result is 0.25 ppts BELOW Phase 2e
+    - The 448px resolution increase should have helped (more detail for fine-grained
+      features), but the LR was too conservative to exploit the higher resolution
+    - The attribute-weighted loss and confusion sampling added complexity without benefit
+
+11. Why Phase 3 Failed:
+    PRIMARY CAUSE: LR 3e-6 was too conservative for the resolution transition.
+    - Moving from 320px to 448px changes the feature statistics significantly
+    - The model needed enough gradient signal to adapt its spatial processing
+    - At 3e-6, the model could barely move from its 320px-optimized parameters
+    - Result: marginal improvement at epoch 21, then gradual degradation
+    SECONDARY CAUSES:
+    - Attribute-weighted CE changed the loss landscape without clear benefit
+    - Confusion-adaptive sampling introduced distribution shift during training
+    - Both added regularization noise that the model couldn't learn through at this LR
+
+RECOMMENDATIONS FOR PHASE 3b:
+1. LR 1e-5 (3.3x higher) -- provides enough gradient signal for 448px adaptation
+2. Keep cosine schedule but with warmup (2-3 epochs) to stabilize the resolution transition
+3. REMOVE attribute-weighted CE -- standard cross-entropy + label smoothing is proven
+4. REMOVE or REDUCE confusion-adaptive sampling -- it did not help and adds complexity
+5. Keep dropout 0.2, weight decay 0.05 (these were not the bottleneck)
+6. Keep MixUp 0.2 / CutMix 1.0 (effective regularization)
+7. Use patience = 4-5 (shorter than 7, this is fine-tuning not training from scratch)
+8. Train for 10-15 epochs max (the model converges fast from a good checkpoint)
+9. Save checkpoints -- Phase 3 saved none due to cancellation before best epoch logic triggered
+
+TOTAL TRAINING TIME: ~1634s (~27.2 min) for 6 completed epochs + partial epoch 26
+ERRORS: None (only a non-critical FutureWarning on torch.load weights_only)
+
+Run complete -- cancelled by user to retry as Phase 3b with LR 1e-5.
+

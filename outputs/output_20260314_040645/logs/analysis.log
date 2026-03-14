@@ -1,0 +1,222 @@
+=== Monitor Check: 2026-03-14 04:06 ===
+Run started. Epoch 16/60 in progress, batch 240/325.
+Resumed from Phase 1 checkpoint (epoch 15, val top-1 90.87%).
+Config: 384px, batch 16, LR 5e-5, cosine + 3-epoch warmup.
+Novel components active: attribute-weighted smoothing, part masking (prob=0.3, radius=0.08), confusion sampling (top-20).
+No errors. Estimated ~7 min/epoch.
+
+=== Monitor Check: 2026-03-14 04:15 ===
+Epoch 16 complete. First Phase 2 results at 384px.
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 16/60 | 1.1781    | 55.99%      | 1.1918   | 90.50%    | 98.88%    | 1.00e-06 |
+
+Status: Val top-1 90.50% -- slightly below Phase 1 best (90.87%) but expected since LR is 1e-6 (warmup).
+Train loss dropped from 1.6 (Phase 1) to 1.18 -- 384px resolution providing richer gradients.
+Val top-5 improved to 98.88% (was 98.38%).
+Trend: Holding steady during warmup. Real gains expected after epoch 18 when LR ramps up.
+
+=== Monitor Check: 2026-03-14 04:25 ===
+Epochs 16-17 complete.
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 16/60 | 1.1781    | 55.99%      | 1.1918   | 90.50%    | 98.88%    | 1.00e-06 |
+| 17/60 | 1.0179    | 60.80%      | 1.1932   | 90.75%    | 99.12%    | 2.44e-06 |
+
+Status: Val top-1 rising (90.50 -> 90.75%). Val top-5 hit 99.12%. 
+Still in warmup (epoch 17 of 3-epoch warmup). LR barely at 2.44e-6.
+Train loss continuing to drop (1.18 -> 1.02). Model benefiting from higher resolution.
+Trend: Improving. Best val top-1 still Phase 1's 90.87%.
+
+=== Monitor Check: 2026-03-14 04:40 ===
+Epoch 18 complete. NEW BEST!
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+| 16/60 | 1.1781    | 55.99%      | 1.1918   | 90.50%    | 98.88%    | 1.00e-06 |
+| 17/60 | 1.0179    | 60.80%      | 1.1932   | 90.75%    | 99.12%    | 2.44e-06 |
+| 18/60 | 0.9404    | 60.38%      | 1.2156   | 91.50%    | 99.00%    | 6.67e-06 |
+
+Status: Val top-1 91.50% -- surpassed Phase 1 best (90.87%) by +0.63%.
+Warmup just ended (epoch 18 = end of 3-epoch warmup). LR now at 6.67e-6 and ramping up.
+Train loss dropped to 0.94 -- model extracting much more from 384px images.
+Val loss slightly increased (1.19 -> 1.22) which is normal during resolution transition.
+Trend: IMPROVING. Best is most recent epoch. With LR about to ramp to 5e-5, expect significant further gains.
+ETA: ~42 epochs x 7min = ~4.9 hours remaining.
+
+=== Monitor Check: 2026-03-14 04:46:16 ===
+
+Run: output_20260314_040645 | Model: convnextv2_base | 200 classes
+Scheduler: CosineAnnealingLR (T_max=60, warmup=3) | AMP: Yes
+Resumed from epoch 15 (best val top1: 90.87% from prior run)
+
+Progress: 20/60 epochs complete, epoch 21 in progress (~batch 150/325)
+
+Last 5 completed epochs:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 |    LR     |
+|-------|-----------|-------------|----------|-----------|-----------|-----------|
+| 16/60 |   1.1781  |   55.99%    |  1.1918  |  90.50%   |  98.88%   | 1.00e-06  |
+| 17/60 |   1.0179  |   60.80%    |  1.1932  |  90.75%   |  99.12%   | 2.44e-06  |
+| 18/60 |   0.9404  |   60.38%    |  1.2156  |  91.50%   |  99.00%   | 6.67e-06  |
+| 19/60 |   0.9458  |   61.90%    |  1.2395  |  90.50%   |  98.75%   | 1.34e-05  |
+| 20/60 |   0.9208  |   58.36%    |  1.2768  |  90.00%   |  98.88%   | 2.24e-05  |
+
+Best: 91.50% val top-1 @ epoch 18
+Trend: Improving (best in last 3 epochs). Val loss rising slightly (1.19 -> 1.28) but top-1 still near best.
+Train-val gap is expected due to MixUp/CutMix (train top-1 suppressed by design).
+Avg epoch time: 434.7s (~7.2 min). ETA: ~289 min (~4.8h) for 40 remaining epochs.
+Errors: None (no CUDA OOM, exceptions, or warnings in debug.log)
+
+=== Monitor Check: 2026-03-14 05:10 === (with loss analysis)
+Epochs 16-21 complete. OVERFITTING WARNING.
+
+| Epoch | Train Loss | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|----------|-----------|-----------|----------|
+| 16/60 | 1.1781    | 1.1918   | 90.50%    | 98.88%    | 1.00e-06 |
+| 17/60 | 1.0179    | 1.1932   | 90.75%    | 99.12%    | 2.44e-06 |
+| 18/60 | 0.9404    | 1.2156   | 91.50%    | 99.00%    | 6.67e-06 |
+| 19/60 | 0.9458    | 1.2395   | 90.50%    | 98.75%    | 1.34e-05 |
+| 20/60 | 0.9208    | 1.2768   | 90.00%    | 98.88%    | 2.24e-05 |
+| 21/60 | 0.9623    | 1.3055   | 89.75%    | 98.62%    | 3.29e-05 |
+
+LOSS ANALYSIS:
+- Val loss continuously rising for 6 epochs: 1.1918 -> 1.3055 (+9.5% above best)
+- Train-val loss gap widened from 0.014 (ep16) to 0.343 (ep21) -- 24x wider
+- Val top-1 dropped 1.75pp in 3 epochs (91.50% -> 89.75%)
+- Val top-5 remains high (98.6-99.1%) -- model ranking ability intact, confidence calibration degrading
+
+MITIGATING FACTORS:
+- LR is still ramping from warmup restart (1e-6 -> 3.3e-5, peak is 5e-5)
+- Cosine decay hasn't started yet -- val loss may recover when LR decreases after ~epoch 30
+- Best checkpoint (epoch 18, 91.50%) is already saved
+
+RISK ASSESSMENT:
+- If val top-1 doesn't recover by epoch 28-30, early stopping (patience=15) triggers ~epoch 33
+- The attribute-weighted smoothing + part masking + confusion sampling combination may be too aggressive
+- Consider: if no recovery, Phase 2b run with only attribute smoothing (disable part masking + confusion sampling)
+
+================================================================================
+TRAINING MONITOR — 2026-03-14 05:01 PDT
+================================================================================
+Run: output_20260314_040645 | Model: convnextv2_base | 200 classes (CUB-200)
+Scheduler: CosineAnnealingLR (warmup 3 epochs) | AMP: on | Resumed from epoch 15
+Features: Part masking (p=0.3), MixUp(0.2)/CutMix(1.0), ConfusionAdaptiveSampler
+Currently training: Epoch 23/60 (batch 210/325 — ~65% through epoch)
+
+LAST 7 COMPLETED EPOCHS:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 |    LR     |
+|-------|-----------|-------------|----------|-----------|-----------|-----------|
+| 16/60 |   1.1781  |    55.99%   |  1.1918  |   90.50%  |   98.88%  | 1.00e-06  |
+| 17/60 |   1.0179  |    60.80%   |  1.1932  |   90.75%  |   99.12%  | 2.44e-06  |
+| 18/60 |   0.9404  |    60.38%   |  1.2156  |   91.50%  |   99.00%  | 6.67e-06  |
+| 19/60 |   0.9458  |    61.90%   |  1.2395  |   90.50%  |   98.75%  | 1.34e-05  |
+| 20/60 |   0.9208  |    58.36%   |  1.2768  |   90.00%  |   98.88%  | 2.24e-05  |
+| 21/60 |   0.9623  |    58.26%   |  1.3055  |   89.75%  |   98.62%  | 3.29e-05  |
+| 22/60 |   0.9540  |    57.39%   |  1.3407  |   89.62%  |   98.75%  | 4.45e-05  |
+
+STATUS:
+  Best: 91.50% val top-1 @ epoch 18 (pre-resume best was 90.87% @ epoch 15)
+  Trend: OVERFITTING — val loss rising steadily for 4 consecutive epochs (1.1918 -> 1.3407)
+
+DETAILED LOSS ANALYSIS:
+  Val loss trend (ep16-22): 1.192 -> 1.193 -> 1.216 -> 1.240 -> 1.277 -> 1.306 -> 1.341
+    -- Monotonically increasing after epoch 16. Delta = +0.149 over 6 epochs.
+  Train loss trend:         1.178 -> 1.018 -> 0.940 -> 0.946 -> 0.921 -> 0.962 -> 0.954
+    -- Train loss dropped initially then plateaued around 0.92-0.96.
+  Train-val gap (top-1):    90.50-55.99=34.5pp -> 89.62-57.39=32.2pp
+    -- Massive gap (>30pp) due to MixUp/CutMix making train acc artificially low.
+    -- Corrected interpretation: MixUp/CutMix train acc is NOT comparable to val acc.
+    -- The real signal is val loss/acc trends, not the train-val gap.
+  Val top-1 trend:          90.50 -> 90.75 -> 91.50 -> 90.50 -> 90.00 -> 89.75 -> 89.62
+    -- Peak at epoch 18 (91.50%), declined 1.88pp over 4 epochs since.
+  Val top-5 trend:          98.88 -> 99.12 -> 99.00 -> 98.75 -> 98.88 -> 98.62 -> 98.75
+    -- Stable around 98.7-99.1%, no significant degradation.
+
+CALIBRATION CHECK:
+  Val loss is increasing while val acc is decreasing — model confidence is becoming
+  poorly calibrated. Predictions are becoming overconfident on wrong answers.
+  LR is still ramping up (warmup phase, 1e-6 -> 4.45e-5). This may resolve once
+  LR stabilizes and cosine decay begins, but the trend is concerning.
+
+TIMING:
+  Avg epoch time: 426.7s (~7.1 min)
+  Epochs remaining: 38 (epochs 23-60)
+  ETA: ~4h 30m remaining (38 epochs x 426.7s)
+
+ERRORS: None (1 benign FutureWarning about torch.load weights_only — not actionable)
+
+RISK ASSESSMENT:
+  Early stopping patience is 15 epochs. Best was at epoch 18, so early stopping
+  would trigger at epoch 33 if no improvement. With val loss rising steadily as
+  LR ramps up, the model may recover once LR peaks and starts decaying, or it
+  may continue degrading. The cosine scheduler should bring LR back down after
+  the warmup completes, which could help.
+
+Recommended /loop interval: 14m (every 2 epochs)
+================================================================================
+
+================================================================================
+TRAINING MONITOR — 2026-03-14 04:16 UTC
+================================================================================
+
+Run: output_20260314_040645 | Model: convnextv2_base | Status: IN PROGRESS
+Resumed from: output_20260314_031959 (epoch 16)
+Scheduler: CosineAnnealingLR (T_max=60, warmup=3) | AMP: on | Dropout: 0.15
+MixUp: 0.2 | CutMix: 1.0 | Label Smoothing: 0.1 | Early Stopping: 15 epochs
+
+--- Last 8 completed epochs ---
+| Epoch | Train Loss | Train T1 | Val Loss | Val T1   | Val T5   | LR       | Epoch Time |
+|-------|------------|----------|----------|----------|----------|----------|------------|
+| 16/60 |     1.1781 |   55.99% |   1.1918 |   90.50% |   98.88% | 1.00e-06 |     434.3s |
+| 17/60 |     1.0179 |   60.80% |   1.1932 |   90.75% |   99.12% | 2.44e-06 |     404.1s |
+| 18/60 |     0.9404 |   60.38% |   1.2156 |   91.50% |   99.00% | 6.67e-06 |     412.6s |
+| 19/60 |     0.9458 |   61.90% |   1.2395 |   90.50% |   98.75% | 1.34e-05 |     496.1s |
+| 20/60 |     0.9208 |   58.36% |   1.2768 |   90.00% |   98.88% | 2.24e-05 |     426.6s |
+| 21/60 |     0.9623 |   58.26% |   1.3055 |   89.75% |   98.62% | 3.29e-05 |     406.0s |
+| 22/60 |     0.9540 |   57.39% |   1.3407 |   89.62% |   98.75% | 4.45e-05 |     407.1s |
+| 23/60 |     1.0003 |   57.87% |   1.3773 |   89.12% |   98.25% | 5.65e-05 |     405.2s |
+
+--- Status Summary ---
+Best: 91.50% val top-1 @ epoch 18 (val loss 1.2156)
+Trend: DECLINING — val top-1 dropped from 91.50% to 89.12% over last 5 epochs;
+       val loss rising for 6 consecutive epochs (1.1918 -> 1.3773).
+Currently training epoch 24/60. 36 epochs remaining.
+Avg epoch time: 424.0s (~7.1 min). ETA: ~256 min (~4.3 hours) remaining.
+Recommended /loop interval: 15m
+
+--- Loss Analysis ---
+Train-Val Gap (top-1): Train ~58%, Val ~89% — train top-1 appears LOW because
+  MixUp/CutMix produces soft labels that suppress reported train accuracy.
+  This is EXPECTED behavior, not a real gap. True model capacity is fine.
+
+Val Loss Trend: RISING steadily since epoch 16.
+  Epoch 16: 1.1918
+  Epoch 18: 1.2156 (best val top-1 despite higher loss — possible label smoothing effect)
+  Epoch 23: 1.3773 (+15.6% increase from epoch 16)
+
+Root Cause: The cosine LR scheduler is ramping UP through the warmup phase
+  (LR went from 1.00e-06 to 5.65e-05 over epochs 16-23). This is expected to
+  destabilize temporarily. The LR will peak and then begin annealing down,
+  which should stabilize val loss and potentially recover val accuracy.
+
+Calibration Note: With label smoothing 0.1, the loss floor is NOT zero even
+  for perfect predictions. Cross-entropy with smoothing on 200 classes has a
+  theoretical minimum around ~0.53. Current val loss of 1.38 is reasonable
+  for 89% accuracy with smoothing.
+
+Early Stopping: Patience is 15 epochs. Best was epoch 18, currently epoch 23.
+  5 epochs without improvement. 10 epochs of patience remain before stopping.
+
+--- Errors ---
+No CUDA OOM, exceptions, or critical errors detected.
+One benign FutureWarning about torch.load weights_only=False (cosmetic).
+
+--- Prognosis ---
+The warmup phase is causing the val loss increase. Once LR peaks and begins
+cosine decay, performance should recover. The model hit 91.50% early (epoch 18)
+with minimal LR. Watch for recovery after epoch ~30 when LR starts decreasing
+meaningfully. If val top-1 does not recover above 90% by epoch 35, consider
+early termination.
+================================================================================

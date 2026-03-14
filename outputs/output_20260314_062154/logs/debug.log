@@ -1,0 +1,55 @@
+TensorBoard logging to: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_062154/logs/tensorboard
+Official split: 5994 train images (out of 11796 total)
+Number of classes: 200
+Train batches: 433
+Val batches: 67
+AttributeWeightedCrossEntropy: loaded 200 classes x 312 attributes
+Resuming from checkpoint: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_031959/checkpoints/convnextv2_base_best_full.pth
+/mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/src/utils.py:67: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state = torch.load(path, map_location=device)
+Resumed at epoch 15, best val top1: 0.9087
+Reset optimizer LR to config value: 5e-06
+Rebuilt scheduler: cosine, T_max=15, warmup=1
+
+===== Epoch 16/30 (LR: 1.00e-06) =====
+  Train Batch [30/433] | Loss: 1.3500 | Top1: 0.5944 | Top5: 0.8278
+  Train Batch [60/433] | Loss: 1.2421 | Top1: 0.5236 | Top5: 0.7500
+  Train Batch [90/433] | Loss: 1.0856 | Top1: 0.5843 | Top5: 0.7759
+  Train Batch [120/433] | Loss: 1.0495 | Top1: 0.5958 | Top5: 0.7750
+  Train Batch [150/433] | Loss: 1.1171 | Top1: 0.5928 | Top5: 0.7856
+  Train Batch [180/433] | Loss: 1.1314 | Top1: 0.6019 | Top5: 0.7991
+  Train Batch [210/433] | Loss: 1.0965 | Top1: 0.6206 | Top5: 0.8091
+  Train Batch [240/433] | Loss: 1.0856 | Top1: 0.6340 | Top5: 0.8142
+  Train Batch [270/433] | Loss: 1.0951 | Top1: 0.6265 | Top5: 0.8111
+  Train Batch [300/433] | Loss: 1.0911 | Top1: 0.6228 | Top5: 0.8081
+  Train Batch [330/433] | Loss: 1.0774 | Top1: 0.6197 | Top5: 0.8015
+  Train Batch [360/433] | Loss: 1.0714 | Top1: 0.6243 | Top5: 0.8039
+  Train Batch [390/433] | Loss: 1.0619 | Top1: 0.6135 | Top5: 0.7949
+  Train Batch [420/433] | Loss: 1.0619 | Top1: 0.6196 | Top5: 0.8016
+  Train Batch [433/433] | Loss: 1.0619 | Top1: 0.6198 | Top5: 0.8007
+  Train Epoch Time: 438.907s
+/home/jihangli/miniconda3/lib/python3.11/site-packages/torch/optim/lr_scheduler.py:240: UserWarning: The epoch parameter in `scheduler.step()` was not necessary and is being deprecated where possible. Please use `scheduler.step()` to step the scheduler. During the deprecation, if epoch is different from None, the closed form is used instead of the new chainable form, where available. Please open an issue if you are unable to replicate your use case: https://github.com/pytorch/pytorch/issues/new/choose.
+  warnings.warn(EPOCH_DEPRECATION_WARNING, UserWarning)
+  Val Batch [30/67] | Loss: 1.1647 | Top1: 0.9167 | Top5: 0.9972
+  Val Batch [60/67] | Loss: 1.1628 | Top1: 0.9181 | Top5: 0.9931
+  Val Batch [67/67] | Loss: 1.1909 | Top1: 0.9087 | Top5: 0.9888
+  Val Epoch Time: 6.830s
+Epoch [16/30] | Train Loss: 1.0619 | Train Top1: 0.6198 | Train Top5: 0.8007 | Val Loss: 1.1909 | Val Top1: 0.9087 | Val Top5: 0.9888 | LR: 1.00e-06 | Train Time: 438.907s | Val Time: 6.830s | Epoch Time: 445.737s
+
+===== Epoch 17/30 (LR: 1.00e-04) =====
+  Train Batch [30/433] | Loss: 1.2785 | Top1: 0.6361 | Top5: 0.8250
+  Train Batch [60/433] | Loss: 1.2487 | Top1: 0.5597 | Top5: 0.7472
+  Train Batch [90/433] | Loss: 1.3195 | Top1: 0.5259 | Top5: 0.7259
+  Train Batch [120/433] | Loss: 1.3614 | Top1: 0.5111 | Top5: 0.7042
+  Train Batch [150/433] | Loss: 1.4049 | Top1: 0.5006 | Top5: 0.6928
+  Train Batch [180/433] | Loss: 1.4628 | Top1: 0.4838 | Top5: 0.6829
+  Train Batch [210/433] | Loss: 1.4702 | Top1: 0.4885 | Top5: 0.6845
+  Train Batch [240/433] | Loss: 1.4569 | Top1: 0.4868 | Top5: 0.6847
+  Train Batch [270/433] | Loss: 1.4862 | Top1: 0.4957 | Top5: 0.6975
+  Train Batch [300/433] | Loss: 1.5091 | Top1: 0.4869 | Top5: 0.6858
+  Train Batch [330/433] | Loss: 1.5276 | Top1: 0.4904 | Top5: 0.6889
+  Train Batch [360/433] | Loss: 1.5317 | Top1: 0.4880 | Top5: 0.6884
+  Train Batch [390/433] | Loss: 1.5179 | Top1: 0.4940 | Top5: 0.6934
+  Train Batch [420/433] | Loss: 1.5145 | Top1: 0.4887 | Top5: 0.6891
+  Train Batch [433/433] | Loss: 1.5184 | Top1: 0.4888 | Top5: 0.6912
+  Train Epoch Time: 160.532s

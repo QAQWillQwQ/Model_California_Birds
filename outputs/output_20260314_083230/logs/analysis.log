@@ -1,0 +1,263 @@
+=== Monitor Check: 2026-03-14 ~08:41 UTC ===
+Phase 3c: ConvNeXt V2 Base | 448px | LR 5e-6 cosine w/ 1-epoch warmup | Resumed from Phase 2e (epoch 19, 91.75%)
+
+Completed Epochs: 20-22 (3 of 11 planned epochs)
+Epoch 23 in progress (~batch 270/650)
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+|  20   | 1.6510    | 61.59%      | 1.2324   | 90.62%    | 98.62%    | 5.00e-08 |
+|  21   | 1.6358    | 58.41%      | 1.1823   | 90.50%    | 98.50%    | 5.00e-06 |
+|  22   | 1.5745    | 57.03%      | 1.1824   | 90.50%    | 98.50%    | 4.90e-06 |
+
+LOSS ANALYSIS:
+- Val loss trend: Dropped sharply 1.2324 -> 1.1823 (epoch 20->21), then flat at 1.1824 (epoch 22)
+- Epoch 20 was warmup (LR=5e-08, very low). Real training starts epoch 21 at full LR 5e-06
+- Train-val gap: Train loss (1.57) > Val loss (1.18) -- expected with MixUp/CutMix/label smoothing
+  (train loss is artificially inflated by augmentation, not a sign of underfitting)
+- Val loss is stable, no overfitting signal
+- Best val loss so far: 1.1823 (epoch 21)
+- Current vs best: 1.1824 vs 1.1823 = essentially identical (+0.008%)
+
+ACCURACY ANALYSIS:
+- Val Top-1 at 90.50-90.62%, which is 1.13-1.25% BELOW the Phase 2e best of 91.75%
+- This is expected early in a resumed run -- model needs to re-adapt
+- Val Top-5 holding strong at 98.50-98.62%
+- Train accuracy appears low (57-62%) but this is due to MixUp/CutMix augmentation
+
+LR SCHEDULE:
+- Epoch 20: warmup phase (LR=5e-08, nearly zero)
+- Epoch 21: peak LR reached (5.00e-06)
+- Epoch 22: beginning cosine decay (4.90e-06)
+- Schedule is progressing normally
+
+STATUS:
+- Best val top-1 this phase: 90.62% (epoch 20) -- below 91.75% target
+- Trend: Stabilizing after warmup, too early to determine direction
+- Loss health: Val loss stable at 1.182, no divergence
+- ETA: 8 epochs remaining * ~230s/epoch = ~31 min remaining
+- Errors: None detected
+
+=== Monitor Check: 2026-03-14 ~08:55 UTC (Poll 2) ===
+Completed Epochs: 20-23 (4 of 11 planned)
+
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+|  20   | 1.6510    | 61.59%      | 1.2324   | 90.62%    | 98.62%    | 5.00e-08 |
+|  21   | 1.6358    | 58.41%      | 1.1823   | 90.50%    | 98.50%    | 5.00e-06 |
+|  22   | 1.5745    | 57.03%      | 1.1824   | 90.50%    | 98.50%    | 4.90e-06 |
+|  23   | 1.5653    | 60.40%      | 1.1770   | 90.75%    | 98.62%    | 4.62e-06 |
+
+LOSS ANALYSIS:
+- Val loss trend: 1.2324 -> 1.1823 -> 1.1824 -> 1.1770 (decreasing overall, model is learning)
+- New best val loss this phase: 1.1770 (epoch 23), improving from 1.1823 plateau
+- Train-val gap: Train loss 1.5653 vs val loss 1.1770. Gap = 0.388.
+  Train loss artificially inflated by MixUp/CutMix -- not a real underfitting signal.
+- No overfitting detected: val loss is decreasing, val accuracy is rising
+- Val loss vs val accuracy: both improving together -- good calibration
+- Current vs best val loss: 1.1770 is the new best, 0% above best
+
+ACCURACY ANALYSIS:
+- Val Top-1 improved to 90.75% (+0.25% from epochs 21-22)
+- Still 1.00% below Phase 2e best of 91.75%
+- Val Top-5 recovered to 98.62%
+- Direction is positive but progress is slow
+
+LR SCHEDULE:
+- Cosine decay progressing: 5.00e-06 -> 4.90e-06 -> 4.62e-06
+- LR decayed roughly 8% from peak so far, still in high-LR region
+- This is the prime learning window before LR drops further
+
+STATUS:
+- Best val top-1 this phase: 90.75% (epoch 23) -- below 91.75% target
+- Trend: Improving (best val top-1 in the most recent epoch)
+- Loss health: Val loss decreasing, no train-val divergence
+- ETA: 7 epochs remaining * ~229s/epoch = ~27 min remaining
+- Errors: None (only standard deprecation warning)
+
+=== Monitor Check: 2026-03-14 ~09:00 UTC (Poll 3) ===
+Completed Epochs: 20-24 (5 of 11 planned)
+
+Last 5 epochs:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+|  20   | 1.6510    | 61.59%      | 1.2324   | 90.62%    | 98.62%    | 5.00e-08 |
+|  21   | 1.6358    | 58.41%      | 1.1823   | 90.50%    | 98.50%    | 5.00e-06 |
+|  22   | 1.5745    | 57.03%      | 1.1824   | 90.50%    | 98.50%    | 4.90e-06 |
+|  23   | 1.5653    | 60.40%      | 1.1770   | 90.75%    | 98.62%    | 4.62e-06 |
+|  24   | 1.5495    | 60.09%      | 1.1750   | 91.50%    | 98.50%    | 4.18e-06 |
+
+LOSS ANALYSIS:
+- Val loss trend (last 5): 1.2324 -> 1.1823 -> 1.1824 -> 1.1770 -> 1.1750 (steadily decreasing)
+- New best val loss this phase: 1.1750 (epoch 24)
+- Train loss also declining: 1.6510 -> 1.5495 (steady improvement)
+- Train-val gap: 1.5495 - 1.1750 = 0.375 (narrowing from 0.419 at epoch 20)
+  Gap is expected with MixUp/CutMix augmentation inflating train loss.
+- No overfitting: val loss monotonically decreasing (excluding warmup epoch)
+- Val loss and val accuracy moving together -- good calibration
+- Current val loss 1.1750 is the phase best, 0% above best
+
+ACCURACY ANALYSIS:
+- Val Top-1 jumped to 91.50% at epoch 24 -- a significant +0.75% gain in one epoch
+- Now only 0.25% below Phase 2e best of 91.75%
+- Val Top-5 at 98.50%, stable
+- The model is accelerating its improvement in the mid-LR region
+
+LR SCHEDULE:
+- LR decay: 5.00e-06 -> 4.90e-06 -> 4.62e-06 -> 4.18e-06
+- LR has decayed ~16% from peak. Entering the productive middle of cosine decay.
+- Best accuracy gains are happening now, as expected with this schedule.
+
+STATUS:
+- Best val top-1 this phase: 91.50% (epoch 24) -- approaching 91.75% target
+- Trend: Improving (best val top-1 in the most recent epoch, accelerating gains)
+- Loss health: Val loss steadily decreasing, healthy train-val gap, good calibration
+- ETA: 6 epochs remaining * ~229s/epoch = ~23 min remaining
+- Errors: None
+
+=== Monitor Check: 2026-03-14 ~09:04 UTC (Poll 4) ===
+Completed Epochs: 20-25 (6 of 11 planned)
+
+Last 5 epochs:
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       |
+|-------|-----------|-------------|----------|-----------|-----------|----------|
+|  21   | 1.6358    | 58.41%      | 1.1823   | 90.50%    | 98.50%    | 5.00e-06 |
+|  22   | 1.5745    | 57.03%      | 1.1824   | 90.50%    | 98.50%    | 4.90e-06 |
+|  23   | 1.5653    | 60.40%      | 1.1770   | 90.75%    | 98.62%    | 4.62e-06 |
+|  24   | 1.5495    | 60.09%      | 1.1750   | 91.50%    | 98.50%    | 4.18e-06 |
+|  25   | 1.5591    | 61.34%      | 1.1749   | 90.25%    | 98.25%    | 3.62e-06 |
+
+LOSS ANALYSIS:
+- Val loss trend (last 5): 1.1823 -> 1.1824 -> 1.1770 -> 1.1750 -> 1.1749 (still decreasing)
+- New best val loss: 1.1749 (epoch 25), marginal improvement of 0.0001 from epoch 24
+- Val loss improvement is flattening: deltas were -0.0054, +0.0001, -0.0020, -0.0001
+- Train loss ticked up slightly: 1.5495 -> 1.5591 (noise, not a trend)
+- Train-val gap: 1.5591 - 1.1749 = 0.384 (stable)
+- No overfitting by loss metric -- val loss is still at its best
+- CALIBRATION NOTE: Val loss improved (1.1750->1.1749) but val accuracy dropped
+  significantly (91.50%->90.25%, -1.25%). This divergence suggests the model's confidence
+  distribution shifted -- it got slightly better at overall probability estimation but
+  worse at top-1 picks. This is a single-epoch fluctuation, not yet alarming.
+- Best val loss: 1.1749. Current: 1.1749. 0% above best.
+
+ACCURACY ANALYSIS:
+- Val Top-1 dropped sharply: 91.50% -> 90.25% (-1.25% in one epoch)
+- Val Top-5 also dipped: 98.50% -> 98.25%
+- This is likely epoch-to-epoch noise with MixUp/CutMix stochasticity, not a real regression
+- Best val top-1 this phase remains 91.50% (epoch 24)
+- Current is 1.50% below Phase 2e best of 91.75%
+
+LR SCHEDULE:
+- LR: 3.62e-06 (decayed 28% from peak of 5e-06)
+- Entering the lower half of cosine decay. Accuracy should stabilize as LR decreases.
+- The sharp accuracy swing (91.50 -> 90.25) at declining LR is somewhat unusual.
+
+STATUS:
+- Best val top-1 this phase: 91.50% (epoch 24) -- 0.25% below 91.75% target
+- Trend: Volatile -- best was 1 epoch ago, current epoch regressed significantly
+- Loss health: Val loss at all-time-best but decoupled from accuracy (calibration shift)
+- ETA: 5 epochs remaining * ~229s/epoch = ~19 min remaining
+- Errors: None
+
+=== FINAL ANALYSIS: 2026-03-14 ~09:09 UTC ===
+Phase 3c COMPLETE -- Early stopping triggered after 7 epochs (20-26) without improvement.
+
+FULL TRAINING CURVE (Phase 3c, epochs 20-26):
+| Epoch | Train Loss | Train Top-1 | Val Loss | Val Top-1 | Val Top-5 | LR       | Epoch Time |
+|-------|-----------|-------------|----------|-----------|-----------|----------|------------|
+|  20   | 1.6510    | 61.59%      | 1.2324   | 90.62%    | 98.62%    | 5.00e-08 |  242.4s    |
+|  21   | 1.6358    | 58.41%      | 1.1823   | 90.50%    | 98.50%    | 5.00e-06 |  230.0s    |
+|  22   | 1.5745    | 57.03%      | 1.1824   | 90.50%    | 98.50%    | 4.90e-06 |  228.8s    |
+|  23   | 1.5653    | 60.40%      | 1.1770   | 90.75%    | 98.62%    | 4.62e-06 |  229.0s    |
+|  24   | 1.5495    | 60.09%      | 1.1750   | 91.50%    | 98.50%    | 4.18e-06 |  229.5s    |
+|  25   | 1.5591    | 61.34%      | 1.1749   | 90.25%    | 98.25%    | 3.62e-06 |  228.3s    |
+|  26   | 1.5477    | 61.51%      | 1.1772   | 90.87%    | 98.25%    | 3.00e-06 |  229.3s    |
+
+OVERALL RESULTS:
+- Best epoch (entire run): 19 (Phase 2e) -- Val Top-1: 91.75%, Val Top-5: 98.75%
+- Best epoch (Phase 3c only): 24 -- Val Top-1: 91.50%, Val Top-5: 98.50%
+- Phase 3c FAILED to beat Phase 2e best of 91.75%. Closest approach: 91.50% (epoch 24).
+- Early stopping patience: 7 epochs. Triggered at epoch 26 (7 epochs after best at epoch 19).
+- Total Phase 3c runtime: 1622s (27 min)
+
+FULL LOSS TRAJECTORY:
+- Epoch 20 (warmup): Val loss 1.2324 -- high due to LR=5e-08 (near-zero, model barely updating)
+- Epochs 21-22: Val loss settled to 1.1823-1.1824 -- sharp drop as real LR kicked in
+- Epochs 23-25: Val loss slowly decreased to 1.1749 (best this phase)
+- Epoch 26: Val loss ticked up to 1.1772 -- first increase, early stopping counting
+- Val loss range this phase: 1.1749 to 1.2324 (delta 0.0575)
+- Val loss never reached a crisis -- stayed within a narrow 0.007 band (1.1749-1.1824)
+  after warmup, indicating the model was well-converged but unable to push further
+
+ACCURACY TRAJECTORY:
+- Phase 3c accuracy ranged from 90.25% to 91.50%
+- Fastest improvement: epoch 23->24 (+0.75%), in the mid-decay LR region
+- Biggest regression: epoch 24->25 (-1.25%), likely stochastic noise
+- Accuracy oscillated in a 1.25% band, never stabilizing or consistently improving
+- The model was in a "high plateau" where small perturbations moved it +/-1% each epoch
+
+TRAIN-VAL GAP ANALYSIS:
+- Train loss (with augmentation): 1.65 -> 1.55 (decreased 6% over 7 epochs)
+- Val loss: 1.23 -> 1.18 (decreased 4%)
+- Gap: ~0.37-0.42 throughout -- STABLE. No divergence trend.
+- The large gap is entirely explained by MixUp/CutMix/label smoothing inflating train loss.
+  Without augmentation, the actual gap would be near zero, confirming no overfitting.
+
+LR SCHEDULE CORRELATION:
+- Phase: cosine annealing from 5e-06 to 1e-06 over 10 epochs (20-30), with 1-epoch warmup
+- Warmup (epoch 20, LR=5e-08): val acc 90.62%, model coasting on prior weights
+- Peak LR (epoch 21, LR=5e-06): no accuracy gain vs warmup -- suggesting LR was at ceiling
+- Mid-decay (epochs 23-24, LR=4.6-4.2e-06): best accuracy of 91.50% -- productive zone
+- Low-decay (epochs 25-26, LR=3.6-3.0e-06): accuracy dropped back, learning saturated
+- The 5e-06 LR was too high at peak and only became productive after 15-20% decay
+
+CALIBRATION ANALYSIS:
+- Epochs 20-24: Val loss and accuracy moved in the same direction -- good calibration
+- Epoch 25: Val loss improved (1.1750->1.1749) but accuracy dropped (-1.25%) -- DIVERGENCE
+- Epoch 26: Val loss worsened (1.1749->1.1772) and accuracy partially recovered (90.25->90.87)
+  -- loss and accuracy moving in opposite directions again
+- Pattern: the model's probability estimates became slightly better-distributed (lower loss)
+  while its top-1 picks became less accurate. This suggests the model was redistributing
+  probability mass across classes rather than becoming more discriminative.
+- Verdict: mild calibration degradation in the final 2 epochs, consistent with diminishing returns
+
+EARLY STOPPING EVALUATION:
+- Patience was 7, triggered correctly at epoch 26 (best was epoch 19)
+- With patience 5: would have stopped at epoch 24, still failing to beat 91.75%
+- With patience 3: would have stopped at epoch 22, same outcome
+- Early stopping was not the problem -- the model genuinely could not improve beyond 91.75%
+- Even if training had continued to epoch 30, the trajectory strongly suggests no improvement
+  was possible at this LR and these hyperparameters
+
+COMPARISON TO PHASE 2e:
+- Phase 2e achieved 91.75% at epoch 19 (the overall best)
+- Phase 3c peaked at 91.50% at epoch 24 -- 0.25% lower
+- Phase 3c used standard CE loss vs Phase 2e, with the same base LR of 5e-6
+- The new warmup + cosine schedule may have been slightly inferior to Phase 2e's schedule
+- The model has reached its capacity ceiling at ~91.5-91.75% with current architecture and data
+
+RECOMMENDATIONS FOR NEXT PHASE:
+1. LR: The 5e-06 peak was too high. Try 2e-06 or 3e-06 for finer tuning, or use a
+   flat-then-decay schedule instead of cosine warmup.
+2. Resolution: Already at 448px. Going to 512px could help but would require batch_size 4
+   and risk training instability. Not recommended on 12GB VRAM.
+3. Regularization: Current MixUp 0.2 + CutMix 1.0 + label smoothing 0.1 + dropout 0.2
+   is reasonable. Consider reducing MixUp/CutMix slightly (0.1/0.5) since the model is
+   not overfitting -- the regularization may be too strong, limiting final accuracy.
+4. Test-time augmentation (TTA): Average predictions over 5-10 augmented views at inference.
+   This typically adds 0.5-1.0% for free with no additional training.
+5. Stochastic Weight Averaging (SWA): Average checkpoints from epochs 19-26.
+   These are all within 0.25-1.5% of the best, so an ensemble could recover lost accuracy.
+6. Model architecture: ConvNeXt V2 Base may be near its limit at 91.75%. Consider:
+   - EVA-02 Large at 448px (would require gradient checkpointing for 12GB VRAM)
+   - ConvNeXt V2 Large with gradient accumulation
+   - Ensemble of ConvNeXt V2 Base + EVA-02 Base
+7. Data: Consider using CUB-200's bounding box annotations to crop to the bird region
+   before classification. This is a well-known technique that adds 1-2% on CUB-200.
+8. The 91.75% result from Phase 2e (epoch 19) is the best model. Use that checkpoint.
+
+FINAL VERDICT:
+Phase 3c did not achieve its target. The model plateaued at 91.50% and early stopping
+correctly terminated after 7 epochs. The 91.75% checkpoint from Phase 2e remains the best.
+Further gains require either architectural changes, data augmentation strategy changes
+(TTA, SWA, bounding box crops), or a fundamentally different training approach.

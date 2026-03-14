@@ -1,0 +1,20 @@
+Device: cuda
+Num classes: 200
+Model: convnextv2_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.05
+Label Smoothing: 0.1
+Dropout Rate: 0.15
+Early Stopping Patience: 15
+Scheduler: CosineAnnealingLR (T_max=30, eta_min=1e-6)
+Warmup Epochs: 1
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+Resume From: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_031959/checkpoints/convnextv2_base_best_full.pth
+
+Epoch [16/30] | Train Loss: 1.0619 | Train Top1: 0.6198 | Train Top5: 0.8007 | Val Loss: 1.1909 | Val Top1: 0.9087 | Val Top5: 0.9888 | LR: 1.00e-06 | Train Time: 438.907s | Val Time: 6.830s | Epoch Time: 445.737s

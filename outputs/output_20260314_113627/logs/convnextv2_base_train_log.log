@@ -1,0 +1,38 @@
+Device: cuda
+Num classes: 200
+Model: convnextv2_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.05
+Label Smoothing: 0.1
+Dropout Rate: 0.15
+Early Stopping Patience: 7
+Scheduler: CosineAnnealingLR (T_max=35, eta_min=1e-6)
+Warmup Epochs: 1
+Mixup Alpha: 0.2
+CutMix Alpha: 0.0
+Resume From: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_103651/checkpoints/convnextv2_base_best_full.pth
+
+Epoch [20/35] | Train Loss: 1.1942 | Train Top1: 0.4956 | Train Top5: 0.7074 | Val Loss: 1.2124 | Val Top1: 0.9137 | Val Top5: 0.9788 | LR: 5.00e-08 | Train Time: 785.730s | Val Time: 54.219s | Epoch Time: 839.949s
+Epoch [21/35] | Train Loss: 1.1899 | Train Top1: 0.4944 | Train Top5: 0.6910 | Val Loss: 1.2042 | Val Top1: 0.9163 | Val Top5: 0.9788 | LR: 5.00e-06 | Train Time: 161.670s | Val Time: 5.583s | Epoch Time: 167.253s
+Epoch [22/35] | Train Loss: 1.1614 | Train Top1: 0.5102 | Train Top5: 0.7000 | Val Loss: 1.2027 | Val Top1: 0.9150 | Val Top5: 0.9800 | LR: 4.96e-06 | Train Time: 160.996s | Val Time: 5.560s | Epoch Time: 166.557s
+Epoch [23/35] | Train Loss: 1.1521 | Train Top1: 0.4598 | Train Top5: 0.6635 | Val Loss: 1.2046 | Val Top1: 0.9163 | Val Top5: 0.9775 | LR: 4.83e-06 | Train Time: 161.091s | Val Time: 5.588s | Epoch Time: 166.679s
+Epoch [24/35] | Train Loss: 1.1773 | Train Top1: 0.4908 | Train Top5: 0.7097 | Val Loss: 1.2041 | Val Top1: 0.9113 | Val Top5: 0.9788 | LR: 4.62e-06 | Train Time: 161.881s | Val Time: 5.648s | Epoch Time: 167.529s
+Epoch [25/35] | Train Loss: 1.1594 | Train Top1: 0.4590 | Train Top5: 0.6737 | Val Loss: 1.2021 | Val Top1: 0.9200 | Val Top5: 0.9812 | LR: 4.34e-06 | Train Time: 161.821s | Val Time: 5.662s | Epoch Time: 167.483s
+Epoch [26/35] | Train Loss: 1.1484 | Train Top1: 0.5483 | Train Top5: 0.7126 | Val Loss: 1.1963 | Val Top1: 0.9163 | Val Top5: 0.9788 | LR: 4.00e-06 | Train Time: 161.392s | Val Time: 5.587s | Epoch Time: 166.979s
+Epoch [27/35] | Train Loss: 1.1370 | Train Top1: 0.4944 | Train Top5: 0.6912 | Val Loss: 1.2000 | Val Top1: 0.9175 | Val Top5: 0.9775 | LR: 3.62e-06 | Train Time: 162.255s | Val Time: 5.583s | Epoch Time: 167.838s
+Epoch [28/35] | Train Loss: 1.1707 | Train Top1: 0.5162 | Train Top5: 0.7074 | Val Loss: 1.2029 | Val Top1: 0.9187 | Val Top5: 0.9800 | LR: 3.21e-06 | Train Time: 160.898s | Val Time: 5.573s | Epoch Time: 166.471s
+Epoch [29/35] | Train Loss: 1.1556 | Train Top1: 0.4948 | Train Top5: 0.6948 | Val Loss: 1.1978 | Val Top1: 0.9213 | Val Top5: 0.9812 | LR: 2.79e-06 | Train Time: 161.555s | Val Time: 5.655s | Epoch Time: 167.210s
+Epoch [30/35] | Train Loss: 1.1755 | Train Top1: 0.4586 | Train Top5: 0.6972 | Val Loss: 1.1966 | Val Top1: 0.9225 | Val Top5: 0.9825 | LR: 2.38e-06 | Train Time: 161.190s | Val Time: 5.599s | Epoch Time: 166.789s
+Epoch [31/35] | Train Loss: 1.1897 | Train Top1: 0.5437 | Train Top5: 0.7570 | Val Loss: 1.1956 | Val Top1: 0.9213 | Val Top5: 0.9850 | LR: 2.00e-06 | Train Time: 162.160s | Val Time: 5.569s | Epoch Time: 167.729s
+Epoch [32/35] | Train Loss: 1.1595 | Train Top1: 0.5210 | Train Top5: 0.7291 | Val Loss: 1.1934 | Val Top1: 0.9187 | Val Top5: 0.9812 | LR: 1.66e-06 | Train Time: 161.637s | Val Time: 5.569s | Epoch Time: 167.206s
+Epoch [33/35] | Train Loss: 1.1463 | Train Top1: 0.4942 | Train Top5: 0.7133 | Val Loss: 1.1913 | Val Top1: 0.9200 | Val Top5: 0.9825 | LR: 1.38e-06 | Train Time: 161.212s | Val Time: 5.656s | Epoch Time: 166.869s
+Epoch [34/35] | Train Loss: 1.1363 | Train Top1: 0.5106 | Train Top5: 0.7220 | Val Loss: 1.1932 | Val Top1: 0.9200 | Val Top5: 0.9800 | LR: 1.17e-06 | Train Time: 161.947s | Val Time: 5.604s | Epoch Time: 167.551s
+Epoch [35/35] | Train Loss: 1.1220 | Train Top1: 0.5075 | Train Top5: 0.6964 | Val Loss: 1.1936 | Val Top1: 0.9187 | Val Top5: 0.9800 | LR: 1.04e-06 | Train Time: 163.662s | Val Time: 6.147s | Epoch Time: 169.809s
+
+Best Epoch: 30 | Best Val Top1: 0.9225 | Best Val Top5: 0.9825
+Total Train Time: 3211.097s | Total Val Time: 138.803s | Total Runtime: 3375.356s

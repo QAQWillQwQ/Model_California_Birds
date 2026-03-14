@@ -3,7 +3,7 @@ seed: 42
 model: resnet50
 pretrained: true
 
-data_root: /Users/wangyiding/ML_Model_CaliforniaBirds/data
+data_root: /Users/wangyiding/ML_Model_CaliforniaBirds/data/CUB_200_2011/images
 
 image_size: 224
 batch_size: 32

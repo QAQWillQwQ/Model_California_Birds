@@ -1,0 +1,30 @@
+Device: cuda
+Num classes: 200
+Model: convnextv2_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.05
+Label Smoothing: 0.1
+Dropout Rate: 0.2
+Early Stopping Patience: 7
+Scheduler: CosineAnnealingLR (T_max=30, eta_min=1e-6)
+Warmup Epochs: 1
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+Resume From: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_063401/checkpoints/convnextv2_base_best_full.pth
+
+Epoch [20/30] | Train Loss: 1.6510 | Train Top1: 0.6159 | Train Top5: 0.8121 | Val Loss: 1.2324 | Val Top1: 0.9062 | Val Top5: 0.9862 | LR: 5.00e-08 | Train Time: 231.426s | Val Time: 10.974s | Epoch Time: 242.400s
+Epoch [21/30] | Train Loss: 1.6358 | Train Top1: 0.5841 | Train Top5: 0.7975 | Val Loss: 1.1823 | Val Top1: 0.9050 | Val Top5: 0.9850 | LR: 5.00e-06 | Train Time: 222.463s | Val Time: 7.582s | Epoch Time: 230.046s
+Epoch [22/30] | Train Loss: 1.5745 | Train Top1: 0.5703 | Train Top5: 0.7846 | Val Loss: 1.1824 | Val Top1: 0.9050 | Val Top5: 0.9850 | LR: 4.90e-06 | Train Time: 221.267s | Val Time: 7.508s | Epoch Time: 228.775s
+Epoch [23/30] | Train Loss: 1.5653 | Train Top1: 0.6040 | Train Top5: 0.8027 | Val Loss: 1.1770 | Val Top1: 0.9075 | Val Top5: 0.9862 | LR: 4.62e-06 | Train Time: 221.451s | Val Time: 7.557s | Epoch Time: 229.008s
+Epoch [24/30] | Train Loss: 1.5495 | Train Top1: 0.6009 | Train Top5: 0.8048 | Val Loss: 1.1750 | Val Top1: 0.9150 | Val Top5: 0.9850 | LR: 4.18e-06 | Train Time: 221.978s | Val Time: 7.563s | Epoch Time: 229.541s
+Epoch [25/30] | Train Loss: 1.5591 | Train Top1: 0.6134 | Train Top5: 0.8102 | Val Loss: 1.1749 | Val Top1: 0.9025 | Val Top5: 0.9825 | LR: 3.62e-06 | Train Time: 220.760s | Val Time: 7.525s | Epoch Time: 228.285s
+Epoch [26/30] | Train Loss: 1.5477 | Train Top1: 0.6151 | Train Top5: 0.8107 | Val Loss: 1.1772 | Val Top1: 0.9087 | Val Top5: 0.9825 | LR: 3.00e-06 | Train Time: 221.663s | Val Time: 7.621s | Epoch Time: 229.284s
+Early stopping triggered after 7 epochs without improvement.
+
+Best Epoch: 19 | Best Val Top1: 0.9175 | Best Val Top5: 0.9875
+Total Train Time: 1561.008s | Total Val Time: 56.330s | Total Runtime: 1622.337s

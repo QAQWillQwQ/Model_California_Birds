@@ -1,0 +1,2 @@
+model,pretrained,image_size,batch_size,epochs,learning_rate,val_split,num_workers,max_samples,best_epoch,best_val_top1,best_val_top5,last_train_top1,last_train_top5,last_val_top1,last_val_top5,device
+convnextv2_base,True,384,12,30,5e-06,0.15,4,,24,0.9175,0.98375,0.629958,0.823643,0.915,0.98375,cuda

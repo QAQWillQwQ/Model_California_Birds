@@ -1,0 +1,25 @@
+Device: cuda
+Num classes: 200
+Model: convnextv2_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.05
+Label Smoothing: 0.1
+Dropout Rate: 0.2
+Early Stopping Patience: 7
+Scheduler: CosineAnnealingLR (T_max=30, eta_min=1e-6)
+Warmup Epochs: 0
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+Resume From: /mnt/c/Users/ljh20/MCS/CS273P/Model_California_Birds/outputs/output_20260314_063401/checkpoints/convnextv2_base_best_full.pth
+
+Epoch [20/30] | Train Loss: 0.9397 | Train Top1: 0.5724 | Train Top5: 0.7896 | Val Loss: 1.2375 | Val Top1: 0.9087 | Val Top5: 0.9850 | LR: 3.00e-06 | Train Time: 356.075s | Val Time: 129.162s | Epoch Time: 485.238s
+Epoch [21/30] | Train Loss: 0.9008 | Train Top1: 0.5882 | Train Top5: 0.7996 | Val Loss: 1.2484 | Val Top1: 0.9150 | Val Top5: 0.9862 | LR: 2.96e-06 | Train Time: 221.115s | Val Time: 8.105s | Epoch Time: 229.220s
+Epoch [22/30] | Train Loss: 0.8728 | Train Top1: 0.6061 | Train Top5: 0.7961 | Val Loss: 1.2517 | Val Top1: 0.9137 | Val Top5: 0.9875 | LR: 2.84e-06 | Train Time: 224.867s | Val Time: 7.658s | Epoch Time: 232.525s
+Epoch [23/30] | Train Loss: 0.8714 | Train Top1: 0.5955 | Train Top5: 0.8023 | Val Loss: 1.2592 | Val Top1: 0.9137 | Val Top5: 0.9862 | LR: 2.65e-06 | Train Time: 222.971s | Val Time: 7.637s | Epoch Time: 230.608s
+Epoch [24/30] | Train Loss: 0.8546 | Train Top1: 0.5799 | Train Top5: 0.7967 | Val Loss: 1.2577 | Val Top1: 0.9113 | Val Top5: 0.9862 | LR: 2.42e-06 | Train Time: 220.623s | Val Time: 7.655s | Epoch Time: 228.278s
+Epoch [25/30] | Train Loss: 0.8200 | Train Top1: 0.5728 | Train Top5: 0.7836 | Val Loss: 1.2702 | Val Top1: 0.9087 | Val Top5: 0.9850 | LR: 2.14e-06 | Train Time: 221.386s | Val Time: 7.698s | Epoch Time: 229.084s

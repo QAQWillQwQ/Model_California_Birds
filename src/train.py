@@ -9,6 +9,7 @@ from datetime import datetime
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 from torch.optim.lr_scheduler import CosineAnnealingLR, LinearLR, OneCycleLR, SequentialLR
 from torchvision.transforms import v2 as transforms_v2
@@ -16,6 +17,116 @@ from torchvision.transforms import v2 as transforms_v2
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
 from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint, save_full_checkpoint, load_full_checkpoint
+
+try:
+    from torch.utils.tensorboard import SummaryWriter
+    HAS_TENSORBOARD = True
+except ImportError:
+    HAS_TENSORBOARD = False
+
+
+def get_cub_root(data_root):
+    """Derive CUB-200-2011 root from data_root (which points to .../images/)."""
+    return os.path.dirname(data_root.rstrip(os.sep).rstrip("/").rstrip("\\"))
+
+
+class AttributeWeightedCrossEntropy(nn.Module):
+    """Cross-entropy with label smoothing distributed by attribute similarity.
+
+    Instead of uniform smoothing across all classes, distributes smoothing mass
+    proportionally to cosine similarity of 312-dim attribute vectors.
+    """
+
+    def __init__(self, cub_root, num_classes, smoothing=0.1):
+        super().__init__()
+        self.smoothing = smoothing
+
+        attr_file = os.path.join(cub_root, "attributes", "class_attribute_labels_continuous.txt")
+        attrs = []
+        with open(attr_file) as f:
+            for line in f:
+                vals = [float(x) for x in line.strip().split()]
+                attrs.append(vals)
+        attrs = torch.tensor(attrs, dtype=torch.float32)  # (200, 312)
+
+        # Cosine similarity matrix
+        attrs_norm = F.normalize(attrs, p=2, dim=1)
+        similarity = attrs_norm @ attrs_norm.T  # (200, 200)
+        similarity.fill_diagonal_(0)
+
+        # Normalize rows to probability distributions
+        row_sums = similarity.sum(dim=1, keepdim=True)
+        similarity = similarity / (row_sums + 1e-8)
+
+        self.register_buffer("similarity", similarity)
+        print(f"AttributeWeightedCrossEntropy: loaded {attrs.shape[0]} classes x {attrs.shape[1]} attributes")
+
+    def forward(self, logits, targets):
+        # MixUp/CutMix produces soft targets (2D) — use standard CE
+        if targets.dim() > 1:
+            log_probs = F.log_softmax(logits, dim=1)
+            return -(targets * log_probs).sum(dim=1).mean()
+
+        num_classes = logits.size(1)
+        log_probs = F.log_softmax(logits, dim=1)
+
+        with torch.no_grad():
+            one_hot = F.one_hot(targets, num_classes).float()
+            attr_dist = self.similarity[targets]  # (batch, num_classes)
+            smooth_targets = (1.0 - self.smoothing) * one_hot + self.smoothing * attr_dist
+
+        loss = -(smooth_targets * log_probs).sum(dim=1).mean()
+        return loss
+
+
+class ConfusionAdaptiveSampler(torch.utils.data.Sampler):
+    """Sampler that oversamples classes involved in the most confused pairs.
+
+    After each epoch, call update_confusion() with the validation confusion matrix.
+    The sampler boosts sampling weight for classes that the model confuses most.
+    """
+
+    def __init__(self, labels, num_classes, topk=20, boost_factor=2.0):
+        self.labels = labels
+        self.num_classes = num_classes
+        self.topk = topk
+        self.boost_factor = boost_factor
+        self.weights = torch.ones(len(labels))
+
+    def update_confusion(self, confusion_matrix):
+        """Update sampling weights based on validation confusion matrix."""
+        conf = confusion_matrix.clone().float()
+        conf.fill_diagonal_(0)
+
+        # Normalize by class counts to get confusion rate
+        class_counts = confusion_matrix.sum(dim=1, keepdim=True).float()
+        conf_rate = conf / (class_counts + 1e-8)
+
+        # Find top-K confused pairs
+        flat_topk = conf_rate.flatten().topk(min(self.topk, conf_rate.numel())).indices
+        confused_classes = set()
+        for idx in flat_topk:
+            true_cls = (idx // self.num_classes).item()
+            pred_cls = (idx % self.num_classes).item()
+            if conf_rate.flatten()[idx] > 0:
+                confused_classes.add(true_cls)
+                confused_classes.add(pred_cls)
+
+        # Boost weights for confused classes
+        weights = torch.ones(len(self.labels))
+        for i, label in enumerate(self.labels):
+            if label in confused_classes:
+                weights[i] = self.boost_factor
+        self.weights = weights
+
+        print(f"  ConfusionAdaptiveSampler: boosting {len(confused_classes)} confused classes "
+              f"(top-{self.topk} pairs, boost={self.boost_factor}x)")
+
+    def __iter__(self):
+        return iter(torch.multinomial(self.weights, len(self.labels), replacement=True).tolist())
+
+    def __len__(self):
+        return len(self.labels)
 
 
 class Tee:
@@ -131,7 +242,7 @@ def train_one_epoch(model, loader, criterion, optimizer, device, scaler, amp_ena
 
 
 @torch.no_grad()
-def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20):
+def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20, num_classes=0):
     model.eval()
 
     running_loss = 0.0
@@ -139,6 +250,10 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
     top5_correct = 0.0
     total = 0
     epoch_start_time = time.perf_counter()
+
+    track_confusion = num_classes > 0
+    if track_confusion:
+        confusion = torch.zeros(num_classes, num_classes, dtype=torch.long)
 
     for batch_idx, (images, labels) in enumerate(loader, start=1):
         images = images.to(device, non_blocking=device.type == "cuda")
@@ -156,6 +271,11 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
         top5_correct += topk_result[5]
         total += batch_size
 
+        if track_confusion:
+            _, preds = outputs.topk(1, dim=1)
+            for t, p in zip(labels.cpu(), preds.squeeze(1).cpu()):
+                confusion[t.item()][p.item()] += 1
+
         if batch_idx % log_interval == 0 or batch_idx == len(loader):
             avg_loss = running_loss / total
             avg_top1 = top1_correct / total
@@ -170,6 +290,9 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
     epoch_top5 = top5_correct / total
     epoch_time = time.perf_counter() - epoch_start_time
     print(f"  Val Epoch Time: {epoch_time:.3f}s")
+
+    if track_confusion:
+        return epoch_loss, epoch_top1, epoch_top5, epoch_time, confusion
     return epoch_loss, epoch_top1, epoch_top5, epoch_time
 
 
@@ -289,7 +412,12 @@ def build_training_state(config, device, num_classes, steps_per_epoch=None):
         model = torch.compile(model)
 
     label_smoothing = float(config.get("label_smoothing", 0.0))
-    criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+    use_attribute_smoothing = config.get("use_attribute_smoothing", False)
+    if use_attribute_smoothing:
+        cub_root = get_cub_root(config["data_root"])
+        criterion = AttributeWeightedCrossEntropy(cub_root, num_classes, smoothing=label_smoothing).to(device)
+    else:
+        criterion = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
 
     trainable_parameters = [parameter for parameter in model.parameters() if parameter.requires_grad]
     weight_decay = float(config.get("weight_decay", 0.0))
@@ -387,18 +515,24 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
     log_file.flush()
 
 
-def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval):
+def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval, num_classes=0):
     should_validate = ((epoch + 1) % val_interval == 0) or ((epoch + 1) == total_epochs)
+    confusion = None
 
     if should_validate:
-        val_loss, val_top1, val_top5, val_time = validate_one_epoch(
+        result = validate_one_epoch(
             model=model,
             loader=val_loader,
             criterion=criterion,
             device=device,
             amp_enabled=amp_enabled,
             log_interval=log_interval,
+            num_classes=num_classes,
         )
+        if num_classes > 0:
+            val_loss, val_top1, val_top5, val_time, confusion = result
+        else:
+            val_loss, val_top1, val_top5, val_time = result
     else:
         val_loss = float("nan")
         val_top1 = float("nan")
@@ -406,7 +540,7 @@ def run_validation(epoch, total_epochs, val_interval, model, val_loader, criteri
         val_time = 0.0
         print(f"  Skipping validation on epoch {epoch + 1}; val_interval={val_interval}")
 
-    return should_validate, val_loss, val_top1, val_top5, val_time
+    return should_validate, val_loss, val_top1, val_top5, val_time, confusion
 
 
 def run_training_loop(
@@ -430,6 +564,8 @@ def run_training_loop(
     start_epoch=0,
     resume_best_val_top1=0.0,
     resume_best_val_top5=0.0,
+    confusion_sampler=None,
+    tb_writer=None,
 ):
     best_val_top1 = resume_best_val_top1
     best_val_top5 = resume_best_val_top5
@@ -470,7 +606,7 @@ def run_training_loop(
             if not scheduler_step_per_batch:
                 scheduler.step()
 
-            should_validate, val_loss, val_top1, val_top5, val_time = run_validation(
+            should_validate, val_loss, val_top1, val_top5, val_time, confusion = run_validation(
                 epoch=epoch,
                 total_epochs=config["epochs"],
                 val_interval=val_interval,
@@ -480,8 +616,12 @@ def run_training_loop(
                 device=device,
                 amp_enabled=amp_enabled,
                 log_interval=log_interval,
+                num_classes=num_classes if confusion_sampler is not None else 0,
             )
             total_validation_time += val_time
+
+            if confusion_sampler is not None and confusion is not None:
+                confusion_sampler.update_confusion(confusion)
 
             last_metrics["train_top1"] = train_top1
             last_metrics["train_top5"] = train_top5
@@ -500,6 +640,17 @@ def run_training_loop(
             print(line)
             log_file.write(line + "\n")
             log_file.flush()
+
+            if tb_writer is not None:
+                step = epoch + 1
+                tb_writer.add_scalars("Loss", {"train": train_loss, "val": val_loss}, step)
+                tb_writer.add_scalars("Top1_Accuracy", {"train": train_top1, "val": val_top1}, step)
+                tb_writer.add_scalars("Top5_Accuracy", {"train": train_top5, "val": val_top5}, step)
+                tb_writer.add_scalar("Learning_Rate", current_lr, step)
+                tb_writer.add_scalar("Loss_Gap", val_loss - train_loss, step)
+                tb_writer.add_scalar("Accuracy_Gap", train_top1 - val_top1, step)
+                tb_writer.add_scalar("Epoch_Time", epoch_total_time, step)
+                tb_writer.flush()
 
             if should_validate and val_top1 > best_val_top1:
                 best_val_top1 = val_top1
@@ -565,6 +716,15 @@ def main():
     sys.stdout = Tee(sys.stdout, debug_log_file)
     sys.stderr = Tee(sys.stderr, debug_log_file)
 
+    # TensorBoard
+    tb_writer = None
+    if HAS_TENSORBOARD:
+        tb_dir = os.path.join(logs_dir, "tensorboard")
+        tb_writer = SummaryWriter(log_dir=tb_dir)
+        print(f"TensorBoard logging to: {tb_dir}")
+    else:
+        print("TensorBoard not available (install with: pip install tensorboard)")
+
     # training initialize
     train_loader, val_loader, class_names = build_dataloaders(
         data_root=config["data_root"],
@@ -577,6 +737,12 @@ def main():
         max_samples=config.get("max_samples", None),
         seed=config["seed"],
         prefetch_factor=config.get("prefetch_factor", 2),
+        use_official_split=config.get("use_official_split", False),
+        use_part_masking=config.get("use_part_masking", False),
+        part_mask_prob=float(config.get("part_mask_prob", 0.3)),
+        part_mask_radius=float(config.get("part_mask_radius", 0.08)),
+        use_bbox_crop=config.get("use_bbox_crop", False),
+        bbox_pad_fraction=float(config.get("bbox_pad_fraction", 0.1)),
     )
 
     print(f"Number of classes: {len(class_names)}")
@@ -590,6 +756,34 @@ def main():
         steps_per_epoch=len(train_loader),
     )
 
+    # set up confusion-adaptive sampler if configured
+    confusion_sampler = None
+    use_confusion_sampling = config.get("use_confusion_sampling", False)
+    if use_confusion_sampling:
+        train_labels = [train_loader.dataset.dataset.targets[i] for i in train_loader.dataset.indices]
+        confusion_topk = int(config.get("confusion_topk", 20))
+        confusion_sampler = ConfusionAdaptiveSampler(
+            labels=train_labels,
+            num_classes=len(class_names),
+            topk=confusion_topk,
+        )
+        # Rebuild train loader with the sampler instead of shuffle
+        from torch.utils.data import DataLoader
+        dataloader_kwargs = {
+            "num_workers": config["num_workers"],
+            "pin_memory": torch.cuda.is_available(),
+            "persistent_workers": config["num_workers"] > 0,
+        }
+        if config["num_workers"] > 0:
+            dataloader_kwargs["prefetch_factor"] = config.get("prefetch_factor", 2)
+        train_loader = DataLoader(
+            train_loader.dataset,
+            batch_size=config["batch_size"],
+            sampler=confusion_sampler,
+            **dataloader_kwargs,
+        )
+        print(f"Confusion-adaptive sampling enabled (top-{confusion_topk} pairs)")
+
     # resume from checkpoint if configured
     start_epoch = 0
     resume_best_val_top1 = 0.0
@@ -601,6 +795,38 @@ def main():
             model, optimizer, scheduler, resume_from, device,
         )
         print(f"Resumed at epoch {start_epoch}, best val top1: {resume_best_val_top1:.4f}")
+
+        # Override optimizer LR and rebuild scheduler from current config
+        # (the checkpoint's scheduler state uses the OLD config's LR)
+        # Must set BOTH 'lr' (current) AND 'initial_lr' (scheduler base)
+        # PyTorch schedulers use initial_lr to compute LR, not lr
+        for param_group in optimizer.param_groups:
+            param_group["lr"] = config["learning_rate"]
+            param_group["initial_lr"] = config["learning_rate"]
+        print(f"Reset optimizer LR to config value: {config['learning_rate']}")
+
+        # Rebuild scheduler with new config LR and remaining epochs
+        scheduler_type = config.get("scheduler", "cosine")
+        warmup_epochs = int(config.get("warmup_epochs", 0))
+        remaining_epochs = config["epochs"] - start_epoch
+
+        if scheduler_type == "onecycle" and len(train_loader) > 0:
+            scheduler = OneCycleLR(
+                optimizer, max_lr=config["learning_rate"],
+                epochs=remaining_epochs, steps_per_epoch=len(train_loader),
+                pct_start=0.1, anneal_strategy="cos",
+            )
+            scheduler_step_per_batch = True
+        elif warmup_epochs > 0 and remaining_epochs > warmup_epochs:
+            warmup_scheduler = LinearLR(optimizer, start_factor=0.01, total_iters=warmup_epochs)
+            cosine_scheduler = CosineAnnealingLR(optimizer, T_max=remaining_epochs - warmup_epochs, eta_min=1e-6)
+            scheduler = SequentialLR(optimizer, schedulers=[warmup_scheduler, cosine_scheduler], milestones=[warmup_epochs])
+            scheduler_step_per_batch = False
+        else:
+            scheduler = CosineAnnealingLR(optimizer, T_max=max(1, remaining_epochs), eta_min=1e-6)
+            scheduler_step_per_batch = False
+
+        print(f"Rebuilt scheduler: {scheduler_type}, T_max={remaining_epochs}, warmup={warmup_epochs}")
 
     # run training loops
     log_path = os.path.join(logs_dir, f'{config["model"]}_train_log.log')
@@ -625,7 +851,12 @@ def main():
         start_epoch=start_epoch,
         resume_best_val_top1=resume_best_val_top1,
         resume_best_val_top5=resume_best_val_top5,
+        confusion_sampler=confusion_sampler,
+        tb_writer=tb_writer,
     )
+
+    if tb_writer is not None:
+        tb_writer.close()
 
     csv_path = os.path.join(logs_dir, "experiment_results.csv")
     append_experiment_result(
