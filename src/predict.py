@@ -11,12 +11,17 @@ from dataset import build_transforms
 from models import build_model
 from utils import load_config, get_device, load_checkpoint
 
-
 SUPPORTED_IMAGE_EXTENSIONS = {
     ".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp", ".tif", ".tiff"
 }
 
 DEFAULT_INPUT_DIR = "/Users/wangyiding/ML_Model_CaliforniaBirds/Test_Input_Image"
+
+DEFAULT_CHECKPOINT_CANDIDATES = [
+    "/Users/wangyiding/ML_Model_CaliforniaBirds/outputs/checkpoints/JiHang_EVA_CheckPoints_20260309_233227/eva02_base_patch14_448.mim_in22k_ft_in1k_best_full.pth",
+    "/Users/wangyiding/ML_Model_CaliforniaBirds/outputs/checkpoints/JiHang_EVA_CheckPoints_20260309_233227/eva02_base_patch14_448.mim_in22k_ft_in1k_best.pth",
+    "/Users/wangyiding/ML_Model_CaliforniaBirds/outputs/checkpoints/JiHang_EVA_CheckPoints_20260309_233227/eva02_base_patch14_448.mim_in22k_ft_in1k_last.pth",
+]
 
 
 def print_separator():
@@ -56,16 +61,61 @@ def collect_image_files(input_path: str) -> List[Path]:
     return image_files
 
 
+def find_checkpoint_path(config: dict) -> str:
+    candidate_paths = []
+
+    resume_from = config.get("resume_from", None)
+    if resume_from:
+        candidate_paths.append(resume_from)
+
+    candidate_paths.append(
+        os.path.join(
+            config["output_dir"],
+            "checkpoints",
+            f'{config["model"]}_best_full.pth'
+        )
+    )
+    candidate_paths.append(
+        os.path.join(
+            config["output_dir"],
+            "checkpoints",
+            f'{config["model"]}_best.pth'
+        )
+    )
+    candidate_paths.append(
+        os.path.join(
+            config["output_dir"],
+            "checkpoints",
+            f'{config["model"]}_last.pth'
+        )
+    )
+
+    candidate_paths.extend(DEFAULT_CHECKPOINT_CANDIDATES)
+
+    for checkpoint_path in candidate_paths:
+        if checkpoint_path and os.path.exists(checkpoint_path):
+            return checkpoint_path
+
+    raise FileNotFoundError(
+        "Checkpoint not found.\nChecked paths:\n" + "\n".join(candidate_paths)
+    )
+
+
 @torch.no_grad()
 def predict_one_image(
-    model,
-    image_path: Path,
-    class_names: List[str],
-    image_size: int,
-    device,
-    top_k: int,
+        model,
+        image_path: Path,
+        class_names: List[str],
+        model_name: str,
+        image_size: int,
+        device,
+        top_k: int,
 ):
-    _, val_transform = build_transforms(image_size=image_size)
+    _, val_transform = build_transforms(
+        model_name=model_name,
+        pretrained=False,
+        image_size=image_size,
+    )
 
     image = Image.open(image_path).convert("RGB")
     image_tensor = val_transform(image).unsqueeze(0).to(device)
@@ -89,7 +139,7 @@ def predict_one_image(
     print()
 
 
-def build_inference_model(config_path: str):
+def build_inference_model(config_path: str, checkpoint_path_arg: str = None):
     config = load_config(config_path)
     device = get_device()
 
@@ -103,35 +153,34 @@ def build_inference_model(config_path: str):
         pretrained=False,
     ).to(device)
 
-    checkpoint_path = os.path.join(
-        config["output_dir"],
-        "checkpoints",
-        f'{config["model"]}_best.pth'
-    )
-
-    if not os.path.exists(checkpoint_path):
-        raise FileNotFoundError(
-            f"Checkpoint not found: {checkpoint_path}\n"
-            f"Please train the model first."
-        )
+    if checkpoint_path_arg is not None:
+        checkpoint_path = checkpoint_path_arg
+        if not os.path.exists(checkpoint_path):
+            raise FileNotFoundError(f"Checkpoint path not found: {checkpoint_path}")
+    else:
+        checkpoint_path = find_checkpoint_path(config)
 
     model = load_checkpoint(model, checkpoint_path, device)
     model.eval()
 
-    return config, device, class_names, model
+    return config, device, class_names, model, checkpoint_path
 
 
-def predict_images(config_path: str, input_path: str, top_k: int = 5):
+def predict_images(config_path: str, input_path: str, top_k: int = 5, checkpoint_path: str = None):
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    config, device, class_names, model = build_inference_model(config_path)
+    config, device, class_names, model, checkpoint_path = build_inference_model(
+        config_path=config_path,
+        checkpoint_path_arg=checkpoint_path,
+    )
 
     print_section_title("California Birds Prediction")
     print(f"Using device      : {device}")
     print(f"Config path       : {config_path}")
     print(f"Input path        : {input_path}")
     print(f"Model             : {config['model']}")
+    print(f"Checkpoint path   : {checkpoint_path}")
     print(f"Number of classes : {len(class_names)}")
     print(f"Top-K             : {top_k}")
     print()
@@ -157,6 +206,7 @@ def predict_images(config_path: str, input_path: str, top_k: int = 5):
                 model=model,
                 image_path=image_path,
                 class_names=class_names,
+                model_name=config["model"],
                 image_size=config["image_size"],
                 device=device,
                 top_k=top_k,
@@ -199,6 +249,9 @@ def main():
 
       4) Specify top_k:
          python src/predict.py configs/resnet50.yaml /path/to/folder 3
+
+      5) Specify checkpoint path:
+         python src/predict.py configs/resnet50.yaml /path/to/folder 5 /path/to/best_full.pth
     """
     if len(sys.argv) < 2:
         print("Usage:")
@@ -227,8 +280,18 @@ def main():
     else:
         top_k = 5
 
+    if len(sys.argv) >= 5:
+        checkpoint_path = sys.argv[4]
+    else:
+        checkpoint_path = None
+
     try:
-        predict_images(config_path=config_path, input_path=input_path, top_k=top_k)
+        predict_images(
+            config_path=config_path,
+            input_path=input_path,
+            top_k=top_k,
+            checkpoint_path=checkpoint_path,
+        )
     except Exception as e:
         print_section_title("Prediction Error")
         print(f"Reason: {e}")
