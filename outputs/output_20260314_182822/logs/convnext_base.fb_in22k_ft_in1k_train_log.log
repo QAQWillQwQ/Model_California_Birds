@@ -26,3 +26,8 @@ WS-DAN Crop Weight: 0.5
 WS-DAN Drop Weight: 0.0
 WS-DAN BBox Padding Ratio: 0.1
 
+Epoch [1/100] | Train Loss: 6.4714 | Train Top1: 0.1054 | Train Top5: 0.2457 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-06 | Train Time: 505.230s | Val Time: 0.000s | Epoch Time: 505.230s
+Epoch [2/100] | Train Loss: 5.3189 | Train Top1: 0.2156 | Train Top5: 0.5325 | Val Loss: 4.3208 | Val Top1: 0.3084 | Val Top5: 0.6870 | LR: 1.01e-04 | Train Time: 389.794s | Val Time: 42.765s | Epoch Time: 432.559s
+Epoch [3/100] | Train Loss: 3.4798 | Train Top1: 0.3453 | Train Top5: 0.7271 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 390.437s | Val Time: 0.000s | Epoch Time: 390.437s
+Epoch [4/100] | Train Loss: 2.5567 | Train Top1: 0.5136 | Train Top5: 0.8597 | Val Loss: 2.5029 | Val Top1: 0.5511 | Val Top5: 0.8554 | LR: 2.00e-04 | Train Time: 389.828s | Val Time: 19.086s | Epoch Time: 408.914s
+Epoch [5/100] | Train Loss: 2.1213 | Train Top1: 0.6362 | Train Top5: 0.9166 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 389.567s | Val Time: 0.000s | Epoch Time: 389.567s

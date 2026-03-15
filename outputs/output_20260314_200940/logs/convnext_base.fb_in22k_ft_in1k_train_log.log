@@ -1,0 +1,33 @@
+Device: cuda
+Num classes: 657
+Model: convnext_base.fb_in22k_ft_in1k
+
+AMP Enabled: True
+Compile Enabled: True
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 2
+Weight Decay: 0.05
+Layerwise LR Enabled: False
+Label Smoothing: 0.1
+Dropout Rate: 0.2
+Early Stopping Patience: 10
+Scheduler: CosineAnnealingLR (T_max=100, eta_min=1e-6)
+Warmup Epochs: 2
+Mixup Alpha: 0.0
+CutMix Alpha: 0.0
+WS-DAN Enabled: True
+WS-DAN Start Epoch: 5
+WS-DAN Attention Maps: 8
+WS-DAN Crop Threshold: 0.5
+WS-DAN Drop Threshold: 0.4
+WS-DAN Base Weight: 1.0
+WS-DAN Crop Weight: 0.5
+WS-DAN Drop Weight: 0.0
+WS-DAN BBox Padding Ratio: 0.1
+
+Epoch [1/100] | Train Loss: 6.4699 | Train Top1: 0.1159 | Train Top5: 0.2676 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-06 | Train Time: 467.324s | Val Time: 0.000s | Epoch Time: 467.324s
+Epoch [2/100] | Train Loss: 5.2626 | Train Top1: 0.2134 | Train Top5: 0.5325 | Val Loss: 4.2316 | Val Top1: 0.3140 | Val Top5: 0.6849 | LR: 1.01e-04 | Train Time: 398.821s | Val Time: 29.313s | Epoch Time: 428.134s
+Epoch [3/100] | Train Loss: 3.4315 | Train Top1: 0.3511 | Train Top5: 0.7295 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 398.044s | Val Time: 0.000s | Epoch Time: 398.044s
+Epoch [4/100] | Train Loss: 2.5311 | Train Top1: 0.5225 | Train Top5: 0.8584 | Val Loss: 2.4927 | Val Top1: 0.5590 | Val Top5: 0.8565 | LR: 2.00e-04 | Train Time: 397.359s | Val Time: 23.038s | Epoch Time: 420.398s
+Epoch [5/100] | Train Loss: 2.1181 | Train Top1: 0.6378 | Train Top5: 0.9137 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 397.167s | Val Time: 0.000s | Epoch Time: 397.167s

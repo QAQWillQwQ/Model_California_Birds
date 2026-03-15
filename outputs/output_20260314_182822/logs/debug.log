@@ -22,3 +22,836 @@ WS-DAN Active: False (start_epoch=5)
   Train Batch [350/3451] | Loss: 6.4868 | Top1: 0.0029 | Top5: 0.0086
   Train Batch [375/3451] | Loss: 6.4866 | Top1: 0.0027 | Top5: 0.0092
   Train Batch [400/3451] | Loss: 6.4865 | Top1: 0.0027 | Top5: 0.0097
+  Train Batch [425/3451] | Loss: 6.4864 | Top1: 0.0025 | Top5: 0.0103
+  Train Batch [450/3451] | Loss: 6.4863 | Top1: 0.0025 | Top5: 0.0107
+  Train Batch [475/3451] | Loss: 6.4863 | Top1: 0.0025 | Top5: 0.0107
+  Train Batch [500/3451] | Loss: 6.4862 | Top1: 0.0026 | Top5: 0.0110
+  Train Batch [525/3451] | Loss: 6.4861 | Top1: 0.0025 | Top5: 0.0119
+  Train Batch [550/3451] | Loss: 6.4860 | Top1: 0.0028 | Top5: 0.0124
+  Train Batch [575/3451] | Loss: 6.4859 | Top1: 0.0028 | Top5: 0.0130
+  Train Batch [600/3451] | Loss: 6.4858 | Top1: 0.0030 | Top5: 0.0138
+  Train Batch [625/3451] | Loss: 6.4857 | Top1: 0.0032 | Top5: 0.0146
+  Train Batch [650/3451] | Loss: 6.4856 | Top1: 0.0031 | Top5: 0.0149
+  Train Batch [675/3451] | Loss: 6.4855 | Top1: 0.0031 | Top5: 0.0156
+  Train Batch [700/3451] | Loss: 6.4854 | Top1: 0.0034 | Top5: 0.0162
+  Train Batch [725/3451] | Loss: 6.4853 | Top1: 0.0037 | Top5: 0.0170
+  Train Batch [750/3451] | Loss: 6.4851 | Top1: 0.0042 | Top5: 0.0179
+  Train Batch [775/3451] | Loss: 6.4851 | Top1: 0.0042 | Top5: 0.0182
+  Train Batch [800/3451] | Loss: 6.4849 | Top1: 0.0046 | Top5: 0.0189
+  Train Batch [825/3451] | Loss: 6.4849 | Top1: 0.0051 | Top5: 0.0200
+  Train Batch [850/3451] | Loss: 6.4847 | Top1: 0.0054 | Top5: 0.0213
+  Train Batch [875/3451] | Loss: 6.4846 | Top1: 0.0054 | Top5: 0.0218
+  Train Batch [900/3451] | Loss: 6.4846 | Top1: 0.0056 | Top5: 0.0223
+  Train Batch [925/3451] | Loss: 6.4844 | Top1: 0.0059 | Top5: 0.0236
+  Train Batch [950/3451] | Loss: 6.4843 | Top1: 0.0061 | Top5: 0.0245
+  Train Batch [975/3451] | Loss: 6.4842 | Top1: 0.0063 | Top5: 0.0249
+  Train Batch [1000/3451] | Loss: 6.4841 | Top1: 0.0067 | Top5: 0.0261
+  Train Batch [1025/3451] | Loss: 6.4840 | Top1: 0.0071 | Top5: 0.0273
+  Train Batch [1050/3451] | Loss: 6.4839 | Top1: 0.0075 | Top5: 0.0286
+  Train Batch [1075/3451] | Loss: 6.4838 | Top1: 0.0077 | Top5: 0.0304
+  Train Batch [1100/3451] | Loss: 6.4837 | Top1: 0.0084 | Top5: 0.0315
+  Train Batch [1125/3451] | Loss: 6.4836 | Top1: 0.0088 | Top5: 0.0331
+  Train Batch [1150/3451] | Loss: 6.4835 | Top1: 0.0092 | Top5: 0.0344
+  Train Batch [1175/3451] | Loss: 6.4833 | Top1: 0.0095 | Top5: 0.0360
+  Train Batch [1200/3451] | Loss: 6.4833 | Top1: 0.0099 | Top5: 0.0367
+  Train Batch [1225/3451] | Loss: 6.4831 | Top1: 0.0107 | Top5: 0.0387
+  Train Batch [1250/3451] | Loss: 6.4830 | Top1: 0.0113 | Top5: 0.0407
+  Train Batch [1275/3451] | Loss: 6.4829 | Top1: 0.0118 | Top5: 0.0425
+  Train Batch [1300/3451] | Loss: 6.4828 | Top1: 0.0124 | Top5: 0.0441
+  Train Batch [1325/3451] | Loss: 6.4826 | Top1: 0.0132 | Top5: 0.0462
+  Train Batch [1350/3451] | Loss: 6.4825 | Top1: 0.0138 | Top5: 0.0477
+  Train Batch [1375/3451] | Loss: 6.4824 | Top1: 0.0147 | Top5: 0.0493
+  Train Batch [1400/3451] | Loss: 6.4823 | Top1: 0.0154 | Top5: 0.0510
+  Train Batch [1425/3451] | Loss: 6.4822 | Top1: 0.0163 | Top5: 0.0527
+  Train Batch [1450/3451] | Loss: 6.4821 | Top1: 0.0171 | Top5: 0.0544
+  Train Batch [1475/3451] | Loss: 6.4819 | Top1: 0.0176 | Top5: 0.0562
+  Train Batch [1500/3451] | Loss: 6.4818 | Top1: 0.0185 | Top5: 0.0580
+  Train Batch [1525/3451] | Loss: 6.4817 | Top1: 0.0194 | Top5: 0.0600
+  Train Batch [1550/3451] | Loss: 6.4816 | Top1: 0.0202 | Top5: 0.0623
+  Train Batch [1575/3451] | Loss: 6.4815 | Top1: 0.0208 | Top5: 0.0641
+  Train Batch [1600/3451] | Loss: 6.4813 | Top1: 0.0219 | Top5: 0.0664
+  Train Batch [1625/3451] | Loss: 6.4812 | Top1: 0.0230 | Top5: 0.0683
+  Train Batch [1650/3451] | Loss: 6.4811 | Top1: 0.0240 | Top5: 0.0705
+  Train Batch [1675/3451] | Loss: 6.4810 | Top1: 0.0246 | Top5: 0.0723
+  Train Batch [1700/3451] | Loss: 6.4808 | Top1: 0.0255 | Top5: 0.0746
+  Train Batch [1725/3451] | Loss: 6.4807 | Top1: 0.0263 | Top5: 0.0768
+  Train Batch [1750/3451] | Loss: 6.4806 | Top1: 0.0275 | Top5: 0.0795
+  Train Batch [1775/3451] | Loss: 6.4805 | Top1: 0.0285 | Top5: 0.0824
+  Train Batch [1800/3451] | Loss: 6.4803 | Top1: 0.0296 | Top5: 0.0848
+  Train Batch [1825/3451] | Loss: 6.4802 | Top1: 0.0304 | Top5: 0.0869
+  Train Batch [1850/3451] | Loss: 6.4801 | Top1: 0.0313 | Top5: 0.0891
+  Train Batch [1875/3451] | Loss: 6.4800 | Top1: 0.0329 | Top5: 0.0919
+  Train Batch [1900/3451] | Loss: 6.4798 | Top1: 0.0343 | Top5: 0.0945
+  Train Batch [1925/3451] | Loss: 6.4797 | Top1: 0.0351 | Top5: 0.0969
+  Train Batch [1950/3451] | Loss: 6.4796 | Top1: 0.0361 | Top5: 0.0995
+  Train Batch [1975/3451] | Loss: 6.4794 | Top1: 0.0373 | Top5: 0.1023
+  Train Batch [2000/3451] | Loss: 6.4793 | Top1: 0.0385 | Top5: 0.1046
+  Train Batch [2025/3451] | Loss: 6.4792 | Top1: 0.0393 | Top5: 0.1069
+  Train Batch [2050/3451] | Loss: 6.4791 | Top1: 0.0403 | Top5: 0.1093
+  Train Batch [2075/3451] | Loss: 6.4789 | Top1: 0.0413 | Top5: 0.1118
+  Train Batch [2100/3451] | Loss: 6.4788 | Top1: 0.0420 | Top5: 0.1135
+  Train Batch [2125/3451] | Loss: 6.4787 | Top1: 0.0429 | Top5: 0.1157
+  Train Batch [2150/3451] | Loss: 6.4786 | Top1: 0.0441 | Top5: 0.1183
+  Train Batch [2175/3451] | Loss: 6.4784 | Top1: 0.0451 | Top5: 0.1204
+  Train Batch [2200/3451] | Loss: 6.4783 | Top1: 0.0463 | Top5: 0.1228
+  Train Batch [2225/3451] | Loss: 6.4782 | Top1: 0.0474 | Top5: 0.1249
+  Train Batch [2250/3451] | Loss: 6.4780 | Top1: 0.0487 | Top5: 0.1278
+  Train Batch [2275/3451] | Loss: 6.4779 | Top1: 0.0495 | Top5: 0.1301
+  Train Batch [2300/3451] | Loss: 6.4778 | Top1: 0.0508 | Top5: 0.1327
+  Train Batch [2325/3451] | Loss: 6.4777 | Top1: 0.0521 | Top5: 0.1356
+  Train Batch [2350/3451] | Loss: 6.4775 | Top1: 0.0534 | Top5: 0.1382
+  Train Batch [2375/3451] | Loss: 6.4774 | Top1: 0.0544 | Top5: 0.1406
+  Train Batch [2400/3451] | Loss: 6.4773 | Top1: 0.0557 | Top5: 0.1433
+  Train Batch [2425/3451] | Loss: 6.4772 | Top1: 0.0567 | Top5: 0.1455
+  Train Batch [2450/3451] | Loss: 6.4770 | Top1: 0.0582 | Top5: 0.1481
+  Train Batch [2475/3451] | Loss: 6.4769 | Top1: 0.0593 | Top5: 0.1508
+  Train Batch [2500/3451] | Loss: 6.4767 | Top1: 0.0606 | Top5: 0.1538
+  Train Batch [2525/3451] | Loss: 6.4766 | Top1: 0.0618 | Top5: 0.1568
+  Train Batch [2550/3451] | Loss: 6.4765 | Top1: 0.0633 | Top5: 0.1594
+  Train Batch [2575/3451] | Loss: 6.4763 | Top1: 0.0642 | Top5: 0.1620
+  Train Batch [2600/3451] | Loss: 6.4762 | Top1: 0.0657 | Top5: 0.1651
+  Train Batch [2625/3451] | Loss: 6.4761 | Top1: 0.0671 | Top5: 0.1676
+  Train Batch [2650/3451] | Loss: 6.4759 | Top1: 0.0685 | Top5: 0.1704
+  Train Batch [2675/3451] | Loss: 6.4758 | Top1: 0.0699 | Top5: 0.1733
+  Train Batch [2700/3451] | Loss: 6.4756 | Top1: 0.0711 | Top5: 0.1756
+  Train Batch [2725/3451] | Loss: 6.4755 | Top1: 0.0722 | Top5: 0.1779
+  Train Batch [2750/3451] | Loss: 6.4753 | Top1: 0.0734 | Top5: 0.1806
+  Train Batch [2775/3451] | Loss: 6.4752 | Top1: 0.0745 | Top5: 0.1829
+  Train Batch [2800/3451] | Loss: 6.4751 | Top1: 0.0762 | Top5: 0.1858
+  Train Batch [2825/3451] | Loss: 6.4749 | Top1: 0.0776 | Top5: 0.1886
+  Train Batch [2850/3451] | Loss: 6.4748 | Top1: 0.0788 | Top5: 0.1910
+  Train Batch [2875/3451] | Loss: 6.4747 | Top1: 0.0801 | Top5: 0.1935
+  Train Batch [2900/3451] | Loss: 6.4745 | Top1: 0.0816 | Top5: 0.1961
+  Train Batch [2925/3451] | Loss: 6.4744 | Top1: 0.0827 | Top5: 0.1985
+  Train Batch [2950/3451] | Loss: 6.4742 | Top1: 0.0839 | Top5: 0.2006
+  Train Batch [2975/3451] | Loss: 6.4741 | Top1: 0.0850 | Top5: 0.2030
+  Train Batch [3000/3451] | Loss: 6.4739 | Top1: 0.0864 | Top5: 0.2056
+  Train Batch [3025/3451] | Loss: 6.4738 | Top1: 0.0873 | Top5: 0.2080
+  Train Batch [3050/3451] | Loss: 6.4737 | Top1: 0.0887 | Top5: 0.2106
+  Train Batch [3075/3451] | Loss: 6.4735 | Top1: 0.0898 | Top5: 0.2127
+  Train Batch [3100/3451] | Loss: 6.4734 | Top1: 0.0910 | Top5: 0.2151
+  Train Batch [3125/3451] | Loss: 6.4732 | Top1: 0.0920 | Top5: 0.2174
+  Train Batch [3150/3451] | Loss: 6.4731 | Top1: 0.0930 | Top5: 0.2196
+  Train Batch [3175/3451] | Loss: 6.4730 | Top1: 0.0941 | Top5: 0.2220
+  Train Batch [3200/3451] | Loss: 6.4728 | Top1: 0.0952 | Top5: 0.2245
+  Train Batch [3225/3451] | Loss: 6.4727 | Top1: 0.0961 | Top5: 0.2265
+  Train Batch [3250/3451] | Loss: 6.4725 | Top1: 0.0967 | Top5: 0.2283
+  Train Batch [3275/3451] | Loss: 6.4724 | Top1: 0.0978 | Top5: 0.2304
+  Train Batch [3300/3451] | Loss: 6.4723 | Top1: 0.0988 | Top5: 0.2324
+  Train Batch [3325/3451] | Loss: 6.4721 | Top1: 0.0999 | Top5: 0.2348
+  Train Batch [3350/3451] | Loss: 6.4720 | Top1: 0.1010 | Top5: 0.2369
+  Train Batch [3375/3451] | Loss: 6.4718 | Top1: 0.1021 | Top5: 0.2392
+  Train Batch [3400/3451] | Loss: 6.4717 | Top1: 0.1033 | Top5: 0.2414
+  Train Batch [3425/3451] | Loss: 6.4715 | Top1: 0.1042 | Top5: 0.2435
+  Train Batch [3450/3451] | Loss: 6.4714 | Top1: 0.1054 | Top5: 0.2457
+  Train Batch [3451/3451] | Loss: 6.4714 | Top1: 0.1054 | Top5: 0.2457
+  Train Epoch Time: 505.230s
+  Skipping validation on epoch 1; val_interval=2
+Epoch [1/100] | Train Loss: 6.4714 | Train Top1: 0.1054 | Train Top5: 0.2457 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-06 | Train Time: 505.230s | Val Time: 0.000s | Epoch Time: 505.230s
+
+===== Epoch 2/100 (LR: 1.01e-04) =====
+WS-DAN Active: False (start_epoch=5)
+  Train Batch [25/3451] | Loss: 6.4456 | Top1: 0.1600 | Top5: 0.4450
+  Train Batch [50/3451] | Loss: 6.4376 | Top1: 0.1600 | Top5: 0.4338
+  Train Batch [75/3451] | Loss: 6.4310 | Top1: 0.1575 | Top5: 0.4217
+  Train Batch [100/3451] | Loss: 6.4219 | Top1: 0.1613 | Top5: 0.4219
+  Train Batch [125/3451] | Loss: 6.4139 | Top1: 0.1615 | Top5: 0.4220
+  Train Batch [150/3451] | Loss: 6.4048 | Top1: 0.1633 | Top5: 0.4213
+  Train Batch [175/3451] | Loss: 6.3957 | Top1: 0.1632 | Top5: 0.4214
+  Train Batch [200/3451] | Loss: 6.3876 | Top1: 0.1650 | Top5: 0.4181
+  Train Batch [225/3451] | Loss: 6.3785 | Top1: 0.1675 | Top5: 0.4206
+  Train Batch [250/3451] | Loss: 6.3689 | Top1: 0.1688 | Top5: 0.4208
+  Train Batch [275/3451] | Loss: 6.3605 | Top1: 0.1716 | Top5: 0.4168
+  Train Batch [300/3451] | Loss: 6.3518 | Top1: 0.1700 | Top5: 0.4131
+  Train Batch [325/3451] | Loss: 6.3432 | Top1: 0.1679 | Top5: 0.4079
+  Train Batch [350/3451] | Loss: 6.3341 | Top1: 0.1684 | Top5: 0.4096
+  Train Batch [375/3451] | Loss: 6.3249 | Top1: 0.1685 | Top5: 0.4102
+  Train Batch [400/3451] | Loss: 6.3159 | Top1: 0.1697 | Top5: 0.4089
+  Train Batch [425/3451] | Loss: 6.3070 | Top1: 0.1685 | Top5: 0.4104
+  Train Batch [450/3451] | Loss: 6.2975 | Top1: 0.1713 | Top5: 0.4135
+  Train Batch [475/3451] | Loss: 6.2881 | Top1: 0.1716 | Top5: 0.4136
+  Train Batch [500/3451] | Loss: 6.2794 | Top1: 0.1710 | Top5: 0.4129
+  Train Batch [525/3451] | Loss: 6.2701 | Top1: 0.1714 | Top5: 0.4135
+  Train Batch [550/3451] | Loss: 6.2612 | Top1: 0.1708 | Top5: 0.4142
+  Train Batch [575/3451] | Loss: 6.2524 | Top1: 0.1704 | Top5: 0.4157
+  Train Batch [600/3451] | Loss: 6.2434 | Top1: 0.1714 | Top5: 0.4159
+  Train Batch [625/3451] | Loss: 6.2343 | Top1: 0.1710 | Top5: 0.4167
+  Train Batch [650/3451] | Loss: 6.2245 | Top1: 0.1728 | Top5: 0.4194
+  Train Batch [675/3451] | Loss: 6.2154 | Top1: 0.1723 | Top5: 0.4199
+  Train Batch [700/3451] | Loss: 6.2060 | Top1: 0.1721 | Top5: 0.4209
+  Train Batch [725/3451] | Loss: 6.1971 | Top1: 0.1725 | Top5: 0.4209
+  Train Batch [750/3451] | Loss: 6.1881 | Top1: 0.1712 | Top5: 0.4219
+  Train Batch [775/3451] | Loss: 6.1793 | Top1: 0.1707 | Top5: 0.4223
+  Train Batch [800/3451] | Loss: 6.1707 | Top1: 0.1700 | Top5: 0.4220
+  Train Batch [825/3451] | Loss: 6.1617 | Top1: 0.1705 | Top5: 0.4229
+  Train Batch [850/3451] | Loss: 6.1529 | Top1: 0.1707 | Top5: 0.4240
+  Train Batch [875/3451] | Loss: 6.1441 | Top1: 0.1720 | Top5: 0.4254
+  Train Batch [900/3451] | Loss: 6.1353 | Top1: 0.1720 | Top5: 0.4258
+  Train Batch [925/3451] | Loss: 6.1264 | Top1: 0.1722 | Top5: 0.4269
+  Train Batch [950/3451] | Loss: 6.1177 | Top1: 0.1727 | Top5: 0.4272
+  Train Batch [975/3451] | Loss: 6.1088 | Top1: 0.1723 | Top5: 0.4275
+  Train Batch [1000/3451] | Loss: 6.0998 | Top1: 0.1729 | Top5: 0.4296
+  Train Batch [1025/3451] | Loss: 6.0908 | Top1: 0.1737 | Top5: 0.4301
+  Train Batch [1050/3451] | Loss: 6.0819 | Top1: 0.1736 | Top5: 0.4315
+  Train Batch [1075/3451] | Loss: 6.0730 | Top1: 0.1736 | Top5: 0.4333
+  Train Batch [1100/3451] | Loss: 6.0642 | Top1: 0.1730 | Top5: 0.4331
+  Train Batch [1125/3451] | Loss: 6.0560 | Top1: 0.1726 | Top5: 0.4333
+  Train Batch [1150/3451] | Loss: 6.0477 | Top1: 0.1729 | Top5: 0.4339
+  Train Batch [1175/3451] | Loss: 6.0386 | Top1: 0.1732 | Top5: 0.4350
+  Train Batch [1200/3451] | Loss: 6.0298 | Top1: 0.1743 | Top5: 0.4359
+  Train Batch [1225/3451] | Loss: 6.0214 | Top1: 0.1741 | Top5: 0.4359
+  Train Batch [1250/3451] | Loss: 6.0130 | Top1: 0.1736 | Top5: 0.4366
+  Train Batch [1275/3451] | Loss: 6.0041 | Top1: 0.1741 | Top5: 0.4387
+  Train Batch [1300/3451] | Loss: 5.9962 | Top1: 0.1738 | Top5: 0.4387
+  Train Batch [1325/3451] | Loss: 5.9873 | Top1: 0.1739 | Top5: 0.4400
+  Train Batch [1350/3451] | Loss: 5.9790 | Top1: 0.1741 | Top5: 0.4405
+  Train Batch [1375/3451] | Loss: 5.9702 | Top1: 0.1741 | Top5: 0.4413
+  Train Batch [1400/3451] | Loss: 5.9615 | Top1: 0.1739 | Top5: 0.4423
+  Train Batch [1425/3451] | Loss: 5.9528 | Top1: 0.1748 | Top5: 0.4435
+  Train Batch [1450/3451] | Loss: 5.9442 | Top1: 0.1751 | Top5: 0.4443
+  Train Batch [1475/3451] | Loss: 5.9358 | Top1: 0.1753 | Top5: 0.4455
+  Train Batch [1500/3451] | Loss: 5.9276 | Top1: 0.1753 | Top5: 0.4461
+  Train Batch [1525/3451] | Loss: 5.9186 | Top1: 0.1765 | Top5: 0.4477
+  Train Batch [1550/3451] | Loss: 5.9102 | Top1: 0.1767 | Top5: 0.4485
+  Train Batch [1575/3451] | Loss: 5.9016 | Top1: 0.1774 | Top5: 0.4500
+  Train Batch [1600/3451] | Loss: 5.8929 | Top1: 0.1780 | Top5: 0.4516
+  Train Batch [1625/3451] | Loss: 5.8842 | Top1: 0.1787 | Top5: 0.4527
+  Train Batch [1650/3451] | Loss: 5.8754 | Top1: 0.1789 | Top5: 0.4545
+  Train Batch [1675/3451] | Loss: 5.8672 | Top1: 0.1792 | Top5: 0.4553
+  Train Batch [1700/3451] | Loss: 5.8586 | Top1: 0.1794 | Top5: 0.4562
+  Train Batch [1725/3451] | Loss: 5.8501 | Top1: 0.1802 | Top5: 0.4576
+  Train Batch [1750/3451] | Loss: 5.8413 | Top1: 0.1809 | Top5: 0.4593
+  Train Batch [1775/3451] | Loss: 5.8328 | Top1: 0.1817 | Top5: 0.4608
+  Train Batch [1800/3451] | Loss: 5.8244 | Top1: 0.1824 | Top5: 0.4619
+  Train Batch [1825/3451] | Loss: 5.8162 | Top1: 0.1830 | Top5: 0.4629
+  Train Batch [1850/3451] | Loss: 5.8083 | Top1: 0.1836 | Top5: 0.4642
+  Train Batch [1875/3451] | Loss: 5.7997 | Top1: 0.1839 | Top5: 0.4660
+  Train Batch [1900/3451] | Loss: 5.7913 | Top1: 0.1842 | Top5: 0.4672
+  Train Batch [1925/3451] | Loss: 5.7836 | Top1: 0.1845 | Top5: 0.4681
+  Train Batch [1950/3451] | Loss: 5.7758 | Top1: 0.1851 | Top5: 0.4689
+  Train Batch [1975/3451] | Loss: 5.7675 | Top1: 0.1855 | Top5: 0.4698
+  Train Batch [2000/3451] | Loss: 5.7595 | Top1: 0.1861 | Top5: 0.4709
+  Train Batch [2025/3451] | Loss: 5.7513 | Top1: 0.1865 | Top5: 0.4722
+  Train Batch [2050/3451] | Loss: 5.7431 | Top1: 0.1868 | Top5: 0.4733
+  Train Batch [2075/3451] | Loss: 5.7350 | Top1: 0.1871 | Top5: 0.4745
+  Train Batch [2100/3451] | Loss: 5.7266 | Top1: 0.1875 | Top5: 0.4754
+  Train Batch [2125/3451] | Loss: 5.7185 | Top1: 0.1880 | Top5: 0.4765
+  Train Batch [2150/3451] | Loss: 5.7105 | Top1: 0.1884 | Top5: 0.4778
+  Train Batch [2175/3451] | Loss: 5.7026 | Top1: 0.1888 | Top5: 0.4787
+  Train Batch [2200/3451] | Loss: 5.6949 | Top1: 0.1889 | Top5: 0.4796
+  Train Batch [2225/3451] | Loss: 5.6866 | Top1: 0.1896 | Top5: 0.4808
+  Train Batch [2250/3451] | Loss: 5.6788 | Top1: 0.1902 | Top5: 0.4820
+  Train Batch [2275/3451] | Loss: 5.6710 | Top1: 0.1910 | Top5: 0.4831
+  Train Batch [2300/3451] | Loss: 5.6629 | Top1: 0.1917 | Top5: 0.4843
+  Train Batch [2325/3451] | Loss: 5.6555 | Top1: 0.1926 | Top5: 0.4857
+  Train Batch [2350/3451] | Loss: 5.6477 | Top1: 0.1930 | Top5: 0.4868
+  Train Batch [2375/3451] | Loss: 5.6399 | Top1: 0.1932 | Top5: 0.4880
+  Train Batch [2400/3451] | Loss: 5.6321 | Top1: 0.1941 | Top5: 0.4893
+  Train Batch [2425/3451] | Loss: 5.6247 | Top1: 0.1944 | Top5: 0.4900
+  Train Batch [2450/3451] | Loss: 5.6169 | Top1: 0.1946 | Top5: 0.4910
+  Train Batch [2475/3451] | Loss: 5.6091 | Top1: 0.1952 | Top5: 0.4919
+  Train Batch [2500/3451] | Loss: 5.6015 | Top1: 0.1955 | Top5: 0.4926
+  Train Batch [2525/3451] | Loss: 5.5940 | Top1: 0.1958 | Top5: 0.4935
+  Train Batch [2550/3451] | Loss: 5.5864 | Top1: 0.1962 | Top5: 0.4948
+  Train Batch [2575/3451] | Loss: 5.5785 | Top1: 0.1968 | Top5: 0.4961
+  Train Batch [2600/3451] | Loss: 5.5709 | Top1: 0.1973 | Top5: 0.4971
+  Train Batch [2625/3451] | Loss: 5.5633 | Top1: 0.1979 | Top5: 0.4980
+  Train Batch [2650/3451] | Loss: 5.5557 | Top1: 0.1984 | Top5: 0.4992
+  Train Batch [2675/3451] | Loss: 5.5480 | Top1: 0.1992 | Top5: 0.5007
+  Train Batch [2700/3451] | Loss: 5.5401 | Top1: 0.1995 | Top5: 0.5021
+  Train Batch [2725/3451] | Loss: 5.5323 | Top1: 0.1999 | Top5: 0.5030
+  Train Batch [2750/3451] | Loss: 5.5247 | Top1: 0.2006 | Top5: 0.5042
+  Train Batch [2775/3451] | Loss: 5.5167 | Top1: 0.2012 | Top5: 0.5052
+  Train Batch [2800/3451] | Loss: 5.5092 | Top1: 0.2017 | Top5: 0.5064
+  Train Batch [2825/3451] | Loss: 5.5014 | Top1: 0.2021 | Top5: 0.5077
+  Train Batch [2850/3451] | Loss: 5.4939 | Top1: 0.2025 | Top5: 0.5086
+  Train Batch [2875/3451] | Loss: 5.4863 | Top1: 0.2030 | Top5: 0.5095
+  Train Batch [2900/3451] | Loss: 5.4791 | Top1: 0.2036 | Top5: 0.5104
+  Train Batch [2925/3451] | Loss: 5.4719 | Top1: 0.2041 | Top5: 0.5115
+  Train Batch [2950/3451] | Loss: 5.4643 | Top1: 0.2051 | Top5: 0.5127
+  Train Batch [2975/3451] | Loss: 5.4572 | Top1: 0.2056 | Top5: 0.5133
+  Train Batch [3000/3451] | Loss: 5.4500 | Top1: 0.2060 | Top5: 0.5142
+  Train Batch [3025/3451] | Loss: 5.4424 | Top1: 0.2066 | Top5: 0.5153
+  Train Batch [3050/3451] | Loss: 5.4348 | Top1: 0.2070 | Top5: 0.5165
+  Train Batch [3075/3451] | Loss: 5.4273 | Top1: 0.2077 | Top5: 0.5176
+  Train Batch [3100/3451] | Loss: 5.4200 | Top1: 0.2084 | Top5: 0.5186
+  Train Batch [3125/3451] | Loss: 5.4127 | Top1: 0.2088 | Top5: 0.5197
+  Train Batch [3150/3451] | Loss: 5.4048 | Top1: 0.2095 | Top5: 0.5211
+  Train Batch [3175/3451] | Loss: 5.3977 | Top1: 0.2098 | Top5: 0.5219
+  Train Batch [3200/3451] | Loss: 5.3906 | Top1: 0.2098 | Top5: 0.5228
+  Train Batch [3225/3451] | Loss: 5.3835 | Top1: 0.2107 | Top5: 0.5235
+  Train Batch [3250/3451] | Loss: 5.3762 | Top1: 0.2113 | Top5: 0.5243
+  Train Batch [3275/3451] | Loss: 5.3693 | Top1: 0.2119 | Top5: 0.5253
+  Train Batch [3300/3451] | Loss: 5.3622 | Top1: 0.2125 | Top5: 0.5263
+  Train Batch [3325/3451] | Loss: 5.3550 | Top1: 0.2132 | Top5: 0.5271
+  Train Batch [3350/3451] | Loss: 5.3478 | Top1: 0.2136 | Top5: 0.5284
+  Train Batch [3375/3451] | Loss: 5.3405 | Top1: 0.2142 | Top5: 0.5294
+  Train Batch [3400/3451] | Loss: 5.3332 | Top1: 0.2148 | Top5: 0.5305
+  Train Batch [3425/3451] | Loss: 5.3262 | Top1: 0.2151 | Top5: 0.5316
+  Train Batch [3450/3451] | Loss: 5.3190 | Top1: 0.2156 | Top5: 0.5325
+  Train Batch [3451/3451] | Loss: 5.3189 | Top1: 0.2156 | Top5: 0.5325
+  Train Epoch Time: 389.794s
+  Val Batch [25/608] | Loss: 4.3834 | Top1: 0.2800 | Top5: 0.6425
+  Val Batch [50/608] | Loss: 4.3424 | Top1: 0.2925 | Top5: 0.6663
+  Val Batch [75/608] | Loss: 4.3220 | Top1: 0.3075 | Top5: 0.6850
+  Val Batch [100/608] | Loss: 4.3188 | Top1: 0.3031 | Top5: 0.6856
+  Val Batch [125/608] | Loss: 4.3135 | Top1: 0.3095 | Top5: 0.6875
+  Val Batch [150/608] | Loss: 4.3185 | Top1: 0.3071 | Top5: 0.6871
+  Val Batch [175/608] | Loss: 4.3166 | Top1: 0.3061 | Top5: 0.6854
+  Val Batch [200/608] | Loss: 4.3231 | Top1: 0.3034 | Top5: 0.6816
+  Val Batch [225/608] | Loss: 4.3221 | Top1: 0.3017 | Top5: 0.6833
+  Val Batch [250/608] | Loss: 4.3213 | Top1: 0.2998 | Top5: 0.6843
+  Val Batch [275/608] | Loss: 4.3208 | Top1: 0.3009 | Top5: 0.6852
+  Val Batch [300/608] | Loss: 4.3171 | Top1: 0.3048 | Top5: 0.6875
+  Val Batch [325/608] | Loss: 4.3184 | Top1: 0.3063 | Top5: 0.6852
+  Val Batch [350/608] | Loss: 4.3182 | Top1: 0.3046 | Top5: 0.6846
+  Val Batch [375/608] | Loss: 4.3190 | Top1: 0.3047 | Top5: 0.6842
+  Val Batch [400/608] | Loss: 4.3181 | Top1: 0.3059 | Top5: 0.6866
+  Val Batch [425/608] | Loss: 4.3206 | Top1: 0.3060 | Top5: 0.6866
+  Val Batch [450/608] | Loss: 4.3219 | Top1: 0.3050 | Top5: 0.6851
+  Val Batch [475/608] | Loss: 4.3212 | Top1: 0.3070 | Top5: 0.6861
+  Val Batch [500/608] | Loss: 4.3210 | Top1: 0.3073 | Top5: 0.6866
+  Val Batch [525/608] | Loss: 4.3206 | Top1: 0.3082 | Top5: 0.6874
+  Val Batch [550/608] | Loss: 4.3190 | Top1: 0.3077 | Top5: 0.6867
+  Val Batch [575/608] | Loss: 4.3212 | Top1: 0.3070 | Top5: 0.6861
+  Val Batch [600/608] | Loss: 4.3202 | Top1: 0.3080 | Top5: 0.6875
+  Val Batch [608/608] | Loss: 4.3208 | Top1: 0.3084 | Top5: 0.6870
+  Val Epoch Time: 42.765s
+Epoch [2/100] | Train Loss: 5.3189 | Train Top1: 0.2156 | Train Top5: 0.5325 | Val Loss: 4.3208 | Val Top1: 0.3084 | Val Top5: 0.6870 | LR: 1.01e-04 | Train Time: 389.794s | Val Time: 42.765s | Epoch Time: 432.559s
+Saved best checkpoint to: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_182822/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 3/100 (LR: 2.00e-04) =====
+WS-DAN Active: False (start_epoch=5)
+  Train Batch [25/3451] | Loss: 4.2894 | Top1: 0.2875 | Top5: 0.7000
+  Train Batch [50/3451] | Loss: 4.2712 | Top1: 0.3050 | Top5: 0.7037
+  Train Batch [75/3451] | Loss: 4.2630 | Top1: 0.3050 | Top5: 0.6925
+  Train Batch [100/3451] | Loss: 4.2620 | Top1: 0.2994 | Top5: 0.6831
+  Train Batch [125/3451] | Loss: 4.2525 | Top1: 0.3005 | Top5: 0.6860
+  Train Batch [150/3451] | Loss: 4.2545 | Top1: 0.3004 | Top5: 0.6750
+  Train Batch [175/3451] | Loss: 4.2457 | Top1: 0.2929 | Top5: 0.6746
+  Train Batch [200/3451] | Loss: 4.2397 | Top1: 0.2922 | Top5: 0.6731
+  Train Batch [225/3451] | Loss: 4.2317 | Top1: 0.2956 | Top5: 0.6744
+  Train Batch [250/3451] | Loss: 4.2254 | Top1: 0.2980 | Top5: 0.6733
+  Train Batch [275/3451] | Loss: 4.2162 | Top1: 0.3002 | Top5: 0.6766
+  Train Batch [300/3451] | Loss: 4.2037 | Top1: 0.2990 | Top5: 0.6773
+  Train Batch [325/3451] | Loss: 4.1959 | Top1: 0.2937 | Top5: 0.6762
+  Train Batch [350/3451] | Loss: 4.1857 | Top1: 0.2923 | Top5: 0.6784
+  Train Batch [375/3451] | Loss: 4.1760 | Top1: 0.2922 | Top5: 0.6805
+  Train Batch [400/3451] | Loss: 4.1699 | Top1: 0.2902 | Top5: 0.6786
+  Train Batch [425/3451] | Loss: 4.1657 | Top1: 0.2879 | Top5: 0.6775
+  Train Batch [450/3451] | Loss: 4.1625 | Top1: 0.2879 | Top5: 0.6761
+  Train Batch [475/3451] | Loss: 4.1557 | Top1: 0.2887 | Top5: 0.6750
+  Train Batch [500/3451] | Loss: 4.1461 | Top1: 0.2885 | Top5: 0.6760
+  Train Batch [525/3451] | Loss: 4.1449 | Top1: 0.2875 | Top5: 0.6733
+  Train Batch [550/3451] | Loss: 4.1382 | Top1: 0.2868 | Top5: 0.6723
+  Train Batch [575/3451] | Loss: 4.1301 | Top1: 0.2863 | Top5: 0.6710
+  Train Batch [600/3451] | Loss: 4.1215 | Top1: 0.2869 | Top5: 0.6715
+  Train Batch [625/3451] | Loss: 4.1175 | Top1: 0.2852 | Top5: 0.6705
+  Train Batch [650/3451] | Loss: 4.1132 | Top1: 0.2848 | Top5: 0.6692
+  Train Batch [675/3451] | Loss: 4.1043 | Top1: 0.2862 | Top5: 0.6694
+  Train Batch [700/3451] | Loss: 4.0995 | Top1: 0.2854 | Top5: 0.6679
+  Train Batch [725/3451] | Loss: 4.0910 | Top1: 0.2849 | Top5: 0.6687
+  Train Batch [750/3451] | Loss: 4.0824 | Top1: 0.2859 | Top5: 0.6688
+  Train Batch [775/3451] | Loss: 4.0766 | Top1: 0.2872 | Top5: 0.6685
+  Train Batch [800/3451] | Loss: 4.0685 | Top1: 0.2882 | Top5: 0.6689
+  Train Batch [825/3451] | Loss: 4.0618 | Top1: 0.2881 | Top5: 0.6681
+  Train Batch [850/3451] | Loss: 4.0536 | Top1: 0.2879 | Top5: 0.6676
+  Train Batch [875/3451] | Loss: 4.0452 | Top1: 0.2886 | Top5: 0.6685
+  Train Batch [900/3451] | Loss: 4.0372 | Top1: 0.2890 | Top5: 0.6687
+  Train Batch [925/3451] | Loss: 4.0289 | Top1: 0.2907 | Top5: 0.6695
+  Train Batch [950/3451] | Loss: 4.0213 | Top1: 0.2914 | Top5: 0.6703
+  Train Batch [975/3451] | Loss: 4.0143 | Top1: 0.2913 | Top5: 0.6694
+  Train Batch [1000/3451] | Loss: 4.0093 | Top1: 0.2910 | Top5: 0.6684
+  Train Batch [1025/3451] | Loss: 4.0026 | Top1: 0.2907 | Top5: 0.6684
+  Train Batch [1050/3451] | Loss: 3.9957 | Top1: 0.2914 | Top5: 0.6683
+  Train Batch [1075/3451] | Loss: 3.9876 | Top1: 0.2913 | Top5: 0.6694
+  Train Batch [1100/3451] | Loss: 3.9804 | Top1: 0.2919 | Top5: 0.6703
+  Train Batch [1125/3451] | Loss: 3.9744 | Top1: 0.2923 | Top5: 0.6714
+  Train Batch [1150/3451] | Loss: 3.9678 | Top1: 0.2926 | Top5: 0.6721
+  Train Batch [1175/3451] | Loss: 3.9627 | Top1: 0.2930 | Top5: 0.6724
+  Train Batch [1200/3451] | Loss: 3.9567 | Top1: 0.2941 | Top5: 0.6724
+  Train Batch [1225/3451] | Loss: 3.9489 | Top1: 0.2945 | Top5: 0.6731
+  Train Batch [1250/3451] | Loss: 3.9405 | Top1: 0.2950 | Top5: 0.6746
+  Train Batch [1275/3451] | Loss: 3.9334 | Top1: 0.2957 | Top5: 0.6752
+  Train Batch [1300/3451] | Loss: 3.9293 | Top1: 0.2957 | Top5: 0.6753
+  Train Batch [1325/3451] | Loss: 3.9226 | Top1: 0.2965 | Top5: 0.6758
+  Train Batch [1350/3451] | Loss: 3.9151 | Top1: 0.2976 | Top5: 0.6766
+  Train Batch [1375/3451] | Loss: 3.9088 | Top1: 0.2983 | Top5: 0.6771
+  Train Batch [1400/3451] | Loss: 3.9027 | Top1: 0.2987 | Top5: 0.6781
+  Train Batch [1425/3451] | Loss: 3.8964 | Top1: 0.2989 | Top5: 0.6786
+  Train Batch [1450/3451] | Loss: 3.8881 | Top1: 0.2996 | Top5: 0.6800
+  Train Batch [1475/3451] | Loss: 3.8804 | Top1: 0.2998 | Top5: 0.6809
+  Train Batch [1500/3451] | Loss: 3.8719 | Top1: 0.3010 | Top5: 0.6823
+  Train Batch [1525/3451] | Loss: 3.8667 | Top1: 0.3016 | Top5: 0.6826
+  Train Batch [1550/3451] | Loss: 3.8613 | Top1: 0.3012 | Top5: 0.6829
+  Train Batch [1575/3451] | Loss: 3.8541 | Top1: 0.3020 | Top5: 0.6841
+  Train Batch [1600/3451] | Loss: 3.8457 | Top1: 0.3032 | Top5: 0.6848
+  Train Batch [1625/3451] | Loss: 3.8381 | Top1: 0.3040 | Top5: 0.6862
+  Train Batch [1650/3451] | Loss: 3.8324 | Top1: 0.3044 | Top5: 0.6866
+  Train Batch [1675/3451] | Loss: 3.8254 | Top1: 0.3050 | Top5: 0.6875
+  Train Batch [1700/3451] | Loss: 3.8199 | Top1: 0.3055 | Top5: 0.6879
+  Train Batch [1725/3451] | Loss: 3.8164 | Top1: 0.3054 | Top5: 0.6878
+  Train Batch [1750/3451] | Loss: 3.8101 | Top1: 0.3057 | Top5: 0.6883
+  Train Batch [1775/3451] | Loss: 3.8030 | Top1: 0.3064 | Top5: 0.6890
+  Train Batch [1800/3451] | Loss: 3.7976 | Top1: 0.3066 | Top5: 0.6895
+  Train Batch [1825/3451] | Loss: 3.7928 | Top1: 0.3068 | Top5: 0.6896
+  Train Batch [1850/3451] | Loss: 3.7861 | Top1: 0.3075 | Top5: 0.6905
+  Train Batch [1875/3451] | Loss: 3.7796 | Top1: 0.3082 | Top5: 0.6912
+  Train Batch [1900/3451] | Loss: 3.7737 | Top1: 0.3087 | Top5: 0.6918
+  Train Batch [1925/3451] | Loss: 3.7678 | Top1: 0.3098 | Top5: 0.6922
+  Train Batch [1950/3451] | Loss: 3.7634 | Top1: 0.3097 | Top5: 0.6925
+  Train Batch [1975/3451] | Loss: 3.7588 | Top1: 0.3103 | Top5: 0.6924
+  Train Batch [2000/3451] | Loss: 3.7545 | Top1: 0.3103 | Top5: 0.6931
+  Train Batch [2025/3451] | Loss: 3.7486 | Top1: 0.3113 | Top5: 0.6938
+  Train Batch [2050/3451] | Loss: 3.7430 | Top1: 0.3115 | Top5: 0.6945
+  Train Batch [2075/3451] | Loss: 3.7365 | Top1: 0.3127 | Top5: 0.6955
+  Train Batch [2100/3451] | Loss: 3.7315 | Top1: 0.3125 | Top5: 0.6960
+  Train Batch [2125/3451] | Loss: 3.7267 | Top1: 0.3125 | Top5: 0.6965
+  Train Batch [2150/3451] | Loss: 3.7209 | Top1: 0.3135 | Top5: 0.6976
+  Train Batch [2175/3451] | Loss: 3.7167 | Top1: 0.3138 | Top5: 0.6977
+  Train Batch [2200/3451] | Loss: 3.7117 | Top1: 0.3141 | Top5: 0.6981
+  Train Batch [2225/3451] | Loss: 3.7062 | Top1: 0.3146 | Top5: 0.6985
+  Train Batch [2250/3451] | Loss: 3.7026 | Top1: 0.3146 | Top5: 0.6987
+  Train Batch [2275/3451] | Loss: 3.6971 | Top1: 0.3154 | Top5: 0.6993
+  Train Batch [2300/3451] | Loss: 3.6908 | Top1: 0.3164 | Top5: 0.7004
+  Train Batch [2325/3451] | Loss: 3.6853 | Top1: 0.3171 | Top5: 0.7012
+  Train Batch [2350/3451] | Loss: 3.6800 | Top1: 0.3175 | Top5: 0.7018
+  Train Batch [2375/3451] | Loss: 3.6744 | Top1: 0.3186 | Top5: 0.7025
+  Train Batch [2400/3451] | Loss: 3.6679 | Top1: 0.3194 | Top5: 0.7035
+  Train Batch [2425/3451] | Loss: 3.6637 | Top1: 0.3200 | Top5: 0.7038
+  Train Batch [2450/3451] | Loss: 3.6593 | Top1: 0.3207 | Top5: 0.7044
+  Train Batch [2475/3451] | Loss: 3.6549 | Top1: 0.3209 | Top5: 0.7048
+  Train Batch [2500/3451] | Loss: 3.6495 | Top1: 0.3212 | Top5: 0.7057
+  Train Batch [2525/3451] | Loss: 3.6441 | Top1: 0.3218 | Top5: 0.7064
+  Train Batch [2550/3451] | Loss: 3.6392 | Top1: 0.3225 | Top5: 0.7069
+  Train Batch [2575/3451] | Loss: 3.6342 | Top1: 0.3234 | Top5: 0.7073
+  Train Batch [2600/3451] | Loss: 3.6299 | Top1: 0.3237 | Top5: 0.7075
+  Train Batch [2625/3451] | Loss: 3.6256 | Top1: 0.3242 | Top5: 0.7077
+  Train Batch [2650/3451] | Loss: 3.6207 | Top1: 0.3245 | Top5: 0.7084
+  Train Batch [2675/3451] | Loss: 3.6161 | Top1: 0.3250 | Top5: 0.7089
+  Train Batch [2700/3451] | Loss: 3.6123 | Top1: 0.3252 | Top5: 0.7093
+  Train Batch [2725/3451] | Loss: 3.6079 | Top1: 0.3258 | Top5: 0.7100
+  Train Batch [2750/3451] | Loss: 3.6024 | Top1: 0.3267 | Top5: 0.7108
+  Train Batch [2775/3451] | Loss: 3.5967 | Top1: 0.3277 | Top5: 0.7116
+  Train Batch [2800/3451] | Loss: 3.5926 | Top1: 0.3283 | Top5: 0.7119
+  Train Batch [2825/3451] | Loss: 3.5886 | Top1: 0.3288 | Top5: 0.7124
+  Train Batch [2850/3451] | Loss: 3.5845 | Top1: 0.3293 | Top5: 0.7128
+  Train Batch [2875/3451] | Loss: 3.5798 | Top1: 0.3301 | Top5: 0.7134
+  Train Batch [2900/3451] | Loss: 3.5749 | Top1: 0.3310 | Top5: 0.7141
+  Train Batch [2925/3451] | Loss: 3.5707 | Top1: 0.3315 | Top5: 0.7146
+  Train Batch [2950/3451] | Loss: 3.5652 | Top1: 0.3322 | Top5: 0.7155
+  Train Batch [2975/3451] | Loss: 3.5601 | Top1: 0.3330 | Top5: 0.7164
+  Train Batch [3000/3451] | Loss: 3.5551 | Top1: 0.3335 | Top5: 0.7169
+  Train Batch [3025/3451] | Loss: 3.5505 | Top1: 0.3342 | Top5: 0.7176
+  Train Batch [3050/3451] | Loss: 3.5470 | Top1: 0.3345 | Top5: 0.7181
+  Train Batch [3075/3451] | Loss: 3.5428 | Top1: 0.3352 | Top5: 0.7186
+  Train Batch [3100/3451] | Loss: 3.5385 | Top1: 0.3359 | Top5: 0.7192
+  Train Batch [3125/3451] | Loss: 3.5339 | Top1: 0.3366 | Top5: 0.7198
+  Train Batch [3150/3451] | Loss: 3.5295 | Top1: 0.3373 | Top5: 0.7205
+  Train Batch [3175/3451] | Loss: 3.5251 | Top1: 0.3378 | Top5: 0.7210
+  Train Batch [3200/3451] | Loss: 3.5216 | Top1: 0.3384 | Top5: 0.7215
+  Train Batch [3225/3451] | Loss: 3.5180 | Top1: 0.3390 | Top5: 0.7219
+  Train Batch [3250/3451] | Loss: 3.5131 | Top1: 0.3401 | Top5: 0.7226
+  Train Batch [3275/3451] | Loss: 3.5084 | Top1: 0.3406 | Top5: 0.7233
+  Train Batch [3300/3451] | Loss: 3.5032 | Top1: 0.3415 | Top5: 0.7241
+  Train Batch [3325/3451] | Loss: 3.4982 | Top1: 0.3425 | Top5: 0.7249
+  Train Batch [3350/3451] | Loss: 3.4937 | Top1: 0.3431 | Top5: 0.7256
+  Train Batch [3375/3451] | Loss: 3.4894 | Top1: 0.3439 | Top5: 0.7262
+  Train Batch [3400/3451] | Loss: 3.4860 | Top1: 0.3443 | Top5: 0.7265
+  Train Batch [3425/3451] | Loss: 3.4832 | Top1: 0.3448 | Top5: 0.7268
+  Train Batch [3450/3451] | Loss: 3.4798 | Top1: 0.3453 | Top5: 0.7271
+  Train Batch [3451/3451] | Loss: 3.4798 | Top1: 0.3453 | Top5: 0.7271
+  Train Epoch Time: 390.437s
+  Skipping validation on epoch 3; val_interval=2
+Epoch [3/100] | Train Loss: 3.4798 | Train Top1: 0.3453 | Train Top5: 0.7271 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 390.437s | Val Time: 0.000s | Epoch Time: 390.437s
+
+===== Epoch 4/100 (LR: 2.00e-04) =====
+WS-DAN Active: False (start_epoch=5)
+  Train Batch [25/3451] | Loss: 2.7901 | Top1: 0.4800 | Top5: 0.8275
+  Train Batch [50/3451] | Loss: 2.8264 | Top1: 0.4500 | Top5: 0.8350
+  Train Batch [75/3451] | Loss: 2.7881 | Top1: 0.4625 | Top5: 0.8442
+  Train Batch [100/3451] | Loss: 2.7905 | Top1: 0.4619 | Top5: 0.8406
+  Train Batch [125/3451] | Loss: 2.7955 | Top1: 0.4590 | Top5: 0.8410
+  Train Batch [150/3451] | Loss: 2.7955 | Top1: 0.4554 | Top5: 0.8392
+  Train Batch [175/3451] | Loss: 2.7839 | Top1: 0.4554 | Top5: 0.8389
+  Train Batch [200/3451] | Loss: 2.7716 | Top1: 0.4566 | Top5: 0.8394
+  Train Batch [225/3451] | Loss: 2.7614 | Top1: 0.4597 | Top5: 0.8411
+  Train Batch [250/3451] | Loss: 2.7559 | Top1: 0.4607 | Top5: 0.8413
+  Train Batch [275/3451] | Loss: 2.7545 | Top1: 0.4609 | Top5: 0.8407
+  Train Batch [300/3451] | Loss: 2.7546 | Top1: 0.4619 | Top5: 0.8381
+  Train Batch [325/3451] | Loss: 2.7529 | Top1: 0.4650 | Top5: 0.8379
+  Train Batch [350/3451] | Loss: 2.7535 | Top1: 0.4650 | Top5: 0.8379
+  Train Batch [375/3451] | Loss: 2.7507 | Top1: 0.4657 | Top5: 0.8400
+  Train Batch [400/3451] | Loss: 2.7513 | Top1: 0.4645 | Top5: 0.8394
+  Train Batch [425/3451] | Loss: 2.7489 | Top1: 0.4665 | Top5: 0.8393
+  Train Batch [450/3451] | Loss: 2.7462 | Top1: 0.4676 | Top5: 0.8400
+  Train Batch [475/3451] | Loss: 2.7402 | Top1: 0.4679 | Top5: 0.8414
+  Train Batch [500/3451] | Loss: 2.7348 | Top1: 0.4676 | Top5: 0.8427
+  Train Batch [525/3451] | Loss: 2.7316 | Top1: 0.4688 | Top5: 0.8430
+  Train Batch [550/3451] | Loss: 2.7348 | Top1: 0.4678 | Top5: 0.8420
+  Train Batch [575/3451] | Loss: 2.7304 | Top1: 0.4695 | Top5: 0.8429
+  Train Batch [600/3451] | Loss: 2.7272 | Top1: 0.4708 | Top5: 0.8426
+  Train Batch [625/3451] | Loss: 2.7235 | Top1: 0.4705 | Top5: 0.8437
+  Train Batch [650/3451] | Loss: 2.7236 | Top1: 0.4703 | Top5: 0.8437
+  Train Batch [675/3451] | Loss: 2.7198 | Top1: 0.4701 | Top5: 0.8444
+  Train Batch [700/3451] | Loss: 2.7186 | Top1: 0.4679 | Top5: 0.8449
+  Train Batch [725/3451] | Loss: 2.7179 | Top1: 0.4681 | Top5: 0.8443
+  Train Batch [750/3451] | Loss: 2.7183 | Top1: 0.4677 | Top5: 0.8433
+  Train Batch [775/3451] | Loss: 2.7210 | Top1: 0.4682 | Top5: 0.8435
+  Train Batch [800/3451] | Loss: 2.7212 | Top1: 0.4684 | Top5: 0.8440
+  Train Batch [825/3451] | Loss: 2.7203 | Top1: 0.4681 | Top5: 0.8444
+  Train Batch [850/3451] | Loss: 2.7209 | Top1: 0.4686 | Top5: 0.8440
+  Train Batch [875/3451] | Loss: 2.7179 | Top1: 0.4699 | Top5: 0.8439
+  Train Batch [900/3451] | Loss: 2.7157 | Top1: 0.4699 | Top5: 0.8440
+  Train Batch [925/3451] | Loss: 2.7134 | Top1: 0.4698 | Top5: 0.8439
+  Train Batch [950/3451] | Loss: 2.7119 | Top1: 0.4701 | Top5: 0.8436
+  Train Batch [975/3451] | Loss: 2.7118 | Top1: 0.4705 | Top5: 0.8426
+  Train Batch [1000/3451] | Loss: 2.7090 | Top1: 0.4706 | Top5: 0.8431
+  Train Batch [1025/3451] | Loss: 2.7051 | Top1: 0.4713 | Top5: 0.8437
+  Train Batch [1050/3451] | Loss: 2.7028 | Top1: 0.4718 | Top5: 0.8443
+  Train Batch [1075/3451] | Loss: 2.7008 | Top1: 0.4733 | Top5: 0.8442
+  Train Batch [1100/3451] | Loss: 2.6997 | Top1: 0.4737 | Top5: 0.8445
+  Train Batch [1125/3451] | Loss: 2.6974 | Top1: 0.4744 | Top5: 0.8445
+  Train Batch [1150/3451] | Loss: 2.6969 | Top1: 0.4746 | Top5: 0.8447
+  Train Batch [1175/3451] | Loss: 2.6968 | Top1: 0.4756 | Top5: 0.8445
+  Train Batch [1200/3451] | Loss: 2.6948 | Top1: 0.4763 | Top5: 0.8445
+  Train Batch [1225/3451] | Loss: 2.6910 | Top1: 0.4774 | Top5: 0.8452
+  Train Batch [1250/3451] | Loss: 2.6899 | Top1: 0.4778 | Top5: 0.8456
+  Train Batch [1275/3451] | Loss: 2.6879 | Top1: 0.4783 | Top5: 0.8457
+  Train Batch [1300/3451] | Loss: 2.6859 | Top1: 0.4789 | Top5: 0.8460
+  Train Batch [1325/3451] | Loss: 2.6826 | Top1: 0.4802 | Top5: 0.8461
+  Train Batch [1350/3451] | Loss: 2.6797 | Top1: 0.4813 | Top5: 0.8466
+  Train Batch [1375/3451] | Loss: 2.6768 | Top1: 0.4824 | Top5: 0.8474
+  Train Batch [1400/3451] | Loss: 2.6745 | Top1: 0.4825 | Top5: 0.8479
+  Train Batch [1425/3451] | Loss: 2.6722 | Top1: 0.4832 | Top5: 0.8481
+  Train Batch [1450/3451] | Loss: 2.6687 | Top1: 0.4838 | Top5: 0.8488
+  Train Batch [1475/3451] | Loss: 2.6659 | Top1: 0.4847 | Top5: 0.8492
+  Train Batch [1500/3451] | Loss: 2.6632 | Top1: 0.4855 | Top5: 0.8497
+  Train Batch [1525/3451] | Loss: 2.6609 | Top1: 0.4866 | Top5: 0.8501
+  Train Batch [1550/3451] | Loss: 2.6582 | Top1: 0.4875 | Top5: 0.8504
+  Train Batch [1575/3451] | Loss: 2.6577 | Top1: 0.4875 | Top5: 0.8502
+  Train Batch [1600/3451] | Loss: 2.6559 | Top1: 0.4882 | Top5: 0.8503
+  Train Batch [1625/3451] | Loss: 2.6561 | Top1: 0.4878 | Top5: 0.8500
+  Train Batch [1650/3451] | Loss: 2.6535 | Top1: 0.4883 | Top5: 0.8503
+  Train Batch [1675/3451] | Loss: 2.6518 | Top1: 0.4890 | Top5: 0.8506
+  Train Batch [1700/3451] | Loss: 2.6514 | Top1: 0.4890 | Top5: 0.8501
+  Train Batch [1725/3451] | Loss: 2.6515 | Top1: 0.4888 | Top5: 0.8500
+  Train Batch [1750/3451] | Loss: 2.6496 | Top1: 0.4893 | Top5: 0.8502
+  Train Batch [1775/3451] | Loss: 2.6483 | Top1: 0.4897 | Top5: 0.8502
+  Train Batch [1800/3451] | Loss: 2.6467 | Top1: 0.4901 | Top5: 0.8501
+  Train Batch [1825/3451] | Loss: 2.6455 | Top1: 0.4905 | Top5: 0.8500
+  Train Batch [1850/3451] | Loss: 2.6441 | Top1: 0.4905 | Top5: 0.8503
+  Train Batch [1875/3451] | Loss: 2.6426 | Top1: 0.4911 | Top5: 0.8503
+  Train Batch [1900/3451] | Loss: 2.6406 | Top1: 0.4917 | Top5: 0.8504
+  Train Batch [1925/3451] | Loss: 2.6397 | Top1: 0.4918 | Top5: 0.8505
+  Train Batch [1950/3451] | Loss: 2.6377 | Top1: 0.4926 | Top5: 0.8509
+  Train Batch [1975/3451] | Loss: 2.6358 | Top1: 0.4929 | Top5: 0.8511
+  Train Batch [2000/3451] | Loss: 2.6338 | Top1: 0.4933 | Top5: 0.8514
+  Train Batch [2025/3451] | Loss: 2.6332 | Top1: 0.4934 | Top5: 0.8515
+  Train Batch [2050/3451] | Loss: 2.6318 | Top1: 0.4937 | Top5: 0.8516
+  Train Batch [2075/3451] | Loss: 2.6309 | Top1: 0.4939 | Top5: 0.8515
+  Train Batch [2100/3451] | Loss: 2.6288 | Top1: 0.4944 | Top5: 0.8518
+  Train Batch [2125/3451] | Loss: 2.6280 | Top1: 0.4946 | Top5: 0.8517
+  Train Batch [2150/3451] | Loss: 2.6265 | Top1: 0.4951 | Top5: 0.8518
+  Train Batch [2175/3451] | Loss: 2.6248 | Top1: 0.4955 | Top5: 0.8520
+  Train Batch [2200/3451] | Loss: 2.6235 | Top1: 0.4959 | Top5: 0.8520
+  Train Batch [2225/3451] | Loss: 2.6212 | Top1: 0.4965 | Top5: 0.8525
+  Train Batch [2250/3451] | Loss: 2.6190 | Top1: 0.4969 | Top5: 0.8527
+  Train Batch [2275/3451] | Loss: 2.6176 | Top1: 0.4967 | Top5: 0.8528
+  Train Batch [2300/3451] | Loss: 2.6162 | Top1: 0.4969 | Top5: 0.8531
+  Train Batch [2325/3451] | Loss: 2.6149 | Top1: 0.4968 | Top5: 0.8533
+  Train Batch [2350/3451] | Loss: 2.6140 | Top1: 0.4972 | Top5: 0.8534
+  Train Batch [2375/3451] | Loss: 2.6123 | Top1: 0.4976 | Top5: 0.8537
+  Train Batch [2400/3451] | Loss: 2.6100 | Top1: 0.4984 | Top5: 0.8542
+  Train Batch [2425/3451] | Loss: 2.6089 | Top1: 0.4985 | Top5: 0.8544
+  Train Batch [2450/3451] | Loss: 2.6077 | Top1: 0.4989 | Top5: 0.8547
+  Train Batch [2475/3451] | Loss: 2.6061 | Top1: 0.4994 | Top5: 0.8548
+  Train Batch [2500/3451] | Loss: 2.6045 | Top1: 0.4996 | Top5: 0.8551
+  Train Batch [2525/3451] | Loss: 2.6027 | Top1: 0.5002 | Top5: 0.8554
+  Train Batch [2550/3451] | Loss: 2.6010 | Top1: 0.5006 | Top5: 0.8556
+  Train Batch [2575/3451] | Loss: 2.6002 | Top1: 0.5009 | Top5: 0.8555
+  Train Batch [2600/3451] | Loss: 2.5985 | Top1: 0.5013 | Top5: 0.8556
+  Train Batch [2625/3451] | Loss: 2.5972 | Top1: 0.5016 | Top5: 0.8556
+  Train Batch [2650/3451] | Loss: 2.5967 | Top1: 0.5022 | Top5: 0.8555
+  Train Batch [2675/3451] | Loss: 2.5946 | Top1: 0.5030 | Top5: 0.8560
+  Train Batch [2700/3451] | Loss: 2.5939 | Top1: 0.5032 | Top5: 0.8560
+  Train Batch [2725/3451] | Loss: 2.5918 | Top1: 0.5036 | Top5: 0.8564
+  Train Batch [2750/3451] | Loss: 2.5903 | Top1: 0.5040 | Top5: 0.8566
+  Train Batch [2775/3451] | Loss: 2.5889 | Top1: 0.5041 | Top5: 0.8567
+  Train Batch [2800/3451] | Loss: 2.5883 | Top1: 0.5044 | Top5: 0.8567
+  Train Batch [2825/3451] | Loss: 2.5882 | Top1: 0.5045 | Top5: 0.8566
+  Train Batch [2850/3451] | Loss: 2.5867 | Top1: 0.5050 | Top5: 0.8567
+  Train Batch [2875/3451] | Loss: 2.5861 | Top1: 0.5052 | Top5: 0.8567
+  Train Batch [2900/3451] | Loss: 2.5844 | Top1: 0.5056 | Top5: 0.8568
+  Train Batch [2925/3451] | Loss: 2.5830 | Top1: 0.5058 | Top5: 0.8569
+  Train Batch [2950/3451] | Loss: 2.5816 | Top1: 0.5064 | Top5: 0.8571
+  Train Batch [2975/3451] | Loss: 2.5811 | Top1: 0.5065 | Top5: 0.8570
+  Train Batch [3000/3451] | Loss: 2.5793 | Top1: 0.5072 | Top5: 0.8571
+  Train Batch [3025/3451] | Loss: 2.5779 | Top1: 0.5076 | Top5: 0.8571
+  Train Batch [3050/3451] | Loss: 2.5762 | Top1: 0.5081 | Top5: 0.8574
+  Train Batch [3075/3451] | Loss: 2.5756 | Top1: 0.5082 | Top5: 0.8575
+  Train Batch [3100/3451] | Loss: 2.5749 | Top1: 0.5083 | Top5: 0.8575
+  Train Batch [3125/3451] | Loss: 2.5738 | Top1: 0.5087 | Top5: 0.8577
+  Train Batch [3150/3451] | Loss: 2.5726 | Top1: 0.5089 | Top5: 0.8579
+  Train Batch [3175/3451] | Loss: 2.5712 | Top1: 0.5097 | Top5: 0.8581
+  Train Batch [3200/3451] | Loss: 2.5693 | Top1: 0.5101 | Top5: 0.8583
+  Train Batch [3225/3451] | Loss: 2.5675 | Top1: 0.5106 | Top5: 0.8585
+  Train Batch [3250/3451] | Loss: 2.5669 | Top1: 0.5108 | Top5: 0.8585
+  Train Batch [3275/3451] | Loss: 2.5654 | Top1: 0.5109 | Top5: 0.8586
+  Train Batch [3300/3451] | Loss: 2.5633 | Top1: 0.5116 | Top5: 0.8590
+  Train Batch [3325/3451] | Loss: 2.5618 | Top1: 0.5119 | Top5: 0.8592
+  Train Batch [3350/3451] | Loss: 2.5611 | Top1: 0.5122 | Top5: 0.8592
+  Train Batch [3375/3451] | Loss: 2.5596 | Top1: 0.5128 | Top5: 0.8594
+  Train Batch [3400/3451] | Loss: 2.5591 | Top1: 0.5129 | Top5: 0.8594
+  Train Batch [3425/3451] | Loss: 2.5582 | Top1: 0.5132 | Top5: 0.8595
+  Train Batch [3450/3451] | Loss: 2.5567 | Top1: 0.5136 | Top5: 0.8597
+  Train Batch [3451/3451] | Loss: 2.5567 | Top1: 0.5136 | Top5: 0.8597
+  Train Epoch Time: 389.828s
+  Val Batch [25/608] | Loss: 2.4423 | Top1: 0.5650 | Top5: 0.8525
+  Val Batch [50/608] | Loss: 2.4360 | Top1: 0.5600 | Top5: 0.8600
+  Val Batch [75/608] | Loss: 2.4370 | Top1: 0.5675 | Top5: 0.8608
+  Val Batch [100/608] | Loss: 2.4840 | Top1: 0.5613 | Top5: 0.8550
+  Val Batch [125/608] | Loss: 2.4901 | Top1: 0.5550 | Top5: 0.8565
+  Val Batch [150/608] | Loss: 2.5185 | Top1: 0.5463 | Top5: 0.8529
+  Val Batch [175/608] | Loss: 2.5033 | Top1: 0.5511 | Top5: 0.8550
+  Val Batch [200/608] | Loss: 2.5176 | Top1: 0.5491 | Top5: 0.8525
+  Val Batch [225/608] | Loss: 2.5207 | Top1: 0.5489 | Top5: 0.8508
+  Val Batch [250/608] | Loss: 2.5236 | Top1: 0.5487 | Top5: 0.8495
+  Val Batch [275/608] | Loss: 2.5115 | Top1: 0.5502 | Top5: 0.8527
+  Val Batch [300/608] | Loss: 2.4991 | Top1: 0.5540 | Top5: 0.8548
+  Val Batch [325/608] | Loss: 2.5079 | Top1: 0.5523 | Top5: 0.8529
+  Val Batch [350/608] | Loss: 2.5103 | Top1: 0.5493 | Top5: 0.8530
+  Val Batch [375/608] | Loss: 2.5073 | Top1: 0.5502 | Top5: 0.8545
+  Val Batch [400/608] | Loss: 2.5035 | Top1: 0.5502 | Top5: 0.8552
+  Val Batch [425/608] | Loss: 2.5085 | Top1: 0.5482 | Top5: 0.8543
+  Val Batch [450/608] | Loss: 2.5122 | Top1: 0.5478 | Top5: 0.8539
+  Val Batch [475/608] | Loss: 2.5118 | Top1: 0.5488 | Top5: 0.8537
+  Val Batch [500/608] | Loss: 2.5118 | Top1: 0.5477 | Top5: 0.8536
+  Val Batch [525/608] | Loss: 2.5087 | Top1: 0.5494 | Top5: 0.8538
+  Val Batch [550/608] | Loss: 2.5048 | Top1: 0.5510 | Top5: 0.8551
+  Val Batch [575/608] | Loss: 2.5042 | Top1: 0.5502 | Top5: 0.8554
+  Val Batch [600/608] | Loss: 2.5026 | Top1: 0.5513 | Top5: 0.8557
+  Val Batch [608/608] | Loss: 2.5029 | Top1: 0.5511 | Top5: 0.8554
+  Val Epoch Time: 19.086s
+Epoch [4/100] | Train Loss: 2.5567 | Train Top1: 0.5136 | Train Top5: 0.8597 | Val Loss: 2.5029 | Val Top1: 0.5511 | Val Top5: 0.8554 | LR: 2.00e-04 | Train Time: 389.828s | Val Time: 19.086s | Epoch Time: 408.914s
+Saved best checkpoint to: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_182822/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 5/100 (LR: 2.00e-04) =====
+WS-DAN Active: False (start_epoch=5)
+  Train Batch [25/3451] | Loss: 2.2060 | Top1: 0.6025 | Top5: 0.9125
+  Train Batch [50/3451] | Loss: 2.2002 | Top1: 0.6112 | Top5: 0.9100
+  Train Batch [75/3451] | Loss: 2.2228 | Top1: 0.6017 | Top5: 0.9100
+  Train Batch [100/3451] | Loss: 2.2139 | Top1: 0.6019 | Top5: 0.9137
+  Train Batch [125/3451] | Loss: 2.2195 | Top1: 0.6040 | Top5: 0.9115
+  Train Batch [150/3451] | Loss: 2.2288 | Top1: 0.6029 | Top5: 0.9096
+  Train Batch [175/3451] | Loss: 2.2289 | Top1: 0.6089 | Top5: 0.9093
+  Train Batch [200/3451] | Loss: 2.2256 | Top1: 0.6084 | Top5: 0.9109
+  Train Batch [225/3451] | Loss: 2.2123 | Top1: 0.6094 | Top5: 0.9122
+  Train Batch [250/3451] | Loss: 2.2063 | Top1: 0.6118 | Top5: 0.9125
+  Train Batch [275/3451] | Loss: 2.2021 | Top1: 0.6130 | Top5: 0.9141
+  Train Batch [300/3451] | Loss: 2.1969 | Top1: 0.6119 | Top5: 0.9152
+  Train Batch [325/3451] | Loss: 2.1965 | Top1: 0.6104 | Top5: 0.9152
+  Train Batch [350/3451] | Loss: 2.1951 | Top1: 0.6098 | Top5: 0.9157
+  Train Batch [375/3451] | Loss: 2.1940 | Top1: 0.6093 | Top5: 0.9158
+  Train Batch [400/3451] | Loss: 2.1916 | Top1: 0.6100 | Top5: 0.9158
+  Train Batch [425/3451] | Loss: 2.1939 | Top1: 0.6118 | Top5: 0.9153
+  Train Batch [450/3451] | Loss: 2.1937 | Top1: 0.6121 | Top5: 0.9147
+  Train Batch [475/3451] | Loss: 2.1982 | Top1: 0.6100 | Top5: 0.9147
+  Train Batch [500/3451] | Loss: 2.1948 | Top1: 0.6116 | Top5: 0.9146
+  Train Batch [525/3451] | Loss: 2.1911 | Top1: 0.6136 | Top5: 0.9150
+  Train Batch [550/3451] | Loss: 2.1889 | Top1: 0.6143 | Top5: 0.9155
+  Train Batch [575/3451] | Loss: 2.1858 | Top1: 0.6151 | Top5: 0.9159
+  Train Batch [600/3451] | Loss: 2.1848 | Top1: 0.6152 | Top5: 0.9166
+  Train Batch [625/3451] | Loss: 2.1865 | Top1: 0.6141 | Top5: 0.9155
+  Train Batch [650/3451] | Loss: 2.1880 | Top1: 0.6134 | Top5: 0.9147
+  Train Batch [675/3451] | Loss: 2.1871 | Top1: 0.6139 | Top5: 0.9148
+  Train Batch [700/3451] | Loss: 2.1827 | Top1: 0.6152 | Top5: 0.9159
+  Train Batch [725/3451] | Loss: 2.1821 | Top1: 0.6152 | Top5: 0.9160
+  Train Batch [750/3451] | Loss: 2.1801 | Top1: 0.6152 | Top5: 0.9162
+  Train Batch [775/3451] | Loss: 2.1795 | Top1: 0.6151 | Top5: 0.9160
+  Train Batch [800/3451] | Loss: 2.1752 | Top1: 0.6165 | Top5: 0.9167
+  Train Batch [825/3451] | Loss: 2.1742 | Top1: 0.6164 | Top5: 0.9170
+  Train Batch [850/3451] | Loss: 2.1728 | Top1: 0.6182 | Top5: 0.9174
+  Train Batch [875/3451] | Loss: 2.1722 | Top1: 0.6178 | Top5: 0.9173
+  Train Batch [900/3451] | Loss: 2.1710 | Top1: 0.6185 | Top5: 0.9177
+  Train Batch [925/3451] | Loss: 2.1692 | Top1: 0.6195 | Top5: 0.9179
+  Train Batch [950/3451] | Loss: 2.1693 | Top1: 0.6195 | Top5: 0.9172
+  Train Batch [975/3451] | Loss: 2.1714 | Top1: 0.6183 | Top5: 0.9174
+  Train Batch [1000/3451] | Loss: 2.1733 | Top1: 0.6179 | Top5: 0.9169
+  Train Batch [1025/3451] | Loss: 2.1735 | Top1: 0.6181 | Top5: 0.9168
+  Train Batch [1050/3451] | Loss: 2.1689 | Top1: 0.6197 | Top5: 0.9175
+  Train Batch [1075/3451] | Loss: 2.1666 | Top1: 0.6200 | Top5: 0.9179
+  Train Batch [1100/3451] | Loss: 2.1662 | Top1: 0.6203 | Top5: 0.9180
+  Train Batch [1125/3451] | Loss: 2.1678 | Top1: 0.6201 | Top5: 0.9175
+  Train Batch [1150/3451] | Loss: 2.1675 | Top1: 0.6210 | Top5: 0.9173
+  Train Batch [1175/3451] | Loss: 2.1671 | Top1: 0.6211 | Top5: 0.9167
+  Train Batch [1200/3451] | Loss: 2.1678 | Top1: 0.6214 | Top5: 0.9161
+  Train Batch [1225/3451] | Loss: 2.1695 | Top1: 0.6213 | Top5: 0.9160
+  Train Batch [1250/3451] | Loss: 2.1702 | Top1: 0.6210 | Top5: 0.9160
+  Train Batch [1275/3451] | Loss: 2.1697 | Top1: 0.6216 | Top5: 0.9159
+  Train Batch [1300/3451] | Loss: 2.1685 | Top1: 0.6219 | Top5: 0.9162
+  Train Batch [1325/3451] | Loss: 2.1671 | Top1: 0.6225 | Top5: 0.9163
+  Train Batch [1350/3451] | Loss: 2.1666 | Top1: 0.6227 | Top5: 0.9163
+  Train Batch [1375/3451] | Loss: 2.1652 | Top1: 0.6233 | Top5: 0.9163
+  Train Batch [1400/3451] | Loss: 2.1649 | Top1: 0.6233 | Top5: 0.9162
+  Train Batch [1425/3451] | Loss: 2.1644 | Top1: 0.6233 | Top5: 0.9164
+  Train Batch [1450/3451] | Loss: 2.1631 | Top1: 0.6241 | Top5: 0.9165
+  Train Batch [1475/3451] | Loss: 2.1622 | Top1: 0.6247 | Top5: 0.9164
+  Train Batch [1500/3451] | Loss: 2.1610 | Top1: 0.6249 | Top5: 0.9165
+  Train Batch [1525/3451] | Loss: 2.1603 | Top1: 0.6249 | Top5: 0.9166
+  Train Batch [1550/3451] | Loss: 2.1604 | Top1: 0.6251 | Top5: 0.9163
+  Train Batch [1575/3451] | Loss: 2.1602 | Top1: 0.6250 | Top5: 0.9163
+  Train Batch [1600/3451] | Loss: 2.1592 | Top1: 0.6251 | Top5: 0.9166
+  Train Batch [1625/3451] | Loss: 2.1599 | Top1: 0.6248 | Top5: 0.9164
+  Train Batch [1650/3451] | Loss: 2.1606 | Top1: 0.6247 | Top5: 0.9163
+  Train Batch [1675/3451] | Loss: 2.1597 | Top1: 0.6250 | Top5: 0.9166
+  Train Batch [1700/3451] | Loss: 2.1592 | Top1: 0.6248 | Top5: 0.9167
+  Train Batch [1725/3451] | Loss: 2.1600 | Top1: 0.6244 | Top5: 0.9166
+  Train Batch [1750/3451] | Loss: 2.1594 | Top1: 0.6245 | Top5: 0.9165
+  Train Batch [1775/3451] | Loss: 2.1582 | Top1: 0.6249 | Top5: 0.9167
+  Train Batch [1800/3451] | Loss: 2.1556 | Top1: 0.6256 | Top5: 0.9170
+  Train Batch [1825/3451] | Loss: 2.1545 | Top1: 0.6262 | Top5: 0.9171
+  Train Batch [1850/3451] | Loss: 2.1538 | Top1: 0.6266 | Top5: 0.9171
+  Train Batch [1875/3451] | Loss: 2.1530 | Top1: 0.6270 | Top5: 0.9172
+  Train Batch [1900/3451] | Loss: 2.1519 | Top1: 0.6269 | Top5: 0.9175
+  Train Batch [1925/3451] | Loss: 2.1520 | Top1: 0.6272 | Top5: 0.9172
+  Train Batch [1950/3451] | Loss: 2.1510 | Top1: 0.6273 | Top5: 0.9177
+  Train Batch [1975/3451] | Loss: 2.1508 | Top1: 0.6274 | Top5: 0.9176
+  Train Batch [2000/3451] | Loss: 2.1497 | Top1: 0.6277 | Top5: 0.9177
+  Train Batch [2025/3451] | Loss: 2.1503 | Top1: 0.6277 | Top5: 0.9173
+  Train Batch [2050/3451] | Loss: 2.1497 | Top1: 0.6280 | Top5: 0.9173
+  Train Batch [2075/3451] | Loss: 2.1489 | Top1: 0.6285 | Top5: 0.9174
+  Train Batch [2100/3451] | Loss: 2.1487 | Top1: 0.6289 | Top5: 0.9173
+  Train Batch [2125/3451] | Loss: 2.1482 | Top1: 0.6292 | Top5: 0.9172
+  Train Batch [2150/3451] | Loss: 2.1476 | Top1: 0.6295 | Top5: 0.9171
+  Train Batch [2175/3451] | Loss: 2.1479 | Top1: 0.6292 | Top5: 0.9171
+  Train Batch [2200/3451] | Loss: 2.1477 | Top1: 0.6289 | Top5: 0.9170
+  Train Batch [2225/3451] | Loss: 2.1475 | Top1: 0.6290 | Top5: 0.9169
+  Train Batch [2250/3451] | Loss: 2.1465 | Top1: 0.6291 | Top5: 0.9167
+  Train Batch [2275/3451] | Loss: 2.1451 | Top1: 0.6291 | Top5: 0.9168
+  Train Batch [2300/3451] | Loss: 2.1448 | Top1: 0.6295 | Top5: 0.9167
+  Train Batch [2325/3451] | Loss: 2.1436 | Top1: 0.6296 | Top5: 0.9168
+  Train Batch [2350/3451] | Loss: 2.1436 | Top1: 0.6293 | Top5: 0.9167
+  Train Batch [2375/3451] | Loss: 2.1427 | Top1: 0.6296 | Top5: 0.9166
+  Train Batch [2400/3451] | Loss: 2.1422 | Top1: 0.6300 | Top5: 0.9166
+  Train Batch [2425/3451] | Loss: 2.1421 | Top1: 0.6301 | Top5: 0.9165
+  Train Batch [2450/3451] | Loss: 2.1413 | Top1: 0.6302 | Top5: 0.9168
+  Train Batch [2475/3451] | Loss: 2.1413 | Top1: 0.6299 | Top5: 0.9167
+  Train Batch [2500/3451] | Loss: 2.1404 | Top1: 0.6302 | Top5: 0.9169
+  Train Batch [2525/3451] | Loss: 2.1410 | Top1: 0.6304 | Top5: 0.9167
+  Train Batch [2550/3451] | Loss: 2.1410 | Top1: 0.6305 | Top5: 0.9166
+  Train Batch [2575/3451] | Loss: 2.1407 | Top1: 0.6306 | Top5: 0.9167
+  Train Batch [2600/3451] | Loss: 2.1404 | Top1: 0.6305 | Top5: 0.9167
+  Train Batch [2625/3451] | Loss: 2.1399 | Top1: 0.6303 | Top5: 0.9166
+  Train Batch [2650/3451] | Loss: 2.1399 | Top1: 0.6302 | Top5: 0.9167
+  Train Batch [2675/3451] | Loss: 2.1390 | Top1: 0.6302 | Top5: 0.9168
+  Train Batch [2700/3451] | Loss: 2.1386 | Top1: 0.6305 | Top5: 0.9167
+  Train Batch [2725/3451] | Loss: 2.1372 | Top1: 0.6312 | Top5: 0.9168
+  Train Batch [2750/3451] | Loss: 2.1364 | Top1: 0.6317 | Top5: 0.9168
+  Train Batch [2775/3451] | Loss: 2.1354 | Top1: 0.6321 | Top5: 0.9170
+  Train Batch [2800/3451] | Loss: 2.1343 | Top1: 0.6323 | Top5: 0.9171
+  Train Batch [2825/3451] | Loss: 2.1332 | Top1: 0.6324 | Top5: 0.9173
+  Train Batch [2850/3451] | Loss: 2.1323 | Top1: 0.6325 | Top5: 0.9174
+  Train Batch [2875/3451] | Loss: 2.1319 | Top1: 0.6326 | Top5: 0.9174
+  Train Batch [2900/3451] | Loss: 2.1309 | Top1: 0.6330 | Top5: 0.9175
+  Train Batch [2925/3451] | Loss: 2.1306 | Top1: 0.6332 | Top5: 0.9175
+  Train Batch [2950/3451] | Loss: 2.1302 | Top1: 0.6331 | Top5: 0.9174
+  Train Batch [2975/3451] | Loss: 2.1295 | Top1: 0.6333 | Top5: 0.9174
+  Train Batch [3000/3451] | Loss: 2.1291 | Top1: 0.6336 | Top5: 0.9175
+  Train Batch [3025/3451] | Loss: 2.1283 | Top1: 0.6339 | Top5: 0.9176
+  Train Batch [3050/3451] | Loss: 2.1279 | Top1: 0.6342 | Top5: 0.9174
+  Train Batch [3075/3451] | Loss: 2.1282 | Top1: 0.6340 | Top5: 0.9170
+  Train Batch [3100/3451] | Loss: 2.1268 | Top1: 0.6343 | Top5: 0.9172
+  Train Batch [3125/3451] | Loss: 2.1261 | Top1: 0.6346 | Top5: 0.9172
+  Train Batch [3150/3451] | Loss: 2.1259 | Top1: 0.6348 | Top5: 0.9173
+  Train Batch [3175/3451] | Loss: 2.1257 | Top1: 0.6346 | Top5: 0.9171
+  Train Batch [3200/3451] | Loss: 2.1248 | Top1: 0.6350 | Top5: 0.9171
+  Train Batch [3225/3451] | Loss: 2.1248 | Top1: 0.6352 | Top5: 0.9170
+  Train Batch [3250/3451] | Loss: 2.1235 | Top1: 0.6354 | Top5: 0.9172
+  Train Batch [3275/3451] | Loss: 2.1229 | Top1: 0.6357 | Top5: 0.9172
+  Train Batch [3300/3451] | Loss: 2.1223 | Top1: 0.6358 | Top5: 0.9171
+  Train Batch [3325/3451] | Loss: 2.1219 | Top1: 0.6360 | Top5: 0.9170
+  Train Batch [3350/3451] | Loss: 2.1216 | Top1: 0.6362 | Top5: 0.9170
+  Train Batch [3375/3451] | Loss: 2.1222 | Top1: 0.6362 | Top5: 0.9168
+  Train Batch [3400/3451] | Loss: 2.1222 | Top1: 0.6362 | Top5: 0.9167
+  Train Batch [3425/3451] | Loss: 2.1222 | Top1: 0.6361 | Top5: 0.9166
+  Train Batch [3450/3451] | Loss: 2.1213 | Top1: 0.6362 | Top5: 0.9166
+  Train Batch [3451/3451] | Loss: 2.1213 | Top1: 0.6362 | Top5: 0.9166
+  Train Epoch Time: 389.567s
+  Skipping validation on epoch 5; val_interval=2
+Epoch [5/100] | Train Loss: 2.1213 | Train Top1: 0.6362 | Train Top5: 0.9166 | Val Loss: nan | Val Top1: nan | Val Top5: nan | LR: 2.00e-04 | Train Time: 389.567s | Val Time: 0.000s | Epoch Time: 389.567s
+
+===== Epoch 6/100 (LR: 2.00e-04) =====
+WS-DAN Active: True (start_epoch=5)
+Traceback (most recent call last):
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/./train.py", line 905, in <module>
+    main()
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/./train.py", line 865, in main
+    best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
+                                                             ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/./train.py", line 682, in run_training_loop
+    train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
+                                                                  ^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/./train.py", line 147, in train_one_epoch
+    crop_logits = get_logits_from_output(model(crop_images))
+                                         ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 465, in __call__
+    return super().__call__(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 953, in compile_wrapper
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 384, in forward
+    def forward(self, images: torch.Tensor) -> Dict[str, torch.Tensor]:
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 1181, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/aot_autograd.py", line 1148, in forward
+    return compiled_fn(full_args)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 343, in runtime_wrapper
+    all_outs = call_func_at_runtime_with_args(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 134, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 108, in g
+    return f(*args)
+           ^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/autograd/function.py", line 583, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 2152, in forward
+    fw_outs = call_func_at_runtime_with_args(
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/utils.py", line 134, in call_func_at_runtime_with_args
+    out = normalize_as_list(f(args))
+                            ^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 531, in wrapper
+    return compiled_fn(runtime_args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_functorch/_aot_autograd/runtime_wrappers.py", line 729, in inner_fn
+    outs = compiled_fn(args)
+           ^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_inductor/output_code.py", line 638, in __call__
+    return self.current_callable(inputs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/_inductor/utils.py", line 3220, in run
+    out = model(new_inputs)
+          ^^^^^^^^^^^^^^^^^
+  File "/tmp/torchinductor_blue-lobster/qt/cqtgbu66csty2sycsqgl4tudpkqc7ajfub7cteiexe5pqw7a2jro.py", line 5610, in call
+    buf545 = empty_strided_cuda((16, 20, 20, 2048), (819200, 40960, 2048, 1), torch.float16)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 26.00 MiB. GPU 0 has a total capacity of 9.61 GiB of which 33.00 MiB is free. Including non-PyTorch memory, this process has 9.29 GiB memory in use. Of the allocated memory 8.44 GiB is allocated by PyTorch, and 177.26 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

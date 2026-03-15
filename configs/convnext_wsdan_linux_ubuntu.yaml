@@ -1,12 +1,12 @@
 seed: 42
 
-model: convnext_base.fb_in22k_ft_in1k
+model: convnext_base.fb_in22k_ft_in1
 pretrained: true
 
 data_root: /media/blue-lobster/p2/UCI/CS273p/birds_of_california/data
 
 image_size: 320
-batch_size: 16
+batch_size: 14
 
 epochs: 100
 learning_rate: 2.0e-04
