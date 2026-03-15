@@ -33,6 +33,7 @@ class WSDANConfig:
     base_weight: float = 1.0
     bbox_padding_ratio: float = 0.1
     feature_source: str = "auto"
+    inference_crop_weight: float = 1.0
 
 
 def get_wsdan_config(config: Optional[dict]) -> WSDANConfig:
@@ -48,6 +49,7 @@ def get_wsdan_config(config: Optional[dict]) -> WSDANConfig:
         base_weight=float(wsdan.get("base_weight", 1.0)),
         bbox_padding_ratio=float(wsdan.get("bbox_padding_ratio", 0.1)),
         feature_source=str(wsdan.get("feature_source", "auto")),
+        inference_crop_weight=float(wsdan.get("inference_crop_weight", 1.0)),
     )
 
 
@@ -59,6 +61,13 @@ def get_logits_from_output(output):
     if isinstance(output, dict):
         return output["logits"]
     return output
+
+
+def select_peak_attention_map(attention_maps: torch.Tensor) -> torch.Tensor:
+    attention_scores = attention_maps.flatten(2).amax(dim=2)
+    indices = attention_scores.argmax(dim=1)
+    selected = attention_maps[torch.arange(attention_maps.size(0), device=attention_maps.device), indices]
+    return selected.unsqueeze(1)
 
 
 class TimmFeatureBackbone(nn.Module):
@@ -450,6 +459,32 @@ def attention_drop(images: torch.Tensor, attention_maps: torch.Tensor, threshold
     resized_attention = F.interpolate(attention_maps, size=images.shape[-2:], mode="bilinear", align_corners=False)
     keep_mask = (resized_attention < threshold).float()
     return images * keep_mask
+
+
+def compute_wsdan_inference_logits(model, images: torch.Tensor, wsdan_config: WSDANConfig) -> torch.Tensor:
+    base_outputs = model(images)
+    base_logits = get_logits_from_output(base_outputs)
+
+    if not isinstance(base_outputs, dict):
+        return base_logits
+
+    if wsdan_config.inference_crop_weight <= 0:
+        return base_logits
+
+    attention_maps = base_outputs.get("attention_maps")
+    if attention_maps is None:
+        return base_logits
+
+    selected_attention = select_peak_attention_map(attention_maps.detach())
+    crop_images = attention_crop(
+        images,
+        selected_attention,
+        threshold=wsdan_config.crop_threshold,
+        padding_ratio=wsdan_config.bbox_padding_ratio,
+    )
+    crop_outputs = model(crop_images)
+    crop_logits = get_logits_from_output(crop_outputs)
+    return base_logits + wsdan_config.inference_crop_weight * crop_logits
 
 
 def compute_wsdan_loss(

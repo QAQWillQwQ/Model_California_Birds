@@ -31,6 +31,7 @@ def load_config(config_path):
             "drop_weight",
             "base_weight",
             "bbox_padding_ratio",
+            "inference_crop_weight",
         ):
             if key in wsdan:
                 wsdan[key] = float(wsdan[key])

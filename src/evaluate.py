@@ -6,11 +6,11 @@ import torch.nn as nn
 from dataset import build_dataloaders
 from models import build_model
 from utils import load_config, get_device, load_checkpoint
-from wsdan import get_logits_from_output
+from wsdan import compute_wsdan_inference_logits, get_logits_from_output, get_wsdan_config
 
 
 @torch.no_grad()
-def evaluate(model, loader, criterion, device):
+def evaluate(model, loader, criterion, device, wsdan_config):
     model.eval()
 
     running_loss = 0.0
@@ -21,8 +21,11 @@ def evaluate(model, loader, criterion, device):
         images = images.to(device)
         labels = labels.to(device)
 
-        outputs = model(images)
-        logits = get_logits_from_output(outputs)
+        if wsdan_config.enabled:
+            logits = compute_wsdan_inference_logits(model, images, wsdan_config)
+        else:
+            outputs = model(images)
+            logits = get_logits_from_output(outputs)
         loss = criterion(logits, labels)
 
         running_loss += loss.item() * images.size(0)
@@ -43,6 +46,7 @@ def main():
 
     config_path = sys.argv[1]
     config = load_config(config_path)
+    wsdan_config = get_wsdan_config(config)
 
     device = get_device()
 
@@ -73,7 +77,7 @@ def main():
     model = load_checkpoint(model, checkpoint_path, device)
 
     criterion = nn.CrossEntropyLoss()
-    loss_value, acc_value = evaluate(model, val_loader, criterion, device)
+    loss_value, acc_value = evaluate(model, val_loader, criterion, device, wsdan_config)
 
     print(f"Evaluation Loss: {loss_value:.4f}")
     print(f"Evaluation Accuracy: {acc_value:.4f}")

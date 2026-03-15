@@ -10,7 +10,7 @@ from torchvision import datasets
 from dataset import build_transforms
 from models import build_model
 from utils import load_config, get_device, load_checkpoint
-from wsdan import get_logits_from_output
+from wsdan import compute_wsdan_inference_logits, get_logits_from_output, get_wsdan_config
 
 
 SUPPORTED_IMAGE_EXTENSIONS = {
@@ -67,6 +67,7 @@ def predict_one_image(
     device,
     top_k: int,
 ):
+    wsdan_config = get_wsdan_config(config)
     _, val_transform = build_transforms(
         model_name=config["model"],
         pretrained=config["pretrained"],
@@ -77,8 +78,11 @@ def predict_one_image(
     image = Image.open(image_path).convert("RGB")
     image_tensor = val_transform(image).unsqueeze(0).to(device)
 
-    outputs = model(image_tensor)
-    logits = get_logits_from_output(outputs)
+    if wsdan_config.enabled:
+        logits = compute_wsdan_inference_logits(model, image_tensor, wsdan_config)
+    else:
+        outputs = model(image_tensor)
+        logits = get_logits_from_output(outputs)
     probabilities = torch.softmax(logits, dim=1)
 
     actual_top_k = min(top_k, len(class_names))

@@ -22,6 +22,7 @@ from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint
 from wsdan import (
     attention_crop,
     attention_drop,
+    compute_wsdan_inference_logits,
     compute_wsdan_loss,
     get_logits_from_output,
     get_wsdan_config,
@@ -222,6 +223,7 @@ def validate_one_epoch(
     log_interval=20,
     writer=None,
     global_step=None,
+    wsdan_config=None,
 ):
     model.eval()
 
@@ -236,8 +238,11 @@ def validate_one_epoch(
         labels = labels.to(device, non_blocking=device.type == "cuda")
 
         with autocast_context(device, amp_enabled):
-            outputs = model(images)
-            logits = get_logits_from_output(outputs)
+            if wsdan_config and wsdan_config.enabled:
+                logits = compute_wsdan_inference_logits(model, images, wsdan_config)
+            else:
+                outputs = model(images)
+                logits = get_logits_from_output(outputs)
             loss = criterion(logits, labels)
 
         batch_size = labels.size(0)
@@ -577,6 +582,7 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
         log_file.write(f"WS-DAN Attention Maps: {wsdan_config.num_attention_maps}\n")
         log_file.write(f"WS-DAN Crop Threshold: {wsdan_config.crop_threshold}\n")
         log_file.write(f"WS-DAN Drop Threshold: {wsdan_config.drop_threshold}\n")
+        log_file.write(f"WS-DAN Inference Crop Weight: {wsdan_config.inference_crop_weight}\n")
         log_file.write(f"WS-DAN Base Weight: {wsdan_config.base_weight}\n")
         log_file.write(f"WS-DAN Crop Weight: {wsdan_config.crop_weight}\n")
         log_file.write(f"WS-DAN Drop Weight: {wsdan_config.drop_weight}\n")
@@ -604,7 +610,20 @@ def create_tensorboard_writer(config, run_dir):
     return SummaryWriter(log_dir=tensorboard_dir)
 
 
-def run_validation(epoch, total_epochs, val_interval, model, val_loader, criterion, device, amp_enabled, log_interval, writer=None, global_step=None):
+def run_validation(
+    epoch,
+    total_epochs,
+    val_interval,
+    model,
+    val_loader,
+    criterion,
+    device,
+    amp_enabled,
+    log_interval,
+    writer=None,
+    global_step=None,
+    wsdan_config=None,
+):
     should_validate = ((epoch + 1) % val_interval == 0) or ((epoch + 1) == total_epochs)
 
     if should_validate:
@@ -617,6 +636,7 @@ def run_validation(epoch, total_epochs, val_interval, model, val_loader, criteri
             log_interval=log_interval,
             writer=writer,
             global_step=global_step,
+            wsdan_config=wsdan_config,
         )
     else:
         val_loss = float("nan")
@@ -712,6 +732,7 @@ def run_training_loop(
                 log_interval=log_interval,
                 writer=writer,
                 global_step=global_step,
+                wsdan_config=wsdan_config,
             )
             total_validation_time += val_time
 

@@ -42,6 +42,7 @@ wsdan:
   feature_source: auto
   crop_threshold: 0.5
   drop_threshold: 0.4
+  inference_crop_weight: 1.0
   base_weight: 1.0
   crop_weight: 0.5
   drop_weight: 0.0
