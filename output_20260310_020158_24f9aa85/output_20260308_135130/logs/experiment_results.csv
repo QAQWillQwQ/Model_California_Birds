@@ -1,0 +1,2 @@
+model,pretrained,image_size,batch_size,epochs,learning_rate,val_split,num_workers,max_samples,best_epoch,best_val_top1,best_val_top5,last_train_top1,last_train_top5,last_val_top1,last_val_top5,device
+convnext_base.fb_in22k_ft_in1k,True,320,32,60,0.0005,0.15,4,,55,0.787206,0.913093,0.605873,0.786878,0.786691,0.912681,cuda

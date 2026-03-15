@@ -32,6 +32,18 @@ cutmix_alpha: 1.0
 # scheduler
 scheduler: onecycle
 
+wsdan:
+  enabled: false
+  start_epoch: 5
+  num_attention_maps: 8
+  feature_source: auto
+  crop_threshold: 0.6
+  drop_threshold: 0.4
+  base_weight: 1.0
+  crop_weight: 1.0
+  drop_weight: 1.0
+  bbox_padding_ratio: 0.1
+
 # early stopping (0 = disabled)
 early_stopping_patience: 10
 

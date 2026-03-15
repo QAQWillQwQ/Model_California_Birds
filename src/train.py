@@ -19,6 +19,13 @@ from torchvision.transforms import v2 as transforms_v2
 from dataset import build_dataloaders
 from models import build_model, freeze_backbone
 from utils import load_config, set_seed, get_device, ensure_dir, save_checkpoint, save_full_checkpoint, load_full_checkpoint
+from wsdan import (
+    attention_crop,
+    attention_drop,
+    compute_wsdan_loss,
+    get_logits_from_output,
+    get_wsdan_config,
+)
 
 
 class Tee:
@@ -96,6 +103,8 @@ def train_one_epoch(
     scheduler=None,
     writer=None,
     global_step_start=0,
+    wsdan_config=None,
+    wsdan_active=False,
 ):
     model.train()
 
@@ -117,7 +126,45 @@ def train_one_epoch(
 
         with autocast_context(device, amp_enabled):
             outputs = model(images)
-            loss = criterion(outputs, labels)
+            logits = get_logits_from_output(outputs)
+
+            if wsdan_active and wsdan_config and wsdan_config.enabled:
+                sampled_attention = outputs["attention_maps"].detach()
+                sampled_attention = sampled_attention[
+                    torch.arange(sampled_attention.size(0), device=sampled_attention.device),
+                    torch.randint(0, sampled_attention.size(1), (sampled_attention.size(0),), device=sampled_attention.device),
+                ].unsqueeze(1)
+                crop_logits = None
+                drop_logits = None
+
+                if wsdan_config.crop_weight > 0:
+                    crop_images = attention_crop(
+                        images,
+                        sampled_attention,
+                        threshold=wsdan_config.crop_threshold,
+                        padding_ratio=wsdan_config.bbox_padding_ratio,
+                    )
+                    crop_logits = get_logits_from_output(model(crop_images))
+
+                if wsdan_config.drop_weight > 0:
+                    drop_images = attention_drop(
+                        images,
+                        sampled_attention,
+                        threshold=wsdan_config.drop_threshold,
+                    )
+                    drop_logits = get_logits_from_output(model(drop_images))
+
+                loss, wsdan_loss_terms = compute_wsdan_loss(
+                    criterion=criterion,
+                    labels=labels,
+                    base_logits=logits,
+                    crop_logits=crop_logits,
+                    drop_logits=drop_logits,
+                    wsdan_config=wsdan_config,
+                )
+            else:
+                loss = criterion(logits, labels)
+                wsdan_loss_terms = None
 
         if scaler.is_enabled():
             scaler.scale(loss).backward()
@@ -133,7 +180,7 @@ def train_one_epoch(
         batch_size = labels_for_acc.size(0)
         running_loss += loss.item() * batch_size
 
-        topk_result = compute_topk_correct(outputs, labels_for_acc, topk=(1, 5))
+        topk_result = compute_topk_correct(logits, labels_for_acc, topk=(1, 5))
         top1_correct += topk_result[1]
         top5_correct += topk_result[5]
         total += batch_size
@@ -152,6 +199,10 @@ def train_one_epoch(
                 writer.add_scalar("train/batch_top1", avg_top1, global_step)
                 writer.add_scalar("train/batch_top5", avg_top5, global_step)
                 writer.add_scalar("train/lr", get_display_learning_rate(optimizer), global_step)
+                if wsdan_loss_terms is not None:
+                    writer.add_scalar("train/wsdan_base_loss", wsdan_loss_terms["base_loss"].item(), global_step)
+                    writer.add_scalar("train/wsdan_crop_loss", wsdan_loss_terms["crop_loss"].item(), global_step)
+                    writer.add_scalar("train/wsdan_drop_loss", wsdan_loss_terms["drop_loss"].item(), global_step)
 
     epoch_loss = running_loss / total
     epoch_top1 = top1_correct / total
@@ -162,7 +213,16 @@ def train_one_epoch(
 
 
 @torch.no_grad()
-def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interval=20, writer=None, global_step=None):
+def validate_one_epoch(
+    model,
+    loader,
+    criterion,
+    device,
+    amp_enabled,
+    log_interval=20,
+    writer=None,
+    global_step=None,
+):
     model.eval()
 
     running_loss = 0.0
@@ -177,12 +237,13 @@ def validate_one_epoch(model, loader, criterion, device, amp_enabled, log_interv
 
         with autocast_context(device, amp_enabled):
             outputs = model(images)
-            loss = criterion(outputs, labels)
+            logits = get_logits_from_output(outputs)
+            loss = criterion(logits, labels)
 
         batch_size = labels.size(0)
         running_loss += loss.item() * batch_size
 
-        topk_result = compute_topk_correct(outputs, labels, topk=(1, 5))
+        topk_result = compute_topk_correct(logits, labels, topk=(1, 5))
         top1_correct += topk_result[1]
         top5_correct += topk_result[5]
         total += batch_size
@@ -362,11 +423,13 @@ def get_display_learning_rate(optimizer):
 
 def build_training_state(config, device, num_classes, steps_per_epoch=None):
     dropout_rate = float(config.get("dropout_rate", 0.0))
+    wsdan_config = get_wsdan_config(config)
     model = build_model(
         model_name=config["model"],
         num_classes=num_classes,
         pretrained=config["pretrained"],
         dropout_rate=dropout_rate,
+        config=config,
     ).to(device)
 
     freeze_backbone_enabled = config.get("freeze_backbone", False)
@@ -416,7 +479,9 @@ def build_training_state(config, device, num_classes, steps_per_epoch=None):
     mixup_alpha = float(config.get("mixup_alpha", 0.0))
     cutmix_alpha = float(config.get("cutmix_alpha", 0.0))
     mixup_cutmix = None
-    if mixup_alpha > 0 or cutmix_alpha > 0:
+    if wsdan_config.enabled:
+        mixup_cutmix = None
+    elif mixup_alpha > 0 or cutmix_alpha > 0:
         mix_transforms = []
         if mixup_alpha > 0:
             mix_transforms.append(transforms_v2.MixUp(alpha=mixup_alpha, num_classes=num_classes))
@@ -436,11 +501,13 @@ def build_training_state(config, device, num_classes, steps_per_epoch=None):
         early_stopping_patience,
         mixup_cutmix,
         layerwise_lr_summary,
+        wsdan_config,
     )
 
 
 def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top5, last_metrics):
     layerwise_lr_config = get_layerwise_lr_config(config)
+    wsdan_config = get_wsdan_config(config)
     return {
         "model": config["model"],
         "pretrained": config["pretrained"],
@@ -450,6 +517,9 @@ def build_experiment_row(config, device, best_epoch, best_val_top1, best_val_top
         "learning_rate": config["learning_rate"],
         "layerwise_lr_enabled": layerwise_lr_config["enabled"],
         "layerwise_lr_decay": layerwise_lr_config["decay"] if layerwise_lr_config["enabled"] else "",
+        "wsdan_enabled": wsdan_config.enabled,
+        "wsdan_start_epoch": wsdan_config.start_epoch if wsdan_config.enabled else "",
+        "wsdan_attention_maps": wsdan_config.num_attention_maps if wsdan_config.enabled else "",
         "val_split": config["val_split"],
         "num_workers": config["num_workers"],
         "max_samples": config.get("max_samples", ""),
@@ -500,6 +570,17 @@ def write_log_header(log_file, device, num_classes, config, amp_enabled, val_int
         log_file.write(f"Warmup Epochs: {config.get('warmup_epochs', 0)}\n")
     log_file.write(f"Mixup Alpha: {config.get('mixup_alpha', 0.0)}\n")
     log_file.write(f"CutMix Alpha: {config.get('cutmix_alpha', 0.0)}\n")
+    wsdan_config = get_wsdan_config(config)
+    log_file.write(f"WS-DAN Enabled: {wsdan_config.enabled}\n")
+    if wsdan_config.enabled:
+        log_file.write(f"WS-DAN Start Epoch: {wsdan_config.start_epoch}\n")
+        log_file.write(f"WS-DAN Attention Maps: {wsdan_config.num_attention_maps}\n")
+        log_file.write(f"WS-DAN Crop Threshold: {wsdan_config.crop_threshold}\n")
+        log_file.write(f"WS-DAN Drop Threshold: {wsdan_config.drop_threshold}\n")
+        log_file.write(f"WS-DAN Base Weight: {wsdan_config.base_weight}\n")
+        log_file.write(f"WS-DAN Crop Weight: {wsdan_config.crop_weight}\n")
+        log_file.write(f"WS-DAN Drop Weight: {wsdan_config.drop_weight}\n")
+        log_file.write(f"WS-DAN BBox Padding Ratio: {wsdan_config.bbox_padding_ratio}\n")
     if config.get("resume_from"):
         log_file.write(f"Resume From: {config['resume_from']}\n")
     log_file.write("\n")
@@ -563,6 +644,7 @@ def run_training_loop(
     early_stopping_patience,
     mixup_cutmix,
     layerwise_lr_summary,
+    wsdan_config,
     checkpoints_dir,
     log_path,
     num_classes,
@@ -592,7 +674,10 @@ def run_training_loop(
 
         for epoch in range(start_epoch, config["epochs"]):
             current_lr = get_display_learning_rate(optimizer)
+            wsdan_active = wsdan_config.enabled and (epoch >= wsdan_config.start_epoch)
             print(f"\n===== Epoch {epoch + 1}/{config['epochs']} (LR: {current_lr:.2e}) =====")
+            if wsdan_config.enabled:
+                print(f"WS-DAN Active: {wsdan_active} (start_epoch={wsdan_config.start_epoch})")
 
             train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
                 model=model,
@@ -607,6 +692,8 @@ def run_training_loop(
                 scheduler=scheduler if scheduler_step_per_batch else None,
                 writer=writer,
                 global_step_start=global_step,
+                wsdan_config=wsdan_config,
+                wsdan_active=wsdan_active,
             )
             total_training_time += train_time
 
@@ -734,6 +821,7 @@ def main():
         max_samples=config.get("max_samples", None),
         seed=config["seed"],
         prefetch_factor=config.get("prefetch_factor", 2),
+        config=config,
     )
 
     print(f"Number of classes: {len(class_names)}")
@@ -752,6 +840,7 @@ def main():
         early_stopping_patience,
         mixup_cutmix,
         layerwise_lr_summary,
+        wsdan_config,
     ) = build_training_state(
         config=config,
         device=device,
@@ -789,6 +878,7 @@ def main():
         early_stopping_patience=early_stopping_patience,
         mixup_cutmix=mixup_cutmix,
         layerwise_lr_summary=layerwise_lr_summary,
+        wsdan_config=wsdan_config,
         checkpoints_dir=checkpoints_dir,
         log_path=log_path,
         num_classes=len(class_names),

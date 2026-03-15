@@ -1,0 +1,24 @@
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_182822/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_182822/tensorboard
+Number of classes: 657
+Train batches: 3451
+Val batches: 608
+
+===== Epoch 1/100 (LR: 2.00e-06) =====
+WS-DAN Active: False (start_epoch=5)
+  Train Batch [25/3451] | Loss: 6.4878 | Top1: 0.0075 | Top5: 0.0100
+  Train Batch [50/3451] | Loss: 6.4878 | Top1: 0.0050 | Top5: 0.0075
+  Train Batch [75/3451] | Loss: 6.4875 | Top1: 0.0033 | Top5: 0.0083
+  Train Batch [100/3451] | Loss: 6.4877 | Top1: 0.0031 | Top5: 0.0075
+  Train Batch [125/3451] | Loss: 6.4877 | Top1: 0.0025 | Top5: 0.0070
+  Train Batch [150/3451] | Loss: 6.4876 | Top1: 0.0021 | Top5: 0.0071
+  Train Batch [175/3451] | Loss: 6.4876 | Top1: 0.0018 | Top5: 0.0071
+  Train Batch [200/3451] | Loss: 6.4874 | Top1: 0.0022 | Top5: 0.0078
+  Train Batch [225/3451] | Loss: 6.4873 | Top1: 0.0025 | Top5: 0.0089
+  Train Batch [250/3451] | Loss: 6.4871 | Top1: 0.0025 | Top5: 0.0083
+  Train Batch [275/3451] | Loss: 6.4870 | Top1: 0.0027 | Top5: 0.0082
+  Train Batch [300/3451] | Loss: 6.4869 | Top1: 0.0025 | Top5: 0.0079
+  Train Batch [325/3451] | Loss: 6.4868 | Top1: 0.0027 | Top5: 0.0085
+  Train Batch [350/3451] | Loss: 6.4868 | Top1: 0.0029 | Top5: 0.0086
+  Train Batch [375/3451] | Loss: 6.4866 | Top1: 0.0027 | Top5: 0.0092
+  Train Batch [400/3451] | Loss: 6.4865 | Top1: 0.0027 | Top5: 0.0097

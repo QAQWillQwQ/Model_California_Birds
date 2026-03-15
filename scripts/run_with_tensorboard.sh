@@ -6,6 +6,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_PYTHON="$ROOT_DIR/.venv/bin/python"
 VENV_TENSORBOARD="$ROOT_DIR/.venv/bin/tensorboard"
 OUTPUTS_DIR="$ROOT_DIR/outputs"
+export PYTORCH_CUDA_ALLOC_CONF="${PYTORCH_CUDA_ALLOC_CONF:-expandable_segments:True}"
 
 choose_config_interactively() {
     mapfile -t config_files < <(find "$ROOT_DIR/configs" -maxdepth 1 -type f \( -name '*.yaml' -o -name '*.yml' \) | sort)
@@ -18,7 +19,7 @@ choose_config_interactively() {
     echo "Select a config:" >&2
     local index
     for index in "${!config_files[@]}"; do
-        printf "%2d) %s\n" "$((index + 1))" "${config_files[$index]}" >&2
+        printf "%2d) %s\n" "$((index + 1))" "$(basename "${config_files[$index]}")" >&2
     done
 
     while true; do
@@ -42,7 +43,7 @@ fi
 if [[ $# -eq 1 ]]; then
     if [[ "$1" == "-i" ]]; then
         choose_config_interactively
-        echo "Selected config: $CONFIG_PATH"
+        echo "Selected config: $(basename "$CONFIG_PATH")"
     else
         CONFIG_ARG="$1"
         if [[ "$CONFIG_ARG" = /* ]]; then
@@ -127,8 +128,9 @@ trap cleanup EXIT INT TERM
 mkdir -p "$OUTPUTS_DIR"
 START_STAMP="$(timestamp_now)"
 LAUNCH_LOG="$OUTPUTS_DIR/launch_$(date '+%Y%m%d_%H%M%S').log"
+CONFIG_NAME="$(basename "$CONFIG_PATH")"
 
-echo "Starting training with config: $CONFIG_PATH"
+echo "Starting training with config: $CONFIG_NAME"
 echo "Launcher log: $LAUNCH_LOG"
 
 (

@@ -1,0 +1,41 @@
+Using device: cuda
+Output directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260308_164749
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260308_164749/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260308_164749/tensorboard
+Number of classes: 657
+Train batches: 863
+Val batches: 152
+
+===== Epoch 1/60 (LR: 4.00e-05) =====
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+Archived outputs to: /home/blue-lobster/PycharmProjects/Model_California_Birds/output_20260308_165039_1b213852
+Traceback (most recent call last):
+  File "<frozen genericpath>", line 19, in exists
+OSError: Signal 15 ignored due to race condition
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+Archived outputs to: /home/blue-lobster/PycharmProjects/Model_California_Birds/output_20260308_165039_7463fb87
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+Archived outputs to: /home/blue-lobster/PycharmProjects/Model_California_Birds/output_20260308_165039_7af50db6
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+Archived outputs to: /home/blue-lobster/PycharmProjects/Model_California_Birds/output_20260308_165039_07f450b9
+  Train Batch [50/863] | Loss: 6.5151 | Top1: 0.0028 | Top5: 0.0097
+  Train Batch [100/863] | Loss: 6.5024 | Top1: 0.0028 | Top5: 0.0100
+  Train Batch [150/863] | Loss: 6.4858 | Top1: 0.0025 | Top5: 0.0110
+  Train Batch [200/863] | Loss: 6.4578 | Top1: 0.0036 | Top5: 0.0146
+  Train Batch [250/863] | Loss: 6.4046 | Top1: 0.0062 | Top5: 0.0236
+  Train Batch [300/863] | Loss: 6.3391 | Top1: 0.0109 | Top5: 0.0359
+  Train Batch [350/863] | Loss: 6.2643 | Top1: 0.0165 | Top5: 0.0495
+  Train Batch [400/863] | Loss: 6.2006 | Top1: 0.0216 | Top5: 0.0627
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+Archived outputs to: /home/blue-lobster/PycharmProjects/Model_California_Birds/output_20260308_165039_94bbd9f2
+Training interrupted. Shutdown completed after archive handling.

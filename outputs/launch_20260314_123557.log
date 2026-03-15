@@ -1,0 +1,65 @@
+Unexpected keys (fc_norm.bias, fc_norm.weight) found while loading pretrained weights. This may be expected if model is being adapted.
+Using device: cuda
+Output directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_123600
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_123600/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_123600/tensorboard
+Number of classes: 657
+Train batches: 5521
+Val batches: 973
+
+===== Epoch 1/60 (LR: 2.00e-07) =====
+Traceback (most recent call last):
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 891, in <module>
+    main()
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 851, in main
+    best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
+                                                             ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 669, in run_training_loop
+    train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
+                                                                  ^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 147, in train_one_epoch
+    crop_logits = get_logits_from_output(model(crop_images))
+                                         ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 383, in forward
+    feature_maps = self.backbone(images)
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 271, in forward
+    features = self.backbone.forward_features(images)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/models/eva.py", line 1031, in forward_features
+    x = blk(x, rope=rot_pos_embed)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/models/eva.py", line 388, in forward
+    x = x + self.drop_path1(self.attn(self.norm1(x), rope=rope, attn_mask=attn_mask))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/models/eva.py", line 236, in forward
+    q = torch.cat([q[:, :, :npt, :], apply_rot_embed_cat(q[:, :, npt:, :], rope, half=half)], dim=2).type_as(v)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/layers/pos_embed_sincos.py", line 297, in apply_rot_embed_cat
+    return x * cos_emb + rot(x) * sin_emb
+           ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 30.00 MiB. GPU 0 has a total capacity of 9.61 GiB of which 49.88 MiB is free. Including non-PyTorch memory, this process has 8.68 GiB memory in use. Of the allocated memory 7.64 GiB is allocated by PyTorch, and 792.21 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

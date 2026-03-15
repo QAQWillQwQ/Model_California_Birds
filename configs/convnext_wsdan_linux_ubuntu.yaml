@@ -1,0 +1,59 @@
+seed: 42
+
+model: convnext_base.fb_in22k_ft_in1k
+pretrained: true
+
+data_root: /media/blue-lobster/p2/UCI/CS273p/birds_of_california/data
+
+image_size: 320
+batch_size: 16
+
+epochs: 100
+learning_rate: 2.0e-04
+
+val_split: 0.15
+num_workers: 4
+use_amp: true
+freeze_backbone: false
+val_interval: 2
+prefetch_factor: 2
+compile_model: true
+cudnn_benchmark: true
+float32_matmul_precision: high
+clear_logs_before_run: true
+
+weight_decay: 0.05
+label_smoothing: 0.1
+dropout_rate: 0.2
+mixup_alpha: 0.0
+cutmix_alpha: 0.0
+
+scheduler: cosine
+warmup_epochs: 2
+
+layerwise_lr:
+  enabled: false
+  decay: 0.75
+
+wsdan:
+  enabled: true
+  start_epoch: 5
+  num_attention_maps: 8
+  feature_source: features_only
+  crop_threshold: 0.5
+  drop_threshold: 0.4
+  base_weight: 1.0
+  crop_weight: 0.5
+  drop_weight: 0.0
+  bbox_padding_ratio: 0.1
+
+early_stopping_patience: 10
+
+log_interval: 25
+
+output_dir: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+
+# RTX 3080 10 GB starting point:
+# - ConvNeXt + WS-DAN should be much lighter than EVA02 + WS-DAN
+# - if memory is tight, lower batch_size to 12 or 8
+# - if there is headroom, try batch_size 20

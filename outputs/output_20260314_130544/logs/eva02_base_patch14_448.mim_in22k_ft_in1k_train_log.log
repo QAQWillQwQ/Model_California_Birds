@@ -1,0 +1,27 @@
+Device: cuda
+Num classes: 657
+Model: eva02_base_patch14_448.mim_in22k_ft_in1k
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.05
+Layerwise LR Enabled: False
+Label Smoothing: 0.1
+Dropout Rate: 0.1
+Early Stopping Patience: 10
+Scheduler: CosineAnnealingLR (T_max=500, eta_min=1e-6)
+Warmup Epochs: 2
+Mixup Alpha: 0.1
+CutMix Alpha: 0.5
+WS-DAN Enabled: True
+WS-DAN Attention Maps: 16
+WS-DAN Crop Threshold: 0.6
+WS-DAN Drop Threshold: 0.4
+WS-DAN Base Weight: 1.0
+WS-DAN Crop Weight: 1.0
+WS-DAN Drop Weight: 1.0
+WS-DAN BBox Padding Ratio: 0.1
+

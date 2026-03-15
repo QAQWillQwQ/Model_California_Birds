@@ -8,6 +8,8 @@ from torchvision.models import (
     ViT_B_16_Weights,
 )
 
+from wsdan import get_wsdan_config, WSDANModel
+
 try:
     import timm
     HAS_TIMM = True
@@ -35,6 +37,15 @@ def get_model_weights(model_name: str, pretrained: bool = True):
 
 def freeze_backbone(model_name: str, model) -> None:
     model_name = model_name.lower()
+
+    if isinstance(model, WSDANModel):
+        for parameter in model.backbone.parameters():
+            parameter.requires_grad = False
+        for parameter in model.attention_head.parameters():
+            parameter.requires_grad = True
+        for parameter in model.classifier.parameters():
+            parameter.requires_grad = True
+        return
 
     if model_name == "resnet50":
         for parameter in model.parameters():
@@ -67,8 +78,26 @@ def freeze_backbone(model_name: str, model) -> None:
     raise ValueError(f"Unsupported model for freezing: {model_name}")
 
 
-def build_model(model_name: str, num_classes: int, pretrained: bool = True, dropout_rate: float = 0.0):
+def build_model(
+    model_name: str,
+    num_classes: int,
+    pretrained: bool = True,
+    dropout_rate: float = 0.0,
+    config: dict | None = None,
+):
     model_name = model_name.lower()
+    wsdan_config = get_wsdan_config(config)
+
+    if wsdan_config.enabled:
+        return WSDANModel(
+            model_name=model_name,
+            num_classes=num_classes,
+            pretrained=pretrained,
+            num_attention_maps=wsdan_config.num_attention_maps,
+            dropout_rate=dropout_rate,
+            feature_source=wsdan_config.feature_source,
+        )
+
     weights = get_model_weights(model_name, pretrained)
 
     if model_name == "resnet50":

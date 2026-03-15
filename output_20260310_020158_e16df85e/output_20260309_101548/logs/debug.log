@@ -1,0 +1,663 @@
+Number of classes: 657
+Train batches: 432
+Val batches: 76
+model.safetensors:   0%|          | 0.00/354M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/354M [00:01<?, ?B/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:44, 550kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   0%|          | 67.5k/354M [00:02<10:47, 547kB/s]model.safetensors:   1%|1         | 4.94M/354M [00:02<00:29, 11.7MB/s]model.safetensors:   1%|1         | 5.04M/354M [00:02<00:13, 26.3MB/s]model.safetensors:   1%|1         | 5.04M/354M [00:02<00:13, 26.3MB/s]model.safetensors:   1%|1         | 5.04M/354M [00:02<00:13, 26.3MB/s]model.safetensors:   1%|1         | 5.04M/354M [00:02<00:13, 26.3MB/s]model.safetensors:   2%|2         | 8.02M/354M [00:02<00:20, 16.5MB/s]model.safetensors:   3%|2         | 10.4M/354M [00:02<00:19, 17.4MB/s]model.safetensors:   4%|3         | 12.6M/354M [00:03<00:26, 12.8MB/s]model.safetensors:   4%|4         | 15.5M/354M [00:03<00:23, 14.3MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:22, 15.1MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|4         | 17.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   5%|5         | 18.5M/354M [00:03<00:18, 18.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:15, 21.5MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   6%|6         | 21.4M/354M [00:03<00:11, 28.6MB/s]model.safetensors:   7%|7         | 25.3M/354M [00:03<00:10, 30.2MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:09, 35.0MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:   8%|8         | 30.0M/354M [00:03<00:07, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  10%|9         | 34.2M/354M [00:03<00:06, 46.3MB/s]model.safetensors:  12%|#2        | 42.7M/354M [00:03<00:05, 56.8MB/s]model.safetensors:  12%|#2        | 42.7M/354M [00:03<00:04, 68.9MB/s]model.safetensors:  12%|#2        | 42.7M/354M [00:03<00:04, 68.9MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:02, 111MB/s] model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  18%|#8        | 64.0M/354M [00:03<00:01, 211MB/s]model.safetensors:  26%|##6       | 93.7M/354M [00:04<00:01, 196MB/s]model.safetensors:  33%|###2      | 117M/354M [00:04<00:01, 155MB/s] model.safetensors:  33%|###2      | 117M/354M [00:04<00:02, 102MB/s]model.safetensors:  33%|###2      | 117M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###3      | 120M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  34%|###4      | 121M/354M [00:04<00:02, 102MB/s]model.safetensors:  37%|###7      | 132M/354M [00:04<00:02, 88.4MB/s]model.safetensors:  37%|###7      | 132M/354M [00:04<00:03, 62.4MB/s]model.safetensors:  41%|####      | 145M/354M [00:04<00:03, 62.4MB/s]model.safetensors:  41%|####      | 145M/354M [00:04<00:03, 62.4MB/s]model.safetensors:  41%|####      | 145M/354M [00:04<00:03, 62.4MB/s]model.safetensors:  47%|####6     | 166M/354M [00:04<00:02, 88.4MB/s]model.safetensors:  47%|####6     | 166M/354M [00:04<00:00, 212MB/s] model.safetensors:  47%|####6     | 166M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####6     | 166M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####6     | 166M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####6     | 166M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  47%|####7     | 168M/354M [00:04<00:00, 212MB/s]model.safetensors:  56%|#####6    | 200M/354M [00:04<00:01, 146MB/s]model.safetensors:  56%|#####6    | 200M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  60%|######    | 213M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  61%|######1   | 217M/354M [00:04<00:01, 97.8MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:01, 101MB/s] model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  65%|######4   | 230M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  66%|######6   | 234M/354M [00:05<00:00, 126MB/s]model.safetensors:  74%|#######3  | 262M/354M [00:05<00:00, 156MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 243MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 317MB/s]model.safetensors: 100%|##########| 354M/354M [00:05<00:00, 65.0MB/s]
+Resuming from checkpoint: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_025748/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+Resumed at epoch 0, best val top1: 0.0000
+
+===== Epoch 1/40 (LR: 5.00e-07) =====
+  Train Batch [50/432] | Loss: 1.8880 | Top1: 0.5817 | Top5: 0.7158
+  Train Batch [100/432] | Loss: 1.9728 | Top1: 0.5780 | Top5: 0.7544
+  Train Batch [150/432] | Loss: 2.0002 | Top1: 0.5720 | Top5: 0.7395
+  Train Batch [200/432] | Loss: 2.0094 | Top1: 0.5870 | Top5: 0.7575
+  Train Batch [250/432] | Loss: 1.9894 | Top1: 0.5832 | Top5: 0.7502
+  Train Batch [300/432] | Loss: 1.9660 | Top1: 0.5789 | Top5: 0.7415
+  Train Batch [350/432] | Loss: 1.9446 | Top1: 0.5719 | Top5: 0.7360
+  Train Batch [400/432] | Loss: 1.9376 | Top1: 0.5670 | Top5: 0.7305
+  Train Batch [432/432] | Loss: 1.9445 | Top1: 0.5600 | Top5: 0.7273
+  Train Epoch Time: 422.065s
+  Val Batch [50/76] | Loss: 1.6875 | Top1: 0.8278 | Top5: 0.9464
+  Val Batch [76/76] | Loss: 1.6971 | Top1: 0.8273 | Top5: 0.9463
+  Val Epoch Time: 37.918s
+Epoch [1/40] | Train Loss: 1.9445 | Train Top1: 0.5600 | Train Top5: 0.7273 | Val Loss: 1.6971 | Val Top1: 0.8273 | Val Top5: 0.9463 | LR: 5.00e-07 | Train Time: 422.065s | Val Time: 37.918s | Epoch Time: 459.984s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 2/40 (LR: 1.70e-05) =====
+  Train Batch [50/432] | Loss: 2.0563 | Top1: 0.5955 | Top5: 0.7852
+  Train Batch [100/432] | Loss: 1.9706 | Top1: 0.5487 | Top5: 0.7359
+  Train Batch [150/432] | Loss: 1.9281 | Top1: 0.5814 | Top5: 0.7572
+  Train Batch [200/432] | Loss: 1.8912 | Top1: 0.6052 | Top5: 0.7784
+  Train Batch [250/432] | Loss: 1.9016 | Top1: 0.5869 | Top5: 0.7690
+  Train Batch [300/432] | Loss: 1.8799 | Top1: 0.5810 | Top5: 0.7610
+  Train Batch [350/432] | Loss: 1.8646 | Top1: 0.5723 | Top5: 0.7515
+  Train Batch [400/432] | Loss: 1.8513 | Top1: 0.5773 | Top5: 0.7538
+  Train Batch [432/432] | Loss: 1.8530 | Top1: 0.5738 | Top5: 0.7521
+  Train Epoch Time: 328.881s
+  Val Batch [50/76] | Loss: 1.6557 | Top1: 0.8305 | Top5: 0.9500
+  Val Batch [76/76] | Loss: 1.6648 | Top1: 0.8283 | Top5: 0.9486
+  Val Epoch Time: 24.477s
+Epoch [2/40] | Train Loss: 1.8530 | Train Top1: 0.5738 | Train Top5: 0.7521 | Val Loss: 1.6648 | Val Top1: 0.8283 | Val Top5: 0.9486 | LR: 1.70e-05 | Train Time: 328.881s | Val Time: 24.477s | Epoch Time: 353.358s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 3/40 (LR: 3.35e-05) =====
+  Train Batch [50/432] | Loss: 1.6736 | Top1: 0.5425 | Top5: 0.7002
+  Train Batch [100/432] | Loss: 1.7006 | Top1: 0.6025 | Top5: 0.7429
+  Train Batch [150/432] | Loss: 1.7358 | Top1: 0.5894 | Top5: 0.7595
+  Train Batch [200/432] | Loss: 1.7890 | Top1: 0.5916 | Top5: 0.7637
+  Train Batch [250/432] | Loss: 1.8164 | Top1: 0.5871 | Top5: 0.7649
+  Train Batch [300/432] | Loss: 1.8034 | Top1: 0.5857 | Top5: 0.7616
+  Train Batch [350/432] | Loss: 1.8090 | Top1: 0.5770 | Top5: 0.7604
+  Train Batch [400/432] | Loss: 1.8076 | Top1: 0.5777 | Top5: 0.7600
+  Train Batch [432/432] | Loss: 1.8100 | Top1: 0.5779 | Top5: 0.7623
+  Train Epoch Time: 329.310s
+  Val Batch [50/76] | Loss: 1.6679 | Top1: 0.8317 | Top5: 0.9466
+  Val Batch [76/76] | Loss: 1.6737 | Top1: 0.8301 | Top5: 0.9458
+  Val Epoch Time: 24.990s
+Epoch [3/40] | Train Loss: 1.8100 | Train Top1: 0.5779 | Train Top5: 0.7623 | Val Loss: 1.6737 | Val Top1: 0.8301 | Val Top5: 0.9458 | LR: 3.35e-05 | Train Time: 329.310s | Val Time: 24.990s | Epoch Time: 354.300s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 4/40 (LR: 5.00e-05) =====
+  Train Batch [50/432] | Loss: 1.7797 | Top1: 0.4888 | Top5: 0.6992
+  Train Batch [100/432] | Loss: 1.8706 | Top1: 0.5267 | Top5: 0.7587
+  Train Batch [150/432] | Loss: 1.8352 | Top1: 0.5640 | Top5: 0.7742
+  Train Batch [200/432] | Loss: 1.8496 | Top1: 0.5504 | Top5: 0.7667
+  Train Batch [250/432] | Loss: 1.8772 | Top1: 0.5674 | Top5: 0.7845
+  Train Batch [300/432] | Loss: 1.8581 | Top1: 0.5673 | Top5: 0.7770
+  Train Batch [350/432] | Loss: 1.8490 | Top1: 0.5708 | Top5: 0.7790
+  Train Batch [400/432] | Loss: 1.8417 | Top1: 0.5716 | Top5: 0.7754
+  Train Batch [432/432] | Loss: 1.8396 | Top1: 0.5719 | Top5: 0.7786
+  Train Epoch Time: 329.132s
+  Val Batch [50/76] | Loss: 1.6656 | Top1: 0.8298 | Top5: 0.9498
+  Val Batch [76/76] | Loss: 1.6758 | Top1: 0.8278 | Top5: 0.9476
+  Val Epoch Time: 24.402s
+Epoch [4/40] | Train Loss: 1.8396 | Train Top1: 0.5719 | Train Top5: 0.7786 | Val Loss: 1.6758 | Val Top1: 0.8278 | Val Top5: 0.9476 | LR: 5.00e-05 | Train Time: 329.132s | Val Time: 24.402s | Epoch Time: 353.534s
+
+===== Epoch 5/40 (LR: 4.99e-05) =====
+  Train Batch [50/432] | Loss: 1.8507 | Top1: 0.5955 | Top5: 0.8339
+  Train Batch [100/432] | Loss: 1.8357 | Top1: 0.5641 | Top5: 0.7946
+  Train Batch [150/432] | Loss: 1.8754 | Top1: 0.5689 | Top5: 0.7983
+  Train Batch [200/432] | Loss: 1.8493 | Top1: 0.5815 | Top5: 0.7992
+  Train Batch [250/432] | Loss: 1.8548 | Top1: 0.5968 | Top5: 0.8069
+  Train Batch [300/432] | Loss: 1.8407 | Top1: 0.6015 | Top5: 0.8056
+  Train Batch [350/432] | Loss: 1.8522 | Top1: 0.5981 | Top5: 0.8073
+  Train Batch [400/432] | Loss: 1.8396 | Top1: 0.6022 | Top5: 0.8074
+  Train Batch [432/432] | Loss: 1.8482 | Top1: 0.5955 | Top5: 0.8042
+  Train Epoch Time: 330.077s
+  Val Batch [50/76] | Loss: 1.6655 | Top1: 0.8295 | Top5: 0.9492
+  Val Batch [76/76] | Loss: 1.6741 | Top1: 0.8277 | Top5: 0.9475
+  Val Epoch Time: 24.540s
+Epoch [5/40] | Train Loss: 1.8482 | Train Top1: 0.5955 | Train Top5: 0.8042 | Val Loss: 1.6741 | Val Top1: 0.8277 | Val Top5: 0.9475 | LR: 4.99e-05 | Train Time: 330.077s | Val Time: 24.540s | Epoch Time: 354.617s
+
+===== Epoch 6/40 (LR: 4.96e-05) =====
+  Train Batch [50/432] | Loss: 1.7532 | Top1: 0.6422 | Top5: 0.8598
+  Train Batch [100/432] | Loss: 1.7618 | Top1: 0.6338 | Top5: 0.8252
+  Train Batch [150/432] | Loss: 1.7636 | Top1: 0.6262 | Top5: 0.8060
+  Train Batch [200/432] | Loss: 1.7962 | Top1: 0.6095 | Top5: 0.8006
+  Train Batch [250/432] | Loss: 1.7971 | Top1: 0.6244 | Top5: 0.8066
+  Train Batch [300/432] | Loss: 1.7927 | Top1: 0.6142 | Top5: 0.8026
+  Train Batch [350/432] | Loss: 1.7976 | Top1: 0.6112 | Top5: 0.7996
+  Train Batch [400/432] | Loss: 1.7895 | Top1: 0.6219 | Top5: 0.8080
+  Train Batch [432/432] | Loss: 1.7789 | Top1: 0.6258 | Top5: 0.8061
+  Train Epoch Time: 329.423s
+  Val Batch [50/76] | Loss: 1.6679 | Top1: 0.8337 | Top5: 0.9487
+  Val Batch [76/76] | Loss: 1.6783 | Top1: 0.8317 | Top5: 0.9467
+  Val Epoch Time: 24.165s
+Epoch [6/40] | Train Loss: 1.7789 | Train Top1: 0.6258 | Train Top5: 0.8061 | Val Loss: 1.6783 | Val Top1: 0.8317 | Val Top5: 0.9467 | LR: 4.96e-05 | Train Time: 329.423s | Val Time: 24.165s | Epoch Time: 353.588s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 7/40 (LR: 4.92e-05) =====
+  Train Batch [50/432] | Loss: 1.8735 | Top1: 0.5734 | Top5: 0.8155
+  Train Batch [100/432] | Loss: 1.8140 | Top1: 0.5985 | Top5: 0.8225
+  Train Batch [150/432] | Loss: 1.8142 | Top1: 0.6090 | Top5: 0.8187
+  Train Batch [200/432] | Loss: 1.7999 | Top1: 0.6249 | Top5: 0.8215
+  Train Batch [250/432] | Loss: 1.7923 | Top1: 0.6083 | Top5: 0.8064
+  Train Batch [300/432] | Loss: 1.7745 | Top1: 0.6155 | Top5: 0.8050
+  Train Batch [350/432] | Loss: 1.7738 | Top1: 0.6086 | Top5: 0.7959
+  Train Batch [400/432] | Loss: 1.7756 | Top1: 0.6062 | Top5: 0.7939
+  Train Batch [432/432] | Loss: 1.7741 | Top1: 0.6058 | Top5: 0.7927
+  Train Epoch Time: 329.848s
+  Val Batch [50/76] | Loss: 1.6744 | Top1: 0.8331 | Top5: 0.9483
+  Val Batch [76/76] | Loss: 1.6823 | Top1: 0.8315 | Top5: 0.9457
+  Val Epoch Time: 24.926s
+Epoch [7/40] | Train Loss: 1.7741 | Train Top1: 0.6058 | Train Top5: 0.7927 | Val Loss: 1.6823 | Val Top1: 0.8315 | Val Top5: 0.9457 | LR: 4.92e-05 | Train Time: 329.848s | Val Time: 24.926s | Epoch Time: 354.774s
+
+===== Epoch 8/40 (LR: 4.86e-05) =====
+  Train Batch [50/432] | Loss: 1.8480 | Top1: 0.6659 | Top5: 0.8459
+  Train Batch [100/432] | Loss: 1.8861 | Top1: 0.6427 | Top5: 0.8416
+  Train Batch [150/432] | Loss: 1.8537 | Top1: 0.6094 | Top5: 0.8072
+  Train Batch [200/432] | Loss: 1.8495 | Top1: 0.6157 | Top5: 0.8135
+  Train Batch [250/432] | Loss: 1.8454 | Top1: 0.6147 | Top5: 0.8120
+  Train Batch [300/432] | Loss: 1.8465 | Top1: 0.5989 | Top5: 0.8059
+  Train Batch [350/432] | Loss: 1.8220 | Top1: 0.5927 | Top5: 0.7953
+  Train Batch [400/432] | Loss: 1.8141 | Top1: 0.5998 | Top5: 0.8030
+  Train Batch [432/432] | Loss: 1.8163 | Top1: 0.5974 | Top5: 0.8017
+  Train Epoch Time: 328.866s
+  Val Batch [50/76] | Loss: 1.6777 | Top1: 0.8298 | Top5: 0.9481
+  Val Batch [76/76] | Loss: 1.6849 | Top1: 0.8291 | Top5: 0.9468
+  Val Epoch Time: 24.435s
+Epoch [8/40] | Train Loss: 1.8163 | Train Top1: 0.5974 | Train Top5: 0.8017 | Val Loss: 1.6849 | Val Top1: 0.8291 | Val Top5: 0.9468 | LR: 4.86e-05 | Train Time: 328.866s | Val Time: 24.435s | Epoch Time: 353.301s
+
+===== Epoch 9/40 (LR: 4.78e-05) =====
+  Train Batch [50/432] | Loss: 1.7015 | Top1: 0.5953 | Top5: 0.7745
+  Train Batch [100/432] | Loss: 1.7472 | Top1: 0.5886 | Top5: 0.7891
+  Train Batch [150/432] | Loss: 1.7496 | Top1: 0.5664 | Top5: 0.7684
+  Train Batch [200/432] | Loss: 1.7780 | Top1: 0.5956 | Top5: 0.7973
+  Train Batch [250/432] | Loss: 1.7781 | Top1: 0.5853 | Top5: 0.7855
+  Train Batch [300/432] | Loss: 1.7839 | Top1: 0.5669 | Top5: 0.7737
+  Train Batch [350/432] | Loss: 1.7812 | Top1: 0.5609 | Top5: 0.7650
+  Train Batch [400/432] | Loss: 1.7810 | Top1: 0.5637 | Top5: 0.7674
+  Train Batch [432/432] | Loss: 1.7753 | Top1: 0.5647 | Top5: 0.7658
+  Train Epoch Time: 328.899s
+  Val Batch [50/76] | Loss: 1.6796 | Top1: 0.8281 | Top5: 0.9467
+  Val Batch [76/76] | Loss: 1.6873 | Top1: 0.8275 | Top5: 0.9443
+  Val Epoch Time: 25.311s
+Epoch [9/40] | Train Loss: 1.7753 | Train Top1: 0.5647 | Train Top5: 0.7658 | Val Loss: 1.6873 | Val Top1: 0.8275 | Val Top5: 0.9443 | LR: 4.78e-05 | Train Time: 328.899s | Val Time: 25.311s | Epoch Time: 354.210s
+
+===== Epoch 10/40 (LR: 4.69e-05) =====
+  Train Batch [50/432] | Loss: 1.7761 | Top1: 0.4925 | Top5: 0.7148
+  Train Batch [100/432] | Loss: 1.7747 | Top1: 0.5143 | Top5: 0.7273
+  Train Batch [150/432] | Loss: 1.7620 | Top1: 0.5610 | Top5: 0.7611
+  Train Batch [200/432] | Loss: 1.7685 | Top1: 0.5685 | Top5: 0.7747
+  Train Batch [250/432] | Loss: 1.7867 | Top1: 0.5737 | Top5: 0.7818
+  Train Batch [300/432] | Loss: 1.7712 | Top1: 0.5682 | Top5: 0.7744
+  Train Batch [350/432] | Loss: 1.7778 | Top1: 0.5656 | Top5: 0.7725
+  Train Batch [400/432] | Loss: 1.7866 | Top1: 0.5674 | Top5: 0.7768
+  Train Batch [432/432] | Loss: 1.7844 | Top1: 0.5638 | Top5: 0.7745
+  Train Epoch Time: 328.937s
+  Val Batch [50/76] | Loss: 1.6741 | Top1: 0.8342 | Top5: 0.9466
+  Val Batch [76/76] | Loss: 1.6864 | Top1: 0.8305 | Top5: 0.9454
+  Val Epoch Time: 24.465s
+Epoch [10/40] | Train Loss: 1.7844 | Train Top1: 0.5638 | Train Top5: 0.7745 | Val Loss: 1.6864 | Val Top1: 0.8305 | Val Top5: 0.9454 | LR: 4.69e-05 | Train Time: 328.937s | Val Time: 24.465s | Epoch Time: 353.402s
+
+===== Epoch 11/40 (LR: 4.58e-05) =====
+  Train Batch [50/432] | Loss: 1.7683 | Top1: 0.5641 | Top5: 0.7339
+  Train Batch [100/432] | Loss: 1.7740 | Top1: 0.5130 | Top5: 0.7181
+  Train Batch [150/432] | Loss: 1.6902 | Top1: 0.5219 | Top5: 0.7014
+  Train Batch [200/432] | Loss: 1.6911 | Top1: 0.5230 | Top5: 0.7169
+  Train Batch [250/432] | Loss: 1.7039 | Top1: 0.5324 | Top5: 0.7347
+  Train Batch [300/432] | Loss: 1.7220 | Top1: 0.5316 | Top5: 0.7416
+  Train Batch [350/432] | Loss: 1.7355 | Top1: 0.5440 | Top5: 0.7536
+  Train Batch [400/432] | Loss: 1.7456 | Top1: 0.5582 | Top5: 0.7692
+  Train Batch [432/432] | Loss: 1.7399 | Top1: 0.5613 | Top5: 0.7673
+  Train Epoch Time: 329.341s
+  Val Batch [50/76] | Loss: 1.6760 | Top1: 0.8300 | Top5: 0.9497
+  Val Batch [76/76] | Loss: 1.6816 | Top1: 0.8291 | Top5: 0.9475
+  Val Epoch Time: 25.218s
+Epoch [11/40] | Train Loss: 1.7399 | Train Top1: 0.5613 | Train Top5: 0.7673 | Val Loss: 1.6816 | Val Top1: 0.8291 | Val Top5: 0.9475 | LR: 4.58e-05 | Train Time: 329.341s | Val Time: 25.218s | Epoch Time: 354.560s
+
+===== Epoch 12/40 (LR: 4.46e-05) =====
+  Train Batch [50/432] | Loss: 1.6213 | Top1: 0.5458 | Top5: 0.7170
+  Train Batch [100/432] | Loss: 1.6859 | Top1: 0.5917 | Top5: 0.7699
+  Train Batch [150/432] | Loss: 1.7026 | Top1: 0.5929 | Top5: 0.7781
+  Train Batch [200/432] | Loss: 1.7072 | Top1: 0.5820 | Top5: 0.7748
+  Train Batch [250/432] | Loss: 1.7335 | Top1: 0.5972 | Top5: 0.7945
+  Train Batch [300/432] | Loss: 1.7455 | Top1: 0.6012 | Top5: 0.7994
+  Train Batch [350/432] | Loss: 1.7482 | Top1: 0.5959 | Top5: 0.7920
+  Train Batch [400/432] | Loss: 1.7377 | Top1: 0.5952 | Top5: 0.7918
+  Train Batch [432/432] | Loss: 1.7496 | Top1: 0.5921 | Top5: 0.7944
+  Train Epoch Time: 329.387s
+  Val Batch [50/76] | Loss: 1.6725 | Top1: 0.8348 | Top5: 0.9513
+  Val Batch [76/76] | Loss: 1.6807 | Top1: 0.8315 | Top5: 0.9485
+  Val Epoch Time: 24.781s
+Epoch [12/40] | Train Loss: 1.7496 | Train Top1: 0.5921 | Train Top5: 0.7944 | Val Loss: 1.6807 | Val Top1: 0.8315 | Val Top5: 0.9485 | LR: 4.46e-05 | Train Time: 329.387s | Val Time: 24.781s | Epoch Time: 354.169s
+
+===== Epoch 13/40 (LR: 4.32e-05) =====
+  Train Batch [50/432] | Loss: 1.8394 | Top1: 0.5678 | Top5: 0.7994
+  Train Batch [100/432] | Loss: 1.7811 | Top1: 0.6002 | Top5: 0.8006
+  Train Batch [150/432] | Loss: 1.8086 | Top1: 0.6095 | Top5: 0.8118
+  Train Batch [200/432] | Loss: 1.8043 | Top1: 0.5980 | Top5: 0.8038
+  Train Batch [250/432] | Loss: 1.7830 | Top1: 0.5967 | Top5: 0.7944
+  Train Batch [300/432] | Loss: 1.7782 | Top1: 0.5912 | Top5: 0.7913
+  Train Batch [350/432] | Loss: 1.7805 | Top1: 0.5854 | Top5: 0.7892
+  Train Batch [400/432] | Loss: 1.7733 | Top1: 0.5760 | Top5: 0.7851
+  Train Batch [432/432] | Loss: 1.7726 | Top1: 0.5706 | Top5: 0.7805
+  Train Epoch Time: 329.231s
+  Val Batch [50/76] | Loss: 1.6760 | Top1: 0.8339 | Top5: 0.9497
+  Val Batch [76/76] | Loss: 1.6873 | Top1: 0.8309 | Top5: 0.9470
+  Val Epoch Time: 24.869s
+Epoch [13/40] | Train Loss: 1.7726 | Train Top1: 0.5706 | Train Top5: 0.7805 | Val Loss: 1.6873 | Val Top1: 0.8309 | Val Top5: 0.9470 | LR: 4.32e-05 | Train Time: 329.231s | Val Time: 24.869s | Epoch Time: 354.101s
+
+===== Epoch 14/40 (LR: 4.17e-05) =====
+  Train Batch [50/432] | Loss: 1.7287 | Top1: 0.5675 | Top5: 0.7583
+  Train Batch [100/432] | Loss: 1.7118 | Top1: 0.5850 | Top5: 0.7709
+  Train Batch [150/432] | Loss: 1.7193 | Top1: 0.5764 | Top5: 0.7703
+  Train Batch [200/432] | Loss: 1.7588 | Top1: 0.5838 | Top5: 0.7897
+  Train Batch [250/432] | Loss: 1.7703 | Top1: 0.5851 | Top5: 0.7915
+  Train Batch [300/432] | Loss: 1.7718 | Top1: 0.5909 | Top5: 0.8010
+  Train Batch [350/432] | Loss: 1.7710 | Top1: 0.5933 | Top5: 0.8005
+  Train Batch [400/432] | Loss: 1.7701 | Top1: 0.5916 | Top5: 0.7978
+  Train Batch [432/432] | Loss: 1.7735 | Top1: 0.5820 | Top5: 0.7904
+  Train Epoch Time: 329.382s
+  Val Batch [50/76] | Loss: 1.6860 | Top1: 0.8292 | Top5: 0.9491
+  Val Batch [76/76] | Loss: 1.6926 | Top1: 0.8294 | Top5: 0.9475
+  Val Epoch Time: 24.477s
+Epoch [14/40] | Train Loss: 1.7735 | Train Top1: 0.5820 | Train Top5: 0.7904 | Val Loss: 1.6926 | Val Top1: 0.8294 | Val Top5: 0.9475 | LR: 4.17e-05 | Train Time: 329.382s | Val Time: 24.477s | Epoch Time: 353.859s
+
+===== Epoch 15/40 (LR: 4.01e-05) =====
+  Train Batch [50/432] | Loss: 1.6414 | Top1: 0.5245 | Top5: 0.7188
+  Train Batch [100/432] | Loss: 1.6743 | Top1: 0.4883 | Top5: 0.6916
+  Train Batch [150/432] | Loss: 1.6645 | Top1: 0.5360 | Top5: 0.7267
+  Train Batch [200/432] | Loss: 1.6957 | Top1: 0.5489 | Top5: 0.7463
+  Train Batch [250/432] | Loss: 1.7402 | Top1: 0.5423 | Top5: 0.7571
+  Train Batch [300/432] | Loss: 1.7450 | Top1: 0.5443 | Top5: 0.7533
+  Train Batch [350/432] | Loss: 1.7495 | Top1: 0.5440 | Top5: 0.7559
+  Train Batch [400/432] | Loss: 1.7351 | Top1: 0.5403 | Top5: 0.7498
+  Train Batch [432/432] | Loss: 1.7282 | Top1: 0.5381 | Top5: 0.7499
+  Train Epoch Time: 329.117s
+  Val Batch [50/76] | Loss: 1.6815 | Top1: 0.8353 | Top5: 0.9489
+  Val Batch [76/76] | Loss: 1.6888 | Top1: 0.8348 | Top5: 0.9475
+  Val Epoch Time: 24.565s
+Epoch [15/40] | Train Loss: 1.7282 | Train Top1: 0.5381 | Train Top5: 0.7499 | Val Loss: 1.6888 | Val Top1: 0.8348 | Val Top5: 0.9475 | LR: 4.01e-05 | Train Time: 329.117s | Val Time: 24.565s | Epoch Time: 353.682s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 16/40 (LR: 3.83e-05) =====
+  Train Batch [50/432] | Loss: 1.7553 | Top1: 0.6073 | Top5: 0.8211
+  Train Batch [100/432] | Loss: 1.7229 | Top1: 0.6454 | Top5: 0.8395
+  Train Batch [150/432] | Loss: 1.7408 | Top1: 0.6338 | Top5: 0.8303
+  Train Batch [200/432] | Loss: 1.7500 | Top1: 0.5985 | Top5: 0.8127
+  Train Batch [250/432] | Loss: 1.7255 | Top1: 0.6095 | Top5: 0.8127
+  Train Batch [300/432] | Loss: 1.7200 | Top1: 0.6155 | Top5: 0.8193
+  Train Batch [350/432] | Loss: 1.6965 | Top1: 0.5988 | Top5: 0.8006
+  Train Batch [400/432] | Loss: 1.7179 | Top1: 0.5941 | Top5: 0.8008
+  Train Batch [432/432] | Loss: 1.7178 | Top1: 0.5979 | Top5: 0.8046
+  Train Epoch Time: 329.999s
+  Val Batch [50/76] | Loss: 1.6862 | Top1: 0.8287 | Top5: 0.9473
+  Val Batch [76/76] | Loss: 1.6939 | Top1: 0.8278 | Top5: 0.9455
+  Val Epoch Time: 24.725s
+Epoch [16/40] | Train Loss: 1.7178 | Train Top1: 0.5979 | Train Top5: 0.8046 | Val Loss: 1.6939 | Val Top1: 0.8278 | Val Top5: 0.9455 | LR: 3.83e-05 | Train Time: 329.999s | Val Time: 24.725s | Epoch Time: 354.724s
+
+===== Epoch 17/40 (LR: 3.65e-05) =====
+  Train Batch [50/432] | Loss: 1.7451 | Top1: 0.5283 | Top5: 0.7525
+  Train Batch [100/432] | Loss: 1.6947 | Top1: 0.5473 | Top5: 0.7650
+  Train Batch [150/432] | Loss: 1.7045 | Top1: 0.5583 | Top5: 0.7717
+  Train Batch [200/432] | Loss: 1.7095 | Top1: 0.5719 | Top5: 0.7800
+  Train Batch [250/432] | Loss: 1.7325 | Top1: 0.5881 | Top5: 0.7965
+  Train Batch [300/432] | Loss: 1.7263 | Top1: 0.5939 | Top5: 0.8017
+  Train Batch [350/432] | Loss: 1.7345 | Top1: 0.5979 | Top5: 0.8016
+  Train Batch [400/432] | Loss: 1.7360 | Top1: 0.5966 | Top5: 0.8018
+  Train Batch [432/432] | Loss: 1.7384 | Top1: 0.5953 | Top5: 0.8037
+  Train Epoch Time: 329.391s
+  Val Batch [50/76] | Loss: 1.6777 | Top1: 0.8352 | Top5: 0.9492
+  Val Batch [76/76] | Loss: 1.6866 | Top1: 0.8327 | Top5: 0.9471
+  Val Epoch Time: 24.384s
+Epoch [17/40] | Train Loss: 1.7384 | Train Top1: 0.5953 | Train Top5: 0.8037 | Val Loss: 1.6866 | Val Top1: 0.8327 | Val Top5: 0.9471 | LR: 3.65e-05 | Train Time: 329.391s | Val Time: 24.384s | Epoch Time: 353.775s
+
+===== Epoch 18/40 (LR: 3.46e-05) =====
+  Train Batch [50/432] | Loss: 1.5838 | Top1: 0.4870 | Top5: 0.6992
+  Train Batch [100/432] | Loss: 1.6742 | Top1: 0.5613 | Top5: 0.7766
+  Train Batch [150/432] | Loss: 1.7049 | Top1: 0.5577 | Top5: 0.7787
+  Train Batch [200/432] | Loss: 1.7535 | Top1: 0.5683 | Top5: 0.7985
+  Train Batch [250/432] | Loss: 1.7615 | Top1: 0.5504 | Top5: 0.7861
+  Train Batch [300/432] | Loss: 1.7556 | Top1: 0.5646 | Top5: 0.7972
+  Train Batch [350/432] | Loss: 1.7468 | Top1: 0.5721 | Top5: 0.7993
+  Train Batch [400/432] | Loss: 1.7366 | Top1: 0.5792 | Top5: 0.7962
+  Train Batch [432/432] | Loss: 1.7442 | Top1: 0.5787 | Top5: 0.7962
+  Train Epoch Time: 329.827s
+  Val Batch [50/76] | Loss: 1.6802 | Top1: 0.8320 | Top5: 0.9492
+  Val Batch [76/76] | Loss: 1.6853 | Top1: 0.8318 | Top5: 0.9476
+  Val Epoch Time: 24.715s
+Epoch [18/40] | Train Loss: 1.7442 | Train Top1: 0.5787 | Train Top5: 0.7962 | Val Loss: 1.6853 | Val Top1: 0.8318 | Val Top5: 0.9476 | LR: 3.46e-05 | Train Time: 329.827s | Val Time: 24.715s | Epoch Time: 354.541s
+
+===== Epoch 19/40 (LR: 3.27e-05) =====
+  Train Batch [50/432] | Loss: 1.5999 | Top1: 0.6847 | Top5: 0.8348
+  Train Batch [100/432] | Loss: 1.6793 | Top1: 0.6214 | Top5: 0.8086
+  Train Batch [150/432] | Loss: 1.6936 | Top1: 0.6390 | Top5: 0.8178
+  Train Batch [200/432] | Loss: 1.6798 | Top1: 0.6265 | Top5: 0.8172
+  Train Batch [250/432] | Loss: 1.6809 | Top1: 0.6017 | Top5: 0.7962
+  Train Batch [300/432] | Loss: 1.6634 | Top1: 0.6065 | Top5: 0.7951
+  Train Batch [350/432] | Loss: 1.6607 | Top1: 0.6054 | Top5: 0.7892
+  Train Batch [400/432] | Loss: 1.6710 | Top1: 0.5915 | Top5: 0.7835
+  Train Batch [432/432] | Loss: 1.6739 | Top1: 0.5886 | Top5: 0.7820
+  Train Epoch Time: 329.345s
+  Val Batch [50/76] | Loss: 1.6908 | Top1: 0.8359 | Top5: 0.9494
+  Val Batch [76/76] | Loss: 1.6961 | Top1: 0.8342 | Top5: 0.9480
+  Val Epoch Time: 24.964s
+Epoch [19/40] | Train Loss: 1.6739 | Train Top1: 0.5886 | Train Top5: 0.7820 | Val Loss: 1.6961 | Val Top1: 0.8342 | Val Top5: 0.9480 | LR: 3.27e-05 | Train Time: 329.345s | Val Time: 24.964s | Epoch Time: 354.308s
+
+===== Epoch 20/40 (LR: 3.07e-05) =====
+  Train Batch [50/432] | Loss: 1.8177 | Top1: 0.6280 | Top5: 0.8711
+  Train Batch [100/432] | Loss: 1.8031 | Top1: 0.6479 | Top5: 0.8723
+  Train Batch [150/432] | Loss: 1.7598 | Top1: 0.6262 | Top5: 0.8557
+  Train Batch [200/432] | Loss: 1.7615 | Top1: 0.6133 | Top5: 0.8506
+  Train Batch [250/432] | Loss: 1.7501 | Top1: 0.6378 | Top5: 0.8565
+  Train Batch [300/432] | Loss: 1.7401 | Top1: 0.6263 | Top5: 0.8457
+  Train Batch [350/432] | Loss: 1.7292 | Top1: 0.6231 | Top5: 0.8338
+  Train Batch [400/432] | Loss: 1.7293 | Top1: 0.6157 | Top5: 0.8258
+  Train Batch [432/432] | Loss: 1.7331 | Top1: 0.6222 | Top5: 0.8297
+  Train Epoch Time: 329.116s
+  Val Batch [50/76] | Loss: 1.6854 | Top1: 0.8356 | Top5: 0.9478
+  Val Batch [76/76] | Loss: 1.6914 | Top1: 0.8343 | Top5: 0.9468
+  Val Epoch Time: 24.895s
+Epoch [20/40] | Train Loss: 1.7331 | Train Top1: 0.6222 | Train Top5: 0.8297 | Val Loss: 1.6914 | Val Top1: 0.8343 | Val Top5: 0.9468 | LR: 3.07e-05 | Train Time: 329.116s | Val Time: 24.895s | Epoch Time: 354.011s
+
+===== Epoch 21/40 (LR: 2.86e-05) =====
+  Train Batch [50/432] | Loss: 1.6398 | Top1: 0.5706 | Top5: 0.7697
+  Train Batch [100/432] | Loss: 1.6632 | Top1: 0.5635 | Top5: 0.7578
+  Train Batch [150/432] | Loss: 1.6998 | Top1: 0.5455 | Top5: 0.7569
+  Train Batch [200/432] | Loss: 1.7021 | Top1: 0.5491 | Top5: 0.7682
+  Train Batch [250/432] | Loss: 1.7075 | Top1: 0.5623 | Top5: 0.7762
+  Train Batch [300/432] | Loss: 1.6852 | Top1: 0.5615 | Top5: 0.7675
+  Train Batch [350/432] | Loss: 1.6965 | Top1: 0.5696 | Top5: 0.7761
+  Train Batch [400/432] | Loss: 1.6881 | Top1: 0.5771 | Top5: 0.7852
+  Train Batch [432/432] | Loss: 1.7064 | Top1: 0.5725 | Top5: 0.7892
+  Train Epoch Time: 329.426s
+  Val Batch [50/76] | Loss: 1.6875 | Top1: 0.8339 | Top5: 0.9483
+  Val Batch [76/76] | Loss: 1.6912 | Top1: 0.8344 | Top5: 0.9472
+  Val Epoch Time: 24.623s
+Epoch [21/40] | Train Loss: 1.7064 | Train Top1: 0.5725 | Train Top5: 0.7892 | Val Loss: 1.6912 | Val Top1: 0.8344 | Val Top5: 0.9472 | LR: 2.86e-05 | Train Time: 329.426s | Val Time: 24.623s | Epoch Time: 354.050s
+
+===== Epoch 22/40 (LR: 2.65e-05) =====
+  Train Batch [50/432] | Loss: 1.6465 | Top1: 0.7108 | Top5: 0.8413
+  Train Batch [100/432] | Loss: 1.6876 | Top1: 0.6520 | Top5: 0.8288
+  Train Batch [150/432] | Loss: 1.7152 | Top1: 0.6469 | Top5: 0.8402
+  Train Batch [200/432] | Loss: 1.6763 | Top1: 0.6229 | Top5: 0.8100
+  Train Batch [250/432] | Loss: 1.7012 | Top1: 0.6121 | Top5: 0.8116
+  Train Batch [300/432] | Loss: 1.7048 | Top1: 0.6057 | Top5: 0.8137
+  Train Batch [350/432] | Loss: 1.7041 | Top1: 0.5891 | Top5: 0.8015
+  Train Batch [400/432] | Loss: 1.6995 | Top1: 0.5823 | Top5: 0.8006
+  Train Batch [432/432] | Loss: 1.6995 | Top1: 0.5775 | Top5: 0.7957
+  Train Epoch Time: 329.095s
+  Val Batch [50/76] | Loss: 1.6879 | Top1: 0.8344 | Top5: 0.9475
+  Val Batch [76/76] | Loss: 1.6921 | Top1: 0.8337 | Top5: 0.9460
+  Val Epoch Time: 24.584s
+Epoch [22/40] | Train Loss: 1.6995 | Train Top1: 0.5775 | Train Top5: 0.7957 | Val Loss: 1.6921 | Val Top1: 0.8337 | Val Top5: 0.9460 | LR: 2.65e-05 | Train Time: 329.095s | Val Time: 24.584s | Epoch Time: 353.679s
+
+===== Epoch 23/40 (LR: 2.45e-05) =====
+  Train Batch [50/432] | Loss: 1.5616 | Top1: 0.6116 | Top5: 0.7828
+  Train Batch [100/432] | Loss: 1.6175 | Top1: 0.5762 | Top5: 0.7585
+  Train Batch [150/432] | Loss: 1.6411 | Top1: 0.6235 | Top5: 0.7949
+  Train Batch [200/432] | Loss: 1.6360 | Top1: 0.6147 | Top5: 0.7949
+  Train Batch [250/432] | Loss: 1.6331 | Top1: 0.5965 | Top5: 0.7818
+  Train Batch [300/432] | Loss: 1.6478 | Top1: 0.6006 | Top5: 0.7863
+  Train Batch [350/432] | Loss: 1.6422 | Top1: 0.6045 | Top5: 0.7882
+  Train Batch [400/432] | Loss: 1.6523 | Top1: 0.5998 | Top5: 0.7916
+  Train Batch [432/432] | Loss: 1.6546 | Top1: 0.6026 | Top5: 0.7950
+  Train Epoch Time: 328.680s
+  Val Batch [50/76] | Loss: 1.6844 | Top1: 0.8352 | Top5: 0.9473
+  Val Batch [76/76] | Loss: 1.6891 | Top1: 0.8335 | Top5: 0.9466
+  Val Epoch Time: 24.740s
+Epoch [23/40] | Train Loss: 1.6546 | Train Top1: 0.6026 | Train Top5: 0.7950 | Val Loss: 1.6891 | Val Top1: 0.8335 | Val Top5: 0.9466 | LR: 2.45e-05 | Train Time: 328.680s | Val Time: 24.740s | Epoch Time: 353.420s
+
+===== Epoch 24/40 (LR: 2.24e-05) =====
+  Train Batch [50/432] | Loss: 1.7321 | Top1: 0.5528 | Top5: 0.7914
+  Train Batch [100/432] | Loss: 1.7873 | Top1: 0.6070 | Top5: 0.8383
+  Train Batch [150/432] | Loss: 1.7290 | Top1: 0.5895 | Top5: 0.7948
+  Train Batch [200/432] | Loss: 1.7210 | Top1: 0.6026 | Top5: 0.8093
+  Train Batch [250/432] | Loss: 1.7030 | Top1: 0.6017 | Top5: 0.8079
+  Train Batch [300/432] | Loss: 1.6996 | Top1: 0.6043 | Top5: 0.8136
+  Train Batch [350/432] | Loss: 1.7097 | Top1: 0.5938 | Top5: 0.8073
+  Train Batch [400/432] | Loss: 1.7063 | Top1: 0.5908 | Top5: 0.8047
+  Train Batch [432/432] | Loss: 1.6971 | Top1: 0.5823 | Top5: 0.7963
+  Train Epoch Time: 329.140s
+  Val Batch [50/76] | Loss: 1.6985 | Top1: 0.8352 | Top5: 0.9452
+  Val Batch [76/76] | Loss: 1.7008 | Top1: 0.8348 | Top5: 0.9450
+  Val Epoch Time: 24.956s
+Epoch [24/40] | Train Loss: 1.6971 | Train Top1: 0.5823 | Train Top5: 0.7963 | Val Loss: 1.7008 | Val Top1: 0.8348 | Val Top5: 0.9450 | LR: 2.24e-05 | Train Time: 329.140s | Val Time: 24.956s | Epoch Time: 354.096s
+
+===== Epoch 25/40 (LR: 2.03e-05) =====
+  Train Batch [50/432] | Loss: 1.6709 | Top1: 0.6564 | Top5: 0.8453
+  Train Batch [100/432] | Loss: 1.6717 | Top1: 0.6437 | Top5: 0.8354
+  Train Batch [150/432] | Loss: 1.6568 | Top1: 0.6646 | Top5: 0.8392
+  Train Batch [200/432] | Loss: 1.6200 | Top1: 0.6707 | Top5: 0.8286
+  Train Batch [250/432] | Loss: 1.6393 | Top1: 0.6589 | Top5: 0.8277
+  Train Batch [300/432] | Loss: 1.6563 | Top1: 0.6481 | Top5: 0.8254
+  Train Batch [350/432] | Loss: 1.6572 | Top1: 0.6338 | Top5: 0.8127
+  Train Batch [400/432] | Loss: 1.6564 | Top1: 0.6169 | Top5: 0.8082
+  Train Batch [432/432] | Loss: 1.6533 | Top1: 0.6175 | Top5: 0.8078
+  Train Epoch Time: 329.573s
+  Val Batch [50/76] | Loss: 1.6854 | Top1: 0.8366 | Top5: 0.9475
+  Val Batch [76/76] | Loss: 1.6899 | Top1: 0.8359 | Top5: 0.9469
+  Val Epoch Time: 24.403s
+Epoch [25/40] | Train Loss: 1.6533 | Train Top1: 0.6175 | Train Top5: 0.8078 | Val Loss: 1.6899 | Val Top1: 0.8359 | Val Top5: 0.9469 | LR: 2.03e-05 | Train Time: 329.573s | Val Time: 24.403s | Epoch Time: 353.976s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 26/40 (LR: 1.83e-05) =====
+  Train Batch [50/432] | Loss: 1.6671 | Top1: 0.6652 | Top5: 0.8466
+  Train Batch [100/432] | Loss: 1.6847 | Top1: 0.6280 | Top5: 0.8258
+  Train Batch [150/432] | Loss: 1.6403 | Top1: 0.6089 | Top5: 0.8010
+  Train Batch [200/432] | Loss: 1.6425 | Top1: 0.5846 | Top5: 0.7825
+  Train Batch [250/432] | Loss: 1.6393 | Top1: 0.6002 | Top5: 0.7959
+  Train Batch [300/432] | Loss: 1.6495 | Top1: 0.6123 | Top5: 0.8116
+  Train Batch [350/432] | Loss: 1.6494 | Top1: 0.6092 | Top5: 0.8074
+  Train Batch [400/432] | Loss: 1.6542 | Top1: 0.6014 | Top5: 0.8022
+  Train Batch [432/432] | Loss: 1.6513 | Top1: 0.5933 | Top5: 0.7927
+  Train Epoch Time: 328.262s
+  Val Batch [50/76] | Loss: 1.6890 | Top1: 0.8359 | Top5: 0.9472
+  Val Batch [76/76] | Loss: 1.6926 | Top1: 0.8341 | Top5: 0.9460
+  Val Epoch Time: 24.222s
+Epoch [26/40] | Train Loss: 1.6513 | Train Top1: 0.5933 | Train Top5: 0.7927 | Val Loss: 1.6926 | Val Top1: 0.8341 | Val Top5: 0.9460 | LR: 1.83e-05 | Train Time: 328.262s | Val Time: 24.222s | Epoch Time: 352.483s
+
+===== Epoch 27/40 (LR: 1.64e-05) =====
+  Train Batch [50/432] | Loss: 1.7341 | Top1: 0.5259 | Top5: 0.7700
+  Train Batch [100/432] | Loss: 1.7017 | Top1: 0.5909 | Top5: 0.7927
+  Train Batch [150/432] | Loss: 1.7205 | Top1: 0.6053 | Top5: 0.8127
+  Train Batch [200/432] | Loss: 1.7021 | Top1: 0.5786 | Top5: 0.7947
+  Train Batch [250/432] | Loss: 1.6738 | Top1: 0.5633 | Top5: 0.7755
+  Train Batch [300/432] | Loss: 1.6834 | Top1: 0.5800 | Top5: 0.7899
+  Train Batch [350/432] | Loss: 1.6713 | Top1: 0.5802 | Top5: 0.7829
+  Train Batch [400/432] | Loss: 1.6664 | Top1: 0.5869 | Top5: 0.7868
+  Train Batch [432/432] | Loss: 1.6623 | Top1: 0.5900 | Top5: 0.7864
+  Train Epoch Time: 328.446s
+  Val Batch [50/76] | Loss: 1.6851 | Top1: 0.8395 | Top5: 0.9483
+  Val Batch [76/76] | Loss: 1.6912 | Top1: 0.8371 | Top5: 0.9468
+  Val Epoch Time: 24.725s
+Epoch [27/40] | Train Loss: 1.6623 | Train Top1: 0.5900 | Train Top5: 0.7864 | Val Loss: 1.6912 | Val Top1: 0.8371 | Val Top5: 0.9468 | LR: 1.64e-05 | Train Time: 328.446s | Val Time: 24.725s | Epoch Time: 353.171s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 28/40 (LR: 1.45e-05) =====
+  Train Batch [50/432] | Loss: 1.7705 | Top1: 0.5327 | Top5: 0.8003
+  Train Batch [100/432] | Loss: 1.7150 | Top1: 0.5826 | Top5: 0.7823
+  Train Batch [150/432] | Loss: 1.7076 | Top1: 0.5690 | Top5: 0.7856
+  Train Batch [200/432] | Loss: 1.6960 | Top1: 0.5648 | Top5: 0.7862
+  Train Batch [250/432] | Loss: 1.6914 | Top1: 0.5739 | Top5: 0.7893
+  Train Batch [300/432] | Loss: 1.6754 | Top1: 0.5801 | Top5: 0.7882
+  Train Batch [350/432] | Loss: 1.6730 | Top1: 0.5849 | Top5: 0.7879
+  Train Batch [400/432] | Loss: 1.6745 | Top1: 0.5917 | Top5: 0.7910
+  Train Batch [432/432] | Loss: 1.6670 | Top1: 0.6007 | Top5: 0.7961
+  Train Epoch Time: 328.584s
+  Val Batch [50/76] | Loss: 1.6859 | Top1: 0.8386 | Top5: 0.9486
+  Val Batch [76/76] | Loss: 1.6925 | Top1: 0.8366 | Top5: 0.9467
+  Val Epoch Time: 24.647s
+Epoch [28/40] | Train Loss: 1.6670 | Train Top1: 0.6007 | Train Top5: 0.7961 | Val Loss: 1.6925 | Val Top1: 0.8366 | Val Top5: 0.9467 | LR: 1.45e-05 | Train Time: 328.584s | Val Time: 24.647s | Epoch Time: 353.230s
+
+===== Epoch 29/40 (LR: 1.27e-05) =====
+  Train Batch [50/432] | Loss: 1.5697 | Top1: 0.6423 | Top5: 0.8256
+  Train Batch [100/432] | Loss: 1.6332 | Top1: 0.6360 | Top5: 0.8177
+  Train Batch [150/432] | Loss: 1.6776 | Top1: 0.6170 | Top5: 0.8324
+  Train Batch [200/432] | Loss: 1.6577 | Top1: 0.6147 | Top5: 0.8293
+  Train Batch [250/432] | Loss: 1.6672 | Top1: 0.6147 | Top5: 0.8288
+  Train Batch [300/432] | Loss: 1.6707 | Top1: 0.6054 | Top5: 0.8183
+  Train Batch [350/432] | Loss: 1.6688 | Top1: 0.6048 | Top5: 0.8176
+  Train Batch [400/432] | Loss: 1.6790 | Top1: 0.6016 | Top5: 0.8258
+  Train Batch [432/432] | Loss: 1.6733 | Top1: 0.5987 | Top5: 0.8224
+  Train Epoch Time: 329.467s
+  Val Batch [50/76] | Loss: 1.6819 | Top1: 0.8369 | Top5: 0.9487
+  Val Batch [76/76] | Loss: 1.6878 | Top1: 0.8355 | Top5: 0.9472
+  Val Epoch Time: 24.540s
+Epoch [29/40] | Train Loss: 1.6733 | Train Top1: 0.5987 | Train Top5: 0.8224 | Val Loss: 1.6878 | Val Top1: 0.8355 | Val Top5: 0.9472 | LR: 1.27e-05 | Train Time: 329.467s | Val Time: 24.540s | Epoch Time: 354.007s
+
+===== Epoch 30/40 (LR: 1.09e-05) =====
+  Train Batch [50/432] | Loss: 1.7060 | Top1: 0.6587 | Top5: 0.8595
+  Train Batch [100/432] | Loss: 1.7153 | Top1: 0.6216 | Top5: 0.8356
+  Train Batch [150/432] | Loss: 1.6746 | Top1: 0.6426 | Top5: 0.8407
+  Train Batch [200/432] | Loss: 1.6804 | Top1: 0.6480 | Top5: 0.8491
+  Train Batch [250/432] | Loss: 1.6728 | Top1: 0.6301 | Top5: 0.8231
+  Train Batch [300/432] | Loss: 1.6684 | Top1: 0.6378 | Top5: 0.8303
+  Train Batch [350/432] | Loss: 1.6633 | Top1: 0.6295 | Top5: 0.8275
+  Train Batch [400/432] | Loss: 1.6715 | Top1: 0.6242 | Top5: 0.8295
+  Train Batch [432/432] | Loss: 1.6682 | Top1: 0.6225 | Top5: 0.8246
+  Train Epoch Time: 328.826s
+  Val Batch [50/76] | Loss: 1.6816 | Top1: 0.8366 | Top5: 0.9481
+  Val Batch [76/76] | Loss: 1.6867 | Top1: 0.8353 | Top5: 0.9465
+  Val Epoch Time: 24.661s
+Epoch [30/40] | Train Loss: 1.6682 | Train Top1: 0.6225 | Train Top5: 0.8246 | Val Loss: 1.6867 | Val Top1: 0.8353 | Val Top5: 0.9465 | LR: 1.09e-05 | Train Time: 328.826s | Val Time: 24.661s | Epoch Time: 353.487s
+
+===== Epoch 31/40 (LR: 9.31e-06) =====
+  Train Batch [50/432] | Loss: 1.6868 | Top1: 0.5958 | Top5: 0.8039
+  Train Batch [100/432] | Loss: 1.6718 | Top1: 0.5678 | Top5: 0.7791
+  Train Batch [150/432] | Loss: 1.6810 | Top1: 0.5826 | Top5: 0.8009
+  Train Batch [200/432] | Loss: 1.6742 | Top1: 0.5732 | Top5: 0.7914
+  Train Batch [250/432] | Loss: 1.6843 | Top1: 0.5857 | Top5: 0.7959
+  Train Batch [300/432] | Loss: 1.6993 | Top1: 0.5957 | Top5: 0.8111
+  Train Batch [350/432] | Loss: 1.6772 | Top1: 0.6180 | Top5: 0.8216
+  Train Batch [400/432] | Loss: 1.6767 | Top1: 0.6048 | Top5: 0.8092
+  Train Batch [432/432] | Loss: 1.6707 | Top1: 0.6025 | Top5: 0.8055
+  Train Epoch Time: 328.910s
+  Val Batch [50/76] | Loss: 1.6845 | Top1: 0.8361 | Top5: 0.9481
+  Val Batch [76/76] | Loss: 1.6896 | Top1: 0.8348 | Top5: 0.9460
+  Val Epoch Time: 24.940s
+Epoch [31/40] | Train Loss: 1.6707 | Train Top1: 0.6025 | Train Top5: 0.8055 | Val Loss: 1.6896 | Val Top1: 0.8348 | Val Top5: 0.9460 | LR: 9.31e-06 | Train Time: 328.910s | Val Time: 24.940s | Epoch Time: 353.851s
+
+===== Epoch 32/40 (LR: 7.81e-06) =====
+  Train Batch [50/432] | Loss: 1.6804 | Top1: 0.6723 | Top5: 0.9134
+  Train Batch [100/432] | Loss: 1.6839 | Top1: 0.6138 | Top5: 0.8566
+  Train Batch [150/432] | Loss: 1.6908 | Top1: 0.6004 | Top5: 0.8410
+  Train Batch [200/432] | Loss: 1.6928 | Top1: 0.6231 | Top5: 0.8526
+  Train Batch [250/432] | Loss: 1.6937 | Top1: 0.6106 | Top5: 0.8453
+  Train Batch [300/432] | Loss: 1.6812 | Top1: 0.6002 | Top5: 0.8352
+  Train Batch [350/432] | Loss: 1.6740 | Top1: 0.5948 | Top5: 0.8211
+  Train Batch [400/432] | Loss: 1.6765 | Top1: 0.6000 | Top5: 0.8234
+  Train Batch [432/432] | Loss: 1.6754 | Top1: 0.6039 | Top5: 0.8258
+  Train Epoch Time: 328.905s
+  Val Batch [50/76] | Loss: 1.6858 | Top1: 0.8366 | Top5: 0.9478
+  Val Batch [76/76] | Loss: 1.6903 | Top1: 0.8358 | Top5: 0.9461
+  Val Epoch Time: 24.841s
+Epoch [32/40] | Train Loss: 1.6754 | Train Top1: 0.6039 | Train Top5: 0.8258 | Val Loss: 1.6903 | Val Top1: 0.8358 | Val Top5: 0.9461 | LR: 7.81e-06 | Train Time: 328.905s | Val Time: 24.841s | Epoch Time: 353.746s
+
+===== Epoch 33/40 (LR: 6.44e-06) =====
+  Train Batch [50/432] | Loss: 1.7416 | Top1: 0.5713 | Top5: 0.8275
+  Train Batch [100/432] | Loss: 1.7157 | Top1: 0.5809 | Top5: 0.8254
+  Train Batch [150/432] | Loss: 1.6748 | Top1: 0.5999 | Top5: 0.8231
+  Train Batch [200/432] | Loss: 1.6518 | Top1: 0.6054 | Top5: 0.8227
+  Train Batch [250/432] | Loss: 1.6492 | Top1: 0.6317 | Top5: 0.8353
+  Train Batch [300/432] | Loss: 1.6414 | Top1: 0.6320 | Top5: 0.8342
+  Train Batch [350/432] | Loss: 1.6496 | Top1: 0.6427 | Top5: 0.8422
+  Train Batch [400/432] | Loss: 1.6555 | Top1: 0.6348 | Top5: 0.8397
+  Train Batch [432/432] | Loss: 1.6503 | Top1: 0.6318 | Top5: 0.8394
+  Train Epoch Time: 330.096s
+  Val Batch [50/76] | Loss: 1.6860 | Top1: 0.8366 | Top5: 0.9481
+  Val Batch [76/76] | Loss: 1.6904 | Top1: 0.8360 | Top5: 0.9468
+  Val Epoch Time: 24.508s
+Epoch [33/40] | Train Loss: 1.6503 | Train Top1: 0.6318 | Train Top5: 0.8394 | Val Loss: 1.6904 | Val Top1: 0.8360 | Val Top5: 0.9468 | LR: 6.44e-06 | Train Time: 330.096s | Val Time: 24.508s | Epoch Time: 354.604s
+
+===== Epoch 34/40 (LR: 5.20e-06) =====
+  Train Batch [50/432] | Loss: 1.7645 | Top1: 0.5422 | Top5: 0.8231
+  Train Batch [100/432] | Loss: 1.7249 | Top1: 0.5756 | Top5: 0.8382
+  Train Batch [150/432] | Loss: 1.6976 | Top1: 0.5721 | Top5: 0.8196
+  Train Batch [200/432] | Loss: 1.6730 | Top1: 0.5800 | Top5: 0.8173
+  Train Batch [250/432] | Loss: 1.6723 | Top1: 0.5861 | Top5: 0.8155
+  Train Batch [300/432] | Loss: 1.6733 | Top1: 0.5939 | Top5: 0.8179
+  Train Batch [350/432] | Loss: 1.6726 | Top1: 0.5930 | Top5: 0.8153
+  Train Batch [400/432] | Loss: 1.6618 | Top1: 0.5861 | Top5: 0.8062
+  Train Batch [432/432] | Loss: 1.6516 | Top1: 0.5889 | Top5: 0.8045
+  Train Epoch Time: 328.271s
+  Val Batch [50/76] | Loss: 1.6843 | Top1: 0.8389 | Top5: 0.9472
+  Val Batch [76/76] | Loss: 1.6898 | Top1: 0.8372 | Top5: 0.9465
+  Val Epoch Time: 24.816s
+Epoch [34/40] | Train Loss: 1.6516 | Train Top1: 0.5889 | Train Top5: 0.8045 | Val Loss: 1.6898 | Val Top1: 0.8372 | Val Top5: 0.9465 | LR: 5.20e-06 | Train Time: 328.271s | Val Time: 24.816s | Epoch Time: 353.086s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 35/40 (LR: 4.11e-06) =====
+  Train Batch [50/432] | Loss: 1.5657 | Top1: 0.5823 | Top5: 0.7605
+  Train Batch [100/432] | Loss: 1.6072 | Top1: 0.5937 | Top5: 0.7857
+  Train Batch [150/432] | Loss: 1.6057 | Top1: 0.6021 | Top5: 0.8005
+  Train Batch [200/432] | Loss: 1.6158 | Top1: 0.5982 | Top5: 0.8072
+  Train Batch [250/432] | Loss: 1.6236 | Top1: 0.5723 | Top5: 0.7988
+  Train Batch [300/432] | Loss: 1.6381 | Top1: 0.5787 | Top5: 0.8073
+  Train Batch [350/432] | Loss: 1.6483 | Top1: 0.5854 | Top5: 0.8072
+  Train Batch [400/432] | Loss: 1.6584 | Top1: 0.5809 | Top5: 0.8075
+  Train Batch [432/432] | Loss: 1.6673 | Top1: 0.5784 | Top5: 0.8116
+  Train Epoch Time: 328.557s
+  Val Batch [50/76] | Loss: 1.6847 | Top1: 0.8381 | Top5: 0.9467
+  Val Batch [76/76] | Loss: 1.6904 | Top1: 0.8366 | Top5: 0.9460
+  Val Epoch Time: 24.842s
+Epoch [35/40] | Train Loss: 1.6673 | Train Top1: 0.5784 | Train Top5: 0.8116 | Val Loss: 1.6904 | Val Top1: 0.8366 | Val Top5: 0.9460 | LR: 4.11e-06 | Train Time: 328.557s | Val Time: 24.842s | Epoch Time: 353.399s
+
+===== Epoch 36/40 (LR: 3.17e-06) =====
+  Train Batch [50/432] | Loss: 1.6242 | Top1: 0.6323 | Top5: 0.8072
+  Train Batch [100/432] | Loss: 1.5302 | Top1: 0.5652 | Top5: 0.7155
+  Train Batch [150/432] | Loss: 1.5536 | Top1: 0.5636 | Top5: 0.7323
+  Train Batch [200/432] | Loss: 1.5630 | Top1: 0.5778 | Top5: 0.7529
+  Train Batch [250/432] | Loss: 1.5714 | Top1: 0.5777 | Top5: 0.7620
+  Train Batch [300/432] | Loss: 1.6056 | Top1: 0.5795 | Top5: 0.7706
+  Train Batch [350/432] | Loss: 1.6062 | Top1: 0.5857 | Top5: 0.7753
+  Train Batch [400/432] | Loss: 1.6313 | Top1: 0.5708 | Top5: 0.7753
+  Train Batch [432/432] | Loss: 1.6294 | Top1: 0.5714 | Top5: 0.7753
+  Train Epoch Time: 329.131s
+  Val Batch [50/76] | Loss: 1.6862 | Top1: 0.8384 | Top5: 0.9475
+  Val Batch [76/76] | Loss: 1.6911 | Top1: 0.8374 | Top5: 0.9459
+  Val Epoch Time: 24.169s
+Epoch [36/40] | Train Loss: 1.6294 | Train Top1: 0.5714 | Train Top5: 0.7753 | Val Loss: 1.6911 | Val Top1: 0.8374 | Val Top5: 0.9459 | LR: 3.17e-06 | Train Time: 329.131s | Val Time: 24.169s | Epoch Time: 353.300s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 37/40 (LR: 2.40e-06) =====
+  Train Batch [50/432] | Loss: 1.5955 | Top1: 0.5755 | Top5: 0.7766
+  Train Batch [100/432] | Loss: 1.6292 | Top1: 0.5834 | Top5: 0.7896
+  Train Batch [150/432] | Loss: 1.6622 | Top1: 0.5614 | Top5: 0.7848
+  Train Batch [200/432] | Loss: 1.6663 | Top1: 0.5730 | Top5: 0.7949
+  Train Batch [250/432] | Loss: 1.6559 | Top1: 0.5804 | Top5: 0.8032
+  Train Batch [300/432] | Loss: 1.6436 | Top1: 0.5889 | Top5: 0.8034
+  Train Batch [350/432] | Loss: 1.6513 | Top1: 0.5882 | Top5: 0.8026
+  Train Batch [400/432] | Loss: 1.6552 | Top1: 0.5960 | Top5: 0.8093
+  Train Batch [432/432] | Loss: 1.6524 | Top1: 0.5981 | Top5: 0.8106
+  Train Epoch Time: 329.629s
+  Val Batch [50/76] | Loss: 1.6871 | Top1: 0.8398 | Top5: 0.9475
+  Val Batch [76/76] | Loss: 1.6923 | Top1: 0.8383 | Top5: 0.9456
+  Val Epoch Time: 24.489s
+Epoch [37/40] | Train Loss: 1.6524 | Train Top1: 0.5981 | Train Top5: 0.8106 | Val Loss: 1.6923 | Val Top1: 0.8383 | Val Top5: 0.9456 | LR: 2.40e-06 | Train Time: 329.629s | Val Time: 24.489s | Epoch Time: 354.118s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 38/40 (LR: 1.79e-06) =====
+  Train Batch [50/432] | Loss: 1.5415 | Top1: 0.5173 | Top5: 0.7261
+  Train Batch [100/432] | Loss: 1.6523 | Top1: 0.5280 | Top5: 0.7774
+  Train Batch [150/432] | Loss: 1.6555 | Top1: 0.5618 | Top5: 0.8084
+  Train Batch [200/432] | Loss: 1.6369 | Top1: 0.5908 | Top5: 0.8106
+  Train Batch [250/432] | Loss: 1.6443 | Top1: 0.5746 | Top5: 0.8033
+  Train Batch [300/432] | Loss: 1.6474 | Top1: 0.5890 | Top5: 0.8113
+  Train Batch [350/432] | Loss: 1.6439 | Top1: 0.5930 | Top5: 0.8121
+  Train Batch [400/432] | Loss: 1.6385 | Top1: 0.5998 | Top5: 0.8171
+  Train Batch [432/432] | Loss: 1.6450 | Top1: 0.6024 | Top5: 0.8171
+  Train Epoch Time: 330.045s
+  Val Batch [50/76] | Loss: 1.6870 | Top1: 0.8389 | Top5: 0.9470
+  Val Batch [76/76] | Loss: 1.6918 | Top1: 0.8377 | Top5: 0.9454
+  Val Epoch Time: 24.149s
+Epoch [38/40] | Train Loss: 1.6450 | Train Top1: 0.6024 | Train Top5: 0.8171 | Val Loss: 1.6918 | Val Top1: 0.8377 | Val Top5: 0.9454 | LR: 1.79e-06 | Train Time: 330.045s | Val Time: 24.149s | Epoch Time: 354.194s
+
+===== Epoch 39/40 (LR: 1.35e-06) =====
+  Train Batch [50/432] | Loss: 1.6985 | Top1: 0.6203 | Top5: 0.8313
+  Train Batch [100/432] | Loss: 1.6393 | Top1: 0.6012 | Top5: 0.8104
+  Train Batch [150/432] | Loss: 1.6312 | Top1: 0.6160 | Top5: 0.8152
+  Train Batch [200/432] | Loss: 1.6346 | Top1: 0.6175 | Top5: 0.8176
+  Train Batch [250/432] | Loss: 1.6243 | Top1: 0.6069 | Top5: 0.8003
+  Train Batch [300/432] | Loss: 1.6403 | Top1: 0.5984 | Top5: 0.8002
+  Train Batch [350/432] | Loss: 1.6420 | Top1: 0.6004 | Top5: 0.8018
+  Train Batch [400/432] | Loss: 1.6409 | Top1: 0.5987 | Top5: 0.7992
+  Train Batch [432/432] | Loss: 1.6332 | Top1: 0.6064 | Top5: 0.7997
+  Train Epoch Time: 329.719s
+  Val Batch [50/76] | Loss: 1.6869 | Top1: 0.8398 | Top5: 0.9469
+  Val Batch [76/76] | Loss: 1.6915 | Top1: 0.8384 | Top5: 0.9453
+  Val Epoch Time: 24.573s
+Epoch [39/40] | Train Loss: 1.6332 | Train Top1: 0.6064 | Train Top5: 0.7997 | Val Loss: 1.6915 | Val Top1: 0.8384 | Val Top5: 0.9453 | LR: 1.35e-06 | Train Time: 329.719s | Val Time: 24.573s | Epoch Time: 354.292s
+Saved best checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_best.pth
+
+===== Epoch 40/40 (LR: 1.09e-06) =====
+  Train Batch [50/432] | Loss: 1.6287 | Top1: 0.6264 | Top5: 0.8081
+  Train Batch [100/432] | Loss: 1.6174 | Top1: 0.5630 | Top5: 0.7597
+  Train Batch [150/432] | Loss: 1.6391 | Top1: 0.5853 | Top5: 0.7761
+  Train Batch [200/432] | Loss: 1.6396 | Top1: 0.5947 | Top5: 0.7831
+  Train Batch [250/432] | Loss: 1.6472 | Top1: 0.5992 | Top5: 0.7955
+  Train Batch [300/432] | Loss: 1.6495 | Top1: 0.5954 | Top5: 0.7960
+  Train Batch [350/432] | Loss: 1.6502 | Top1: 0.5937 | Top5: 0.8013
+  Train Batch [400/432] | Loss: 1.6542 | Top1: 0.6050 | Top5: 0.8090
+  Train Batch [432/432] | Loss: 1.6551 | Top1: 0.6035 | Top5: 0.8057
+  Train Epoch Time: 329.985s
+  Val Batch [50/76] | Loss: 1.6872 | Top1: 0.8394 | Top5: 0.9467
+  Val Batch [76/76] | Loss: 1.6919 | Top1: 0.8382 | Top5: 0.9455
+  Val Epoch Time: 24.599s
+Epoch [40/40] | Train Loss: 1.6551 | Train Top1: 0.6035 | Train Top5: 0.8057 | Val Loss: 1.6919 | Val Top1: 0.8382 | Val Top5: 0.9455 | LR: 1.09e-06 | Train Time: 329.985s | Val Time: 24.599s | Epoch Time: 354.584s
+Saved last checkpoint to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/checkpoints/convnext_base.fb_in22k_ft_in1k_last.pth
+
+Best Epoch: 39 | Best Val Top1: 0.8384 | Best Val Top5: 0.9453
+Total Train Time: 13262.322s | Total Val Time: 999.250s | Total Runtime: 14299.158s
+
+Experiment result appended to: /content/drive/MyDrive/CS273P_Project/outputs/output_20260309_101548/logs/experiment_results.csv

@@ -1,0 +1,81 @@
+Device: cuda
+Num classes: 657
+Model: resnet50
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.02
+Label Smoothing: 0.1
+Dropout Rate: 0.4
+Early Stopping Patience: 10
+Scheduler: OneCycleLR (max_lr=0.001, pct_start=0.1)
+Warmup Epochs: 3
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+
+Epoch [1/60] | Train Loss: 5.8386 | Train Top1: 0.0389 | Train Top5: 0.1055 | Val Loss: 4.0080 | Val Top1: 0.2828 | Val Top5: 0.5801 | LR: 4.00e-05 | Train Time: 222.939s | Val Time: 19.655s | Epoch Time: 242.594s
+Epoch [2/60] | Train Loss: 4.4049 | Train Top1: 0.1842 | Train Top5: 0.3697 | Val Loss: 3.1385 | Val Top1: 0.4577 | Val Top5: 0.7551 | LR: 1.04e-04 | Train Time: 172.969s | Val Time: 10.368s | Epoch Time: 183.338s
+Epoch [3/60] | Train Loss: 4.0408 | Train Top1: 0.2260 | Train Top5: 0.4093 | Val Loss: 3.1102 | Val Top1: 0.4439 | Val Top5: 0.7355 | LR: 2.80e-04 | Train Time: 172.089s | Val Time: 10.663s | Epoch Time: 182.752s
+Epoch [4/60] | Train Loss: 3.9673 | Train Top1: 0.2358 | Train Top5: 0.4160 | Val Loss: 3.0772 | Val Top1: 0.4512 | Val Top5: 0.7396 | LR: 5.20e-04 | Train Time: 174.059s | Val Time: 10.749s | Epoch Time: 184.808s
+Epoch [5/60] | Train Loss: 3.8739 | Train Top1: 0.2533 | Train Top5: 0.4283 | Val Loss: 2.9385 | Val Top1: 0.5025 | Val Top5: 0.7701 | LR: 7.60e-04 | Train Time: 172.727s | Val Time: 10.471s | Epoch Time: 183.197s
+Epoch [6/60] | Train Loss: 3.7698 | Train Top1: 0.2624 | Train Top5: 0.4335 | Val Loss: 2.9202 | Val Top1: 0.5143 | Val Top5: 0.7743 | LR: 9.36e-04 | Train Time: 172.984s | Val Time: 10.427s | Epoch Time: 183.411s
+Epoch [7/60] | Train Loss: 3.6679 | Train Top1: 0.3058 | Train Top5: 0.4854 | Val Loss: 2.7566 | Val Top1: 0.5444 | Val Top5: 0.7977 | LR: 1.00e-03 | Train Time: 173.594s | Val Time: 10.568s | Epoch Time: 184.162s
+Epoch [8/60] | Train Loss: 3.5469 | Train Top1: 0.2985 | Train Top5: 0.4626 | Val Loss: 2.6247 | Val Top1: 0.5752 | Val Top5: 0.8180 | LR: 9.99e-04 | Train Time: 172.158s | Val Time: 10.436s | Epoch Time: 182.594s
+Epoch [9/60] | Train Loss: 3.4580 | Train Top1: 0.3292 | Train Top5: 0.4948 | Val Loss: 2.6689 | Val Top1: 0.5771 | Val Top5: 0.8220 | LR: 9.97e-04 | Train Time: 172.102s | Val Time: 10.578s | Epoch Time: 182.680s
+Epoch [10/60] | Train Loss: 3.4755 | Train Top1: 0.3358 | Train Top5: 0.5052 | Val Loss: 2.6204 | Val Top1: 0.5773 | Val Top5: 0.8196 | LR: 9.92e-04 | Train Time: 171.845s | Val Time: 10.542s | Epoch Time: 182.387s
+Epoch [11/60] | Train Loss: 3.3895 | Train Top1: 0.3453 | Train Top5: 0.5128 | Val Loss: 2.4242 | Val Top1: 0.6315 | Val Top5: 0.8511 | LR: 9.87e-04 | Train Time: 173.931s | Val Time: 10.653s | Epoch Time: 184.584s
+Epoch [12/60] | Train Loss: 3.3091 | Train Top1: 0.3487 | Train Top5: 0.5118 | Val Loss: 2.4523 | Val Top1: 0.6360 | Val Top5: 0.8489 | LR: 9.79e-04 | Train Time: 171.405s | Val Time: 10.425s | Epoch Time: 181.831s
+Epoch [13/60] | Train Loss: 3.2733 | Train Top1: 0.3480 | Train Top5: 0.5069 | Val Loss: 2.4221 | Val Top1: 0.6333 | Val Top5: 0.8510 | LR: 9.70e-04 | Train Time: 171.589s | Val Time: 10.657s | Epoch Time: 182.247s
+Epoch [14/60] | Train Loss: 3.2232 | Train Top1: 0.3806 | Train Top5: 0.5481 | Val Loss: 2.3917 | Val Top1: 0.6381 | Val Top5: 0.8583 | LR: 9.59e-04 | Train Time: 171.513s | Val Time: 10.551s | Epoch Time: 182.064s
+Epoch [15/60] | Train Loss: 3.0657 | Train Top1: 0.3938 | Train Top5: 0.5515 | Val Loss: 2.4286 | Val Top1: 0.6388 | Val Top5: 0.8507 | LR: 9.47e-04 | Train Time: 172.039s | Val Time: 10.488s | Epoch Time: 182.528s
+Epoch [16/60] | Train Loss: 3.0855 | Train Top1: 0.3938 | Train Top5: 0.5539 | Val Loss: 2.3714 | Val Top1: 0.6635 | Val Top5: 0.8645 | LR: 9.33e-04 | Train Time: 172.734s | Val Time: 10.617s | Epoch Time: 183.351s
+Epoch [17/60] | Train Loss: 3.0183 | Train Top1: 0.3775 | Train Top5: 0.5317 | Val Loss: 2.3160 | Val Top1: 0.6573 | Val Top5: 0.8653 | LR: 9.18e-04 | Train Time: 171.684s | Val Time: 10.566s | Epoch Time: 182.250s
+Epoch [18/60] | Train Loss: 3.0152 | Train Top1: 0.3955 | Train Top5: 0.5515 | Val Loss: 2.2984 | Val Top1: 0.6675 | Val Top5: 0.8728 | LR: 9.01e-04 | Train Time: 172.323s | Val Time: 10.526s | Epoch Time: 182.848s
+Epoch [19/60] | Train Loss: 2.9617 | Train Top1: 0.4145 | Train Top5: 0.5733 | Val Loss: 2.2809 | Val Top1: 0.6816 | Val Top5: 0.8763 | LR: 8.83e-04 | Train Time: 173.784s | Val Time: 10.889s | Epoch Time: 184.673s
+Epoch [20/60] | Train Loss: 2.9377 | Train Top1: 0.4304 | Train Top5: 0.5881 | Val Loss: 2.2904 | Val Top1: 0.6802 | Val Top5: 0.8745 | LR: 8.64e-04 | Train Time: 172.596s | Val Time: 10.455s | Epoch Time: 183.051s
+Epoch [21/60] | Train Loss: 2.8805 | Train Top1: 0.4332 | Train Top5: 0.5854 | Val Loss: 2.2341 | Val Top1: 0.6872 | Val Top5: 0.8745 | LR: 8.43e-04 | Train Time: 174.442s | Val Time: 10.550s | Epoch Time: 184.992s
+Epoch [22/60] | Train Loss: 2.8315 | Train Top1: 0.4499 | Train Top5: 0.6073 | Val Loss: 2.2029 | Val Top1: 0.6970 | Val Top5: 0.8823 | LR: 8.21e-04 | Train Time: 172.003s | Val Time: 10.601s | Epoch Time: 182.604s
+Epoch [23/60] | Train Loss: 2.8262 | Train Top1: 0.4302 | Train Top5: 0.5828 | Val Loss: 2.2419 | Val Top1: 0.6870 | Val Top5: 0.8788 | LR: 7.99e-04 | Train Time: 173.381s | Val Time: 10.873s | Epoch Time: 184.254s
+Epoch [24/60] | Train Loss: 2.7162 | Train Top1: 0.4475 | Train Top5: 0.5926 | Val Loss: 2.1835 | Val Top1: 0.7018 | Val Top5: 0.8851 | LR: 7.75e-04 | Train Time: 172.342s | Val Time: 10.401s | Epoch Time: 182.743s
+Epoch [25/60] | Train Loss: 2.7303 | Train Top1: 0.4606 | Train Top5: 0.6114 | Val Loss: 2.2100 | Val Top1: 0.6972 | Val Top5: 0.8828 | LR: 7.50e-04 | Train Time: 174.194s | Val Time: 10.667s | Epoch Time: 184.860s
+Epoch [26/60] | Train Loss: 2.7086 | Train Top1: 0.4618 | Train Top5: 0.6079 | Val Loss: 2.2031 | Val Top1: 0.6972 | Val Top5: 0.8841 | LR: 7.24e-04 | Train Time: 172.636s | Val Time: 10.345s | Epoch Time: 182.982s
+Epoch [27/60] | Train Loss: 2.6426 | Train Top1: 0.4852 | Train Top5: 0.6306 | Val Loss: 2.1545 | Val Top1: 0.7061 | Val Top5: 0.8883 | LR: 6.98e-04 | Train Time: 174.105s | Val Time: 10.666s | Epoch Time: 184.771s
+Epoch [28/60] | Train Loss: 2.6823 | Train Top1: 0.4909 | Train Top5: 0.6417 | Val Loss: 2.1293 | Val Top1: 0.7146 | Val Top5: 0.8916 | LR: 6.71e-04 | Train Time: 176.375s | Val Time: 10.652s | Epoch Time: 187.027s
+Epoch [29/60] | Train Loss: 2.6223 | Train Top1: 0.4627 | Train Top5: 0.6055 | Val Loss: 2.1180 | Val Top1: 0.7158 | Val Top5: 0.8944 | LR: 6.43e-04 | Train Time: 173.430s | Val Time: 10.551s | Epoch Time: 183.982s
+Epoch [30/60] | Train Loss: 2.5370 | Train Top1: 0.4782 | Train Top5: 0.6183 | Val Loss: 2.1066 | Val Top1: 0.7195 | Val Top5: 0.8952 | LR: 6.15e-04 | Train Time: 171.263s | Val Time: 10.578s | Epoch Time: 181.841s
+Epoch [31/60] | Train Loss: 2.5805 | Train Top1: 0.4899 | Train Top5: 0.6362 | Val Loss: 2.1264 | Val Top1: 0.7186 | Val Top5: 0.8938 | LR: 5.87e-04 | Train Time: 172.002s | Val Time: 10.507s | Epoch Time: 182.509s
+Epoch [32/60] | Train Loss: 2.5171 | Train Top1: 0.5031 | Train Top5: 0.6425 | Val Loss: 2.0846 | Val Top1: 0.7262 | Val Top5: 0.8979 | LR: 5.58e-04 | Train Time: 172.366s | Val Time: 10.556s | Epoch Time: 182.923s
+Epoch [33/60] | Train Loss: 2.5827 | Train Top1: 0.4974 | Train Top5: 0.6485 | Val Loss: 2.1058 | Val Top1: 0.7246 | Val Top5: 0.8988 | LR: 5.29e-04 | Train Time: 172.994s | Val Time: 10.496s | Epoch Time: 183.491s
+Epoch [34/60] | Train Loss: 2.4891 | Train Top1: 0.4898 | Train Top5: 0.6310 | Val Loss: 2.1403 | Val Top1: 0.7227 | Val Top5: 0.8981 | LR: 5.00e-04 | Train Time: 171.635s | Val Time: 10.440s | Epoch Time: 182.074s
+Epoch [35/60] | Train Loss: 2.4896 | Train Top1: 0.5015 | Train Top5: 0.6441 | Val Loss: 2.0796 | Val Top1: 0.7282 | Val Top5: 0.8993 | LR: 4.71e-04 | Train Time: 170.803s | Val Time: 10.341s | Epoch Time: 181.145s
+Epoch [36/60] | Train Loss: 2.4017 | Train Top1: 0.5248 | Train Top5: 0.6608 | Val Loss: 2.0703 | Val Top1: 0.7289 | Val Top5: 0.8973 | LR: 4.42e-04 | Train Time: 171.624s | Val Time: 10.389s | Epoch Time: 182.013s
+Epoch [37/60] | Train Loss: 2.4709 | Train Top1: 0.5199 | Train Top5: 0.6686 | Val Loss: 2.0474 | Val Top1: 0.7356 | Val Top5: 0.9024 | LR: 4.13e-04 | Train Time: 170.987s | Val Time: 10.395s | Epoch Time: 181.382s
+Epoch [38/60] | Train Loss: 2.3740 | Train Top1: 0.5338 | Train Top5: 0.6722 | Val Loss: 2.0720 | Val Top1: 0.7397 | Val Top5: 0.9057 | LR: 3.85e-04 | Train Time: 171.480s | Val Time: 10.970s | Epoch Time: 182.450s
+Epoch [39/60] | Train Loss: 2.3999 | Train Top1: 0.5231 | Train Top5: 0.6643 | Val Loss: 2.0617 | Val Top1: 0.7357 | Val Top5: 0.9023 | LR: 3.57e-04 | Train Time: 171.332s | Val Time: 10.514s | Epoch Time: 181.847s
+Epoch [40/60] | Train Loss: 2.3786 | Train Top1: 0.5151 | Train Top5: 0.6553 | Val Loss: 2.0398 | Val Top1: 0.7430 | Val Top5: 0.9039 | LR: 3.29e-04 | Train Time: 170.662s | Val Time: 10.651s | Epoch Time: 181.313s
+Epoch [41/60] | Train Loss: 2.3503 | Train Top1: 0.5121 | Train Top5: 0.6489 | Val Loss: 2.0664 | Val Top1: 0.7471 | Val Top5: 0.9042 | LR: 3.02e-04 | Train Time: 170.509s | Val Time: 10.489s | Epoch Time: 180.998s
+Epoch [42/60] | Train Loss: 2.3180 | Train Top1: 0.5319 | Train Top5: 0.6701 | Val Loss: 2.0398 | Val Top1: 0.7446 | Val Top5: 0.9057 | LR: 2.76e-04 | Train Time: 170.346s | Val Time: 10.319s | Epoch Time: 180.664s
+Epoch [43/60] | Train Loss: 2.3160 | Train Top1: 0.5244 | Train Top5: 0.6668 | Val Loss: 1.9968 | Val Top1: 0.7482 | Val Top5: 0.9083 | LR: 2.50e-04 | Train Time: 169.848s | Val Time: 10.382s | Epoch Time: 180.230s
+Epoch [44/60] | Train Loss: 2.3667 | Train Top1: 0.5287 | Train Top5: 0.6830 | Val Loss: 2.0307 | Val Top1: 0.7494 | Val Top5: 0.9072 | LR: 2.25e-04 | Train Time: 169.932s | Val Time: 10.597s | Epoch Time: 180.529s
+Epoch [45/60] | Train Loss: 2.2476 | Train Top1: 0.5390 | Train Top5: 0.6772 | Val Loss: 2.0208 | Val Top1: 0.7510 | Val Top5: 0.9089 | LR: 2.01e-04 | Train Time: 169.658s | Val Time: 10.503s | Epoch Time: 180.161s
+Epoch [46/60] | Train Loss: 2.2717 | Train Top1: 0.5423 | Train Top5: 0.6859 | Val Loss: 2.0020 | Val Top1: 0.7547 | Val Top5: 0.9105 | LR: 1.79e-04 | Train Time: 169.668s | Val Time: 10.403s | Epoch Time: 180.071s
+Epoch [47/60] | Train Loss: 2.2797 | Train Top1: 0.5526 | Train Top5: 0.6985 | Val Loss: 2.0101 | Val Top1: 0.7506 | Val Top5: 0.9071 | LR: 1.57e-04 | Train Time: 169.720s | Val Time: 10.378s | Epoch Time: 180.098s
+Epoch [48/60] | Train Loss: 2.2616 | Train Top1: 0.5366 | Train Top5: 0.6824 | Val Loss: 1.9682 | Val Top1: 0.7567 | Val Top5: 0.9091 | LR: 1.36e-04 | Train Time: 169.661s | Val Time: 10.382s | Epoch Time: 180.042s
+Epoch [49/60] | Train Loss: 2.2216 | Train Top1: 0.5540 | Train Top5: 0.6960 | Val Loss: 1.9894 | Val Top1: 0.7565 | Val Top5: 0.9100 | LR: 1.17e-04 | Train Time: 169.781s | Val Time: 10.351s | Epoch Time: 180.131s
+Epoch [50/60] | Train Loss: 2.1988 | Train Top1: 0.5588 | Train Top5: 0.6915 | Val Loss: 2.0034 | Val Top1: 0.7572 | Val Top5: 0.9129 | LR: 9.89e-05 | Train Time: 169.759s | Val Time: 10.427s | Epoch Time: 180.185s
+Epoch [51/60] | Train Loss: 2.2120 | Train Top1: 0.5460 | Train Top5: 0.6895 | Val Loss: 1.9870 | Val Top1: 0.7564 | Val Top5: 0.9105 | LR: 8.22e-05 | Train Time: 169.657s | Val Time: 10.361s | Epoch Time: 180.018s
+Epoch [52/60] | Train Loss: 2.2294 | Train Top1: 0.5448 | Train Top5: 0.6954 | Val Loss: 1.9807 | Val Top1: 0.7607 | Val Top5: 0.9125 | LR: 6.70e-05 | Train Time: 169.714s | Val Time: 10.351s | Epoch Time: 180.065s
+Epoch [53/60] | Train Loss: 2.1620 | Train Top1: 0.5488 | Train Top5: 0.6828 | Val Loss: 1.9791 | Val Top1: 0.7611 | Val Top5: 0.9142 | LR: 5.32e-05 | Train Time: 169.730s | Val Time: 10.402s | Epoch Time: 180.132s
+Epoch [54/60] | Train Loss: 2.1359 | Train Top1: 0.5573 | Train Top5: 0.6932 | Val Loss: 1.9941 | Val Top1: 0.7627 | Val Top5: 0.9124 | LR: 4.09e-05 | Train Time: 169.799s | Val Time: 10.382s | Epoch Time: 180.181s
+Epoch [55/60] | Train Loss: 2.2136 | Train Top1: 0.5539 | Train Top5: 0.6987 | Val Loss: 1.9935 | Val Top1: 0.7620 | Val Top5: 0.9137 | LR: 3.01e-05 | Train Time: 169.751s | Val Time: 10.421s | Epoch Time: 180.173s
+Epoch [56/60] | Train Loss: 2.1896 | Train Top1: 0.5583 | Train Top5: 0.7000 | Val Loss: 2.0221 | Val Top1: 0.7606 | Val Top5: 0.9131 | LR: 2.10e-05 | Train Time: 169.628s | Val Time: 10.368s | Epoch Time: 179.995s
+Epoch [57/60] | Train Loss: 2.2186 | Train Top1: 0.5537 | Train Top5: 0.6988 | Val Loss: 1.9761 | Val Top1: 0.7631 | Val Top5: 0.9124 | LR: 1.35e-05 | Train Time: 169.763s | Val Time: 10.377s | Epoch Time: 180.140s
+Epoch [58/60] | Train Loss: 2.1635 | Train Top1: 0.5397 | Train Top5: 0.6784 | Val Loss: 1.9501 | Val Top1: 0.7630 | Val Top5: 0.9134 | LR: 7.59e-06 | Train Time: 169.577s | Val Time: 10.429s | Epoch Time: 180.007s
+Epoch [59/60] | Train Loss: 2.1592 | Train Top1: 0.5768 | Train Top5: 0.7186 | Val Loss: 2.0033 | Val Top1: 0.7630 | Val Top5: 0.9110 | LR: 3.38e-06 | Train Time: 169.702s | Val Time: 10.379s | Epoch Time: 180.081s
+Epoch [60/60] | Train Loss: 2.2182 | Train Top1: 0.5413 | Train Top5: 0.6950 | Val Loss: 1.9919 | Val Top1: 0.7645 | Val Top5: 0.9135 | LR: 8.48e-07 | Train Time: 169.743s | Val Time: 10.376s | Epoch Time: 180.119s
+
+Best Epoch: 60 | Best Val Top1: 0.7645 | Best Val Top5: 0.9135
+Total Train Time: 10347.064s | Total Val Time: 639.508s | Total Runtime: 10990.238s

@@ -1,0 +1,31 @@
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260310_015858/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260310_015858/tensorboard
+Number of classes: 657
+Train batches: 863
+Val batches: 152
+
+===== Epoch 1/72 (LR: 2.80e-05) =====
+  Train Batch [50/863] | Loss: 6.5116 | Top1: 0.0022 | Top5: 0.0128
+  Train Batch [100/863] | Loss: 6.4961 | Top1: 0.0025 | Top5: 0.0128
+  Train Batch [150/863] | Loss: 6.4748 | Top1: 0.0032 | Top5: 0.0155
+  Train Batch [200/863] | Loss: 6.4413 | Top1: 0.0047 | Top5: 0.0207
+  Train Batch [250/863] | Loss: 6.3804 | Top1: 0.0099 | Top5: 0.0318
+  Train Batch [300/863] | Loss: 6.3130 | Top1: 0.0159 | Top5: 0.0483
+  Train Batch [350/863] | Loss: 6.2415 | Top1: 0.0217 | Top5: 0.0624
+  Train Batch [400/863] | Loss: 6.1731 | Top1: 0.0268 | Top5: 0.0755
+  Train Batch [450/863] | Loss: 6.1010 | Top1: 0.0340 | Top5: 0.0923
+
+Received SIGINT. Archiving outputs before shutdown...
+
+Received SIGINT. Archiving outputs before shutdown...
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputsStarting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs
+
+Received SIGINT. Archiving outputs before shutdown...
+Starting archive of outputs from: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs

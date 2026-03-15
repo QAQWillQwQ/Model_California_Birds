@@ -1,0 +1,73 @@
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_122624/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_122624/tensorboard
+Number of classes: 657
+Train batches: 3451
+Val batches: 608
+model.safetensors:   0%|          | 0.00/348M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:00<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:01<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:01<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:01<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:01<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:01<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:02<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:02<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:02<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:02<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:02<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:03<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:03<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:03<?, ?B/s]model.safetensors:   0%|          | 0.00/348M [00:03<?, ?B/s]model.safetensors:   0%|          | 32.1k/348M [00:03<36:14, 160kB/s]model.safetensors:   0%|          | 267k/348M [00:04<21:09, 274kB/s] model.safetensors:   0%|          | 1.41M/348M [00:05<04:38, 1.25MB/s]model.safetensors:   1%|          | 2.51M/348M [00:06<04:56, 1.17MB/s]model.safetensors:   1%|1         | 4.83M/348M [00:07<03:42, 1.55MB/s]model.safetensors:   2%|1         | 6.60M/348M [00:08<03:14, 1.76MB/s]model.safetensors:   2%|2         | 8.63M/348M [00:08<02:09, 2.62MB/s]model.safetensors:   3%|2         | 9.54M/348M [00:08<01:58, 2.87MB/s]model.safetensors:   3%|3         | 10.5M/348M [00:08<02:01, 2.77MB/s]model.safetensors:   5%|4         | 16.0M/348M [00:09<00:57, 5.81MB/s]model.safetensors:   5%|5         | 19.0M/348M [00:09<00:59, 5.49MB/s]model.safetensors:   6%|6         | 22.2M/348M [00:10<00:46, 7.04MB/s]model.safetensors:   7%|6         | 23.6M/348M [00:10<00:54, 5.99MB/s]model.safetensors:   9%|8         | 30.8M/348M [00:12<01:07, 4.67MB/s]model.safetensors:  16%|#6        | 57.5M/348M [00:14<00:33, 8.67MB/s]model.safetensors:  19%|#8        | 64.7M/348M [00:14<00:27, 10.5MB/s]model.safetensors:  19%|#9        | 66.7M/348M [00:14<00:27, 10.4MB/s]model.safetensors:  20%|##        | 69.8M/348M [00:15<00:28, 9.91MB/s]model.safetensors:  21%|##        | 71.7M/348M [00:15<00:31, 8.76MB/s]model.safetensors:  25%|##5       | 87.6M/348M [00:16<00:18, 14.4MB/s]model.safetensors:  26%|##6       | 92.3M/348M [00:18<00:33, 7.59MB/s]model.safetensors:  27%|##7       | 94.6M/348M [00:18<00:31, 7.94MB/s]model.safetensors:  29%|##8       | 99.7M/348M [00:19<00:44, 5.61MB/s]model.safetensors:  30%|##9       | 103M/348M [00:21<00:56, 4.36MB/s] model.safetensors:  54%|#####4    | 189M/348M [00:35<00:26, 5.96MB/s]model.safetensors:  92%|#########1| 319M/348M [00:39<00:02, 12.2MB/s]model.safetensors: 100%|##########| 348M/348M [00:40<00:00, 14.5MB/s]model.safetensors: 100%|##########| 348M/348M [00:40<00:00, 8.71MB/s]
+Unexpected keys (fc_norm.bias, fc_norm.weight) found while loading pretrained weights. This may be expected if model is being adapted.
+
+===== Epoch 1/60 (LR: 2.00e-07) =====
+Traceback (most recent call last):
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 891, in <module>
+    main()
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 851, in main
+    best_epoch, best_val_top1, best_val_top5, last_metrics = run_training_loop(
+                                                             ^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 669, in run_training_loop
+    train_loss, train_top1, train_top5, train_time, global_step = train_one_epoch(
+                                                                  ^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 127, in train_one_epoch
+    outputs = model(images)
+              ^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 383, in forward
+    feature_maps = self.backbone(images)
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 271, in forward
+    features = self.backbone.forward_features(images)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/models/eva.py", line 1031, in forward_features
+    x = blk(x, rope=rot_pos_embed)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/models/eva.py", line 389, in forward
+    x = x + self.drop_path2(self.mlp(self.norm2(x)))
+                            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/layers/mlp.py", line 162, in forward
+    x = self.norm(x)
+        ^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1776, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1787, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/timm/layers/norm.py", line 89, in forward
+    x = F.layer_norm(x, self.normalized_shape, self.weight, self.bias, self.eps)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/.venv/lib/python3.12/site-packages/torch/nn/functional.py", line 2935, in layer_norm
+    return torch.layer_norm(
+           ^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 130.00 MiB. GPU 0 has a total capacity of 9.61 GiB of which 35.56 MiB is free. Including non-PyTorch memory, this process has 8.70 GiB memory in use. Of the allocated memory 7.55 GiB is allocated by PyTorch, and 905.81 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

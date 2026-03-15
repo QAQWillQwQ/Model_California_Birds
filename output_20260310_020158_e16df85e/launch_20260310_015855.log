@@ -1,0 +1,9 @@
+Using device: cuda
+Output directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260310_015858
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260310_015858/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260310_015858/tensorboard
+Number of classes: 657
+Train batches: 863
+Val batches: 152
+
+===== Epoch 1/72 (LR: 2.80e-05) =====

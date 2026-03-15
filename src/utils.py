@@ -19,6 +19,27 @@ def load_config(config_path):
             layerwise_lr["decay"] = float(layerwise_lr["decay"])
         config["layerwise_lr"] = layerwise_lr
 
+    wsdan = config.get("wsdan")
+    if isinstance(wsdan, dict):
+        wsdan["enabled"] = bool(wsdan.get("enabled", False))
+        if "start_epoch" in wsdan:
+            wsdan["start_epoch"] = int(wsdan["start_epoch"])
+        for key in (
+            "crop_threshold",
+            "drop_threshold",
+            "crop_weight",
+            "drop_weight",
+            "base_weight",
+            "bbox_padding_ratio",
+        ):
+            if key in wsdan:
+                wsdan[key] = float(wsdan[key])
+        if "num_attention_maps" in wsdan:
+            wsdan["num_attention_maps"] = int(wsdan["num_attention_maps"])
+        if "feature_source" in wsdan:
+            wsdan["feature_source"] = str(wsdan["feature_source"])
+        config["wsdan"] = wsdan
+
     return config
 
 

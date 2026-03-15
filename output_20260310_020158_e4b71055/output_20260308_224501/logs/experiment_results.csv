@@ -1,0 +1,2 @@
+model,pretrained,image_size,batch_size,epochs,learning_rate,val_split,num_workers,max_samples,best_epoch,best_val_top1,best_val_top5,last_train_top1,last_train_top5,last_val_top1,last_val_top5,device
+vit_base,True,224,64,72,0.0007,0.15,4,,66,0.674895,0.847475,0.570186,0.699618,0.673043,0.847167,cuda

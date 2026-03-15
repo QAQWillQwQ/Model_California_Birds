@@ -6,6 +6,7 @@ import torch.nn as nn
 from dataset import build_dataloaders
 from models import build_model
 from utils import load_config, get_device, load_checkpoint
+from wsdan import get_logits_from_output
 
 
 @torch.no_grad()
@@ -21,11 +22,12 @@ def evaluate(model, loader, criterion, device):
         labels = labels.to(device)
 
         outputs = model(images)
-        loss = criterion(outputs, labels)
+        logits = get_logits_from_output(outputs)
+        loss = criterion(logits, labels)
 
         running_loss += loss.item() * images.size(0)
 
-        _, preds = torch.max(outputs, dim=1)
+        _, preds = torch.max(logits, dim=1)
         correct += (preds == labels).sum().item()
         total += labels.size(0)
 
@@ -46,16 +48,20 @@ def main():
 
     _, val_loader, class_names = build_dataloaders(
         data_root=config["data_root"],
+        model_name=config["model"],
+        pretrained=config["pretrained"],
         batch_size=config["batch_size"],
         image_size=config["image_size"],
         val_split=config["val_split"],
         num_workers=config["num_workers"],
+        config=config,
     )
 
     model = build_model(
         model_name=config["model"],
         num_classes=len(class_names),
         pretrained=False,
+        config=config,
     ).to(device)
 
     checkpoint_path = os.path.join(

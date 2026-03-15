@@ -1,0 +1,19 @@
+Device: cuda
+Num classes: 657
+Model: vit_base
+
+AMP Enabled: True
+Compile Enabled: False
+CUDNN Benchmark: True
+Freeze Backbone: False
+Validation Interval: 1
+Weight Decay: 0.02
+Label Smoothing: 0.1
+Dropout Rate: 0.4
+Early Stopping Patience: 10
+Scheduler: OneCycleLR (max_lr=0.001, pct_start=0.1)
+Mixup Alpha: 0.2
+CutMix Alpha: 1.0
+
+Epoch [1/60] | Train Loss: 5.6605 | Train Top1: 0.0628 | Train Top5: 0.1546 | Val Loss: 4.1899 | Val Top1: 0.3020 | Val Top5: 0.5810 | LR: 4.00e-05 | Train Time: 372.553s | Val Time: 17.098s | Epoch Time: 389.652s
+Epoch [2/60] | Train Loss: 4.6002 | Train Top1: 0.1673 | Train Top5: 0.3375 | Val Loss: 3.6928 | Val Top1: 0.3308 | Val Top5: 0.6145 | LR: 1.04e-04 | Train Time: 349.730s | Val Time: 17.697s | Epoch Time: 367.426s

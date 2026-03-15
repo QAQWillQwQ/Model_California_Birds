@@ -1,0 +1,25 @@
+Using device: cuda
+Output directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_122357
+TensorBoard log directory: /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_122357/tensorboard
+Launch with: tensorboard --logdir /home/blue-lobster/PycharmProjects/Model_California_Birds/outputs/output_20260314_122357/tensorboard
+Number of classes: 657
+Train batches: 3451
+Val batches: 608
+Traceback (most recent call last):
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 891, in <module>
+    main()
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 830, in main
+    ) = build_training_state(
+        ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/train.py", line 419, in build_training_state
+    model = build_model(
+            ^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/models.py", line 92, in build_model
+    return WSDANModel(
+           ^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 368, in __init__
+    self.backbone = EVA02FeatureBackbone(model_name, pretrained)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/blue-lobster/PycharmProjects/Model_California_Birds/src/wsdan.py", line 241, in __init__
+    raise ValueError("EVA02 WS-DAN support requires timm to be installed.")
+ValueError: EVA02 WS-DAN support requires timm to be installed.

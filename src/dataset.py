@@ -7,24 +7,35 @@ from torch.utils.data import DataLoader, Subset
 from torchvision import datasets, transforms
 
 from models import get_model_weights
+from wsdan import get_wsdan_config
 
 
 def build_transforms(
     model_name: str,
     pretrained: bool = True,
     image_size: int = 224,
+    config: Optional[dict] = None,
 ) -> Tuple[transforms.Compose, transforms.Compose]:
     weights = get_model_weights(model_name, pretrained)
+    wsdan_config = get_wsdan_config(config)
 
     if weights is None and not pretrained:
-        train_transform = transforms.Compose([
-            transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
-            transforms.RandomHorizontalFlip(),
-            transforms.RandomRotation(15),
-            transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
-            transforms.ToTensor(),
-            transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
-        ])
+        if wsdan_config.enabled:
+            train_transform = transforms.Compose([
+                transforms.Resize((image_size, image_size)),
+                transforms.RandomHorizontalFlip(),
+                transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.15, hue=0.02),
+                transforms.ToTensor(),
+            ])
+        else:
+            train_transform = transforms.Compose([
+                transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
+                transforms.RandomHorizontalFlip(),
+                transforms.RandomRotation(15),
+                transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
+                transforms.ToTensor(),
+                transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
+            ])
 
         val_transform = transforms.Compose([
             transforms.Resize((image_size, image_size)),
@@ -38,15 +49,24 @@ def build_transforms(
     else:
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 
-    train_transform = transforms.Compose([
-        transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
-        transforms.RandomHorizontalFlip(),
-        transforms.RandomRotation(15),
-        transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
-        transforms.ToTensor(),
-        normalize,
-        transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
-    ])
+    if wsdan_config.enabled:
+        train_transform = transforms.Compose([
+            transforms.Resize((image_size, image_size)),
+            transforms.RandomHorizontalFlip(),
+            transforms.ColorJitter(brightness=0.15, contrast=0.15, saturation=0.15, hue=0.02),
+            transforms.ToTensor(),
+            normalize,
+        ])
+    else:
+        train_transform = transforms.Compose([
+            transforms.RandomResizedCrop(image_size, scale=(0.7, 1.0), ratio=(0.85, 1.15)),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandomRotation(15),
+            transforms.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.05),
+            transforms.ToTensor(),
+            normalize,
+            transforms.RandomErasing(p=0.2, scale=(0.02, 0.2)),
+        ])
 
     val_transform = transforms.Compose([
         transforms.Resize((image_size, image_size)),
@@ -151,11 +171,13 @@ def build_dataloaders(
     max_samples: Optional[int] = None,
     seed: int = 42,
     prefetch_factor: int = 2,
+    config: Optional[dict] = None,
 ):
     train_transform, val_transform = build_transforms(
         model_name=model_name,
         pretrained=pretrained,
         image_size=image_size,
+        config=config,
     )
 
     train_dataset_full = datasets.ImageFolder(root=data_root, transform=train_transform)

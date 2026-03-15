@@ -10,6 +10,7 @@ from torchvision import datasets
 from dataset import build_transforms
 from models import build_model
 from utils import load_config, get_device, load_checkpoint
+from wsdan import get_logits_from_output
 
 
 SUPPORTED_IMAGE_EXTENSIONS = {
@@ -61,17 +62,24 @@ def predict_one_image(
     model,
     image_path: Path,
     class_names: List[str],
+    config,
     image_size: int,
     device,
     top_k: int,
 ):
-    _, val_transform = build_transforms(image_size=image_size)
+    _, val_transform = build_transforms(
+        model_name=config["model"],
+        pretrained=config["pretrained"],
+        image_size=image_size,
+        config=config,
+    )
 
     image = Image.open(image_path).convert("RGB")
     image_tensor = val_transform(image).unsqueeze(0).to(device)
 
     outputs = model(image_tensor)
-    probabilities = torch.softmax(outputs, dim=1)
+    logits = get_logits_from_output(outputs)
+    probabilities = torch.softmax(logits, dim=1)
 
     actual_top_k = min(top_k, len(class_names))
     top_probs, top_indices = torch.topk(probabilities, k=actual_top_k, dim=1)
@@ -101,6 +109,7 @@ def build_inference_model(config_path: str):
         model_name=config["model"],
         num_classes=num_classes,
         pretrained=False,
+        config=config,
     ).to(device)
 
     checkpoint_path = os.path.join(
@@ -157,6 +166,7 @@ def predict_images(config_path: str, input_path: str, top_k: int = 5):
                 model=model,
                 image_path=image_path,
                 class_names=class_names,
+                config=config,
                 image_size=config["image_size"],
                 device=device,
                 top_k=top_k,

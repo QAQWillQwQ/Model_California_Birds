@@ -1,0 +1,2 @@
+model,pretrained,image_size,batch_size,epochs,learning_rate,val_split,num_workers,max_samples,best_epoch,best_val_top1,best_val_top5,last_train_top1,last_train_top5,last_val_top1,last_val_top5,device
+resnet50,True,320,64,60,0.0003,0.15,4,,60,0.767664,0.916075,0.55064,0.71065,0.767664,0.916075,cuda
